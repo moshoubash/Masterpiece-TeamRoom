@@ -1,0 +1,39 @@
+.calendar-day {
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.calendar-day:hover:not(.disabled) {
+    background-color: #e9ecef;
+}
+.calendar-day.selected {
+    background-color: #0d6efd;
+    color: white;
+}
+.calendar-day.disabled {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+}
+.host-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+.review-avatar {
+    width: 40px;
+    height: 40px;
+}
+.btn-book-now {
+    font-size: 1.2rem;
+    padding: 12px 24px;
+}
+.amenity-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
