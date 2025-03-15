@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - MeetSpaces</title>
+    <title>Contact Us - TeamRoom</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -18,7 +18,7 @@
     <div class="hero-section">
         <div class="container text-center">
             <h1 class="display-4 fw-bold">Contact Us</h1>
-            <p class="lead">Have questions about MeetSpaces? We're here to help.</p>
+            <p class="lead">Have questions about TeamRoom? We're here to help.</p>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
                             <i class="bi bi-envelope contact-icon"></i>
                             <h4>Email Us</h4>
                             <p class="text-muted">Our team typically responds within 24 hours</p>
-                            <a href="mailto:support@meetspaces.com" class="text-decoration-none">support@meetspaces.com</a>
+                            <a href="mailto:support@TeamRoom.com" class="text-decoration-none">support@TeamRoom.com</a>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="faqOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    How do I list my meeting room on MeetSpaces?
+                                    How do I list my meeting room on TeamRoom?
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#contactFaq">
@@ -144,7 +144,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="faqTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    What are the fees for using MeetSpaces?
+                                    What are the fees for using TeamRoom?
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#contactFaq">

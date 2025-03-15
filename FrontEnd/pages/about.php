@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About SpaceMeet - Your Peer-to-Peer Meeting Room Marketplace</title>
-    <meta name="description" content="SpaceMeet connects businesses with unused meeting space to professionals who need flexible workspace solutions. Learn about our mission and how we're transforming the way people work.">
+    <title>About TeamRoom - Your Peer-to-Peer Meeting Room Marketplace</title>
+    <meta name="description" content="TeamRoom connects businesses with unused meeting space to professionals who need flexible workspace solutions. Learn about our mission and how we're transforming the way people work.">
     <meta name="keywords" content="meeting room rental, peer-to-peer marketplace, flexible workspace, office space sharing, business meeting spaces, on-demand meeting rooms">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img src="../assets/images/600x400.svg" alt="SpaceMeet marketplace" class="img-fluid rounded shadow-lg">
+                    <img src="../assets/images/600x400.svg" alt="TeamRoom marketplace" class="img-fluid rounded shadow-lg">
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                     <div class="mission-card p-4 mb-4">
                         <p class="lead fst-italic">"To revolutionize the way businesses access and utilize meeting spaces by creating a seamless peer-to-peer marketplace that maximizes resource efficiency and fosters community collaboration."</p>
                     </div>
-                    <p>At SpaceMeet, we believe that the perfect meeting space shouldn't be hard to find or expensive to access. Our platform connects businesses that have underutilized meeting rooms with professionals seeking flexible, on-demand workspace solutions.</p>
+                    <p>At TeamRoom, we believe that the perfect meeting space shouldn't be hard to find or expensive to access. Our platform connects businesses that have underutilized meeting rooms with professionals seeking flexible, on-demand workspace solutions.</p>
                 </div>
             </div>
         </div>
@@ -55,13 +55,13 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="../assets/images/600x400.svg" alt="SpaceMeet founding team" class="img-fluid rounded shadow">
+                    <img src="../assets/images/600x400.svg" alt="TeamRoom founding team" class="img-fluid rounded shadow">
                 </div>
                 <div class="col-lg-6">
                     <h2 class="fw-bold mb-4">Our Story</h2>
-                    <p>SpaceMeet was founded in 2023 by a team of entrepreneurs who experienced firsthand the challenges of finding suitable meeting spaces for their growing business. They noticed that while many companies had beautiful meeting rooms sitting empty for most of the day, others were desperately searching for professional spaces to meet clients and conduct business.</p>
+                    <p>TeamRoom was founded in 2023 by a team of entrepreneurs who experienced firsthand the challenges of finding suitable meeting spaces for their growing business. They noticed that while many companies had beautiful meeting rooms sitting empty for most of the day, others were desperately searching for professional spaces to meet clients and conduct business.</p>
                     <p>This observation sparked an idea: what if we could create a platform that connects these two groups, benefiting both parties while maximizing the use of existing resources?</p>
-                    <p>Today, SpaceMeet operates in over 15 cities, helping thousands of businesses monetize their unused space while providing flexible, affordable meeting solutions to professionals of all kinds.</p>
+                    <p>Today, TeamRoom operates in over 15 cities, helping thousands of businesses monetize their unused space while providing flexible, affordable meeting solutions to professionals of all kinds.</p>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
         <div class="container">
             <div class="row text-center mb-5">
                 <div class="col-12">
-                    <h2 class="fw-bold mb-4">SpaceMeet by the Numbers</h2>
+                    <h2 class="fw-bold mb-4">TeamRoom by the Numbers</h2>
                 </div>
             </div>
             <div class="row">
@@ -185,34 +185,34 @@
             <div class="row text-center mb-5">
                 <div class="col-12">
                     <h2 class="fw-bold mb-4">Meet Our Team</h2>
-                    <p class="lead">The passionate individuals behind SpaceMeet</p>
+                    <p class="lead">The passionate individuals behind TeamRoom</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="team-member">
-                        <img src="/api/placeholder/200/200" alt="Sarah Johnson" class="mb-3">
+                        <img src="../assets/images/200x200.svg" alt="Sarah Johnson" class="mb-3">
                         <h5>Sarah Johnson</h5>
                         <p class="text-muted">Co-Founder & CEO</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="team-member">
-                        <img src="/api/placeholder/200/200" alt="Michael Chen" class="mb-3">
+                        <img src="../assets/images/200x200.svg" alt="Michael Chen" class="mb-3">
                         <h5>Michael Chen</h5>
                         <p class="text-muted">Co-Founder & CTO</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="team-member">
-                        <img src="/api/placeholder/200/200" alt="Emma Rodriguez" class="mb-3">
+                        <img src="../assets/images/200x200.svg" alt="Emma Rodriguez" class="mb-3">
                         <h5>Emma Rodriguez</h5>
                         <p class="text-muted">Head of Operations</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="team-member">
-                        <img src="/api/placeholder/200/200" alt="David Kim" class="mb-3">
+                        <img src="../assets/images/200x200.svg" alt="David Kim" class="mb-3">
                         <h5>David Kim</h5>
                         <p class="text-muted">Head of Marketing</p>
                     </div>
@@ -229,7 +229,7 @@
                     <h2 class="display-5 fw-bold mb-4">Ready to Transform How You Access Meeting Spaces?</h2>
                     <p class="lead mb-4">Join thousands of businesses already optimizing their space usage and finding the perfect meeting rooms.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                        <a href="#" class="btn btn-light btn-lg px-4 py-3 fw-bold">Join SpaceMeet Today</a>
+                        <a href="#" class="btn btn-light btn-lg px-4 py-3 fw-bold">Join TeamRoom Today</a>
                         <a href="#" class="btn btn-outline-light btn-lg px-4 py-3">Learn More</a>
                     </div>
                 </div>
@@ -255,7 +255,7 @@
                             <i class="fas fa-star text-warning"></i>
                             <i class="fas fa-star text-warning"></i>
                         </div>
-                        <p class="mb-3">"SpaceMeet has transformed how our startup operates. We've been able to host client meetings in premium locations without the premium price tag. Game changer!"</p>
+                        <p class="mb-3">"TeamRoom has transformed how our startup operates. We've been able to host client meetings in premium locations without the premium price tag. Game changer!"</p>
                         <div class="d-flex align-items-center">
                             <img src="../assets/images/50x50.svg" alt="User" class="rounded-circle me-3">
                             <div>
@@ -293,7 +293,7 @@
                             <i class="fas fa-star text-warning"></i>
                             <i class="fas fa-star-half-alt text-warning"></i>
                         </div>
-                        <p class="mb-3">"My consulting business requires meeting clients in different parts of the city. SpaceMeet gives me access to professional meeting spaces wherever I need them, whenever I need them."</p>
+                        <p class="mb-3">"My consulting business requires meeting clients in different parts of the city. TeamRoom gives me access to professional meeting spaces wherever I need them, whenever I need them."</p>
                         <div class="d-flex align-items-center">
                             <img src="../assets/images/50x50.svg" alt="User" class="rounded-circle me-3">
                             <div>

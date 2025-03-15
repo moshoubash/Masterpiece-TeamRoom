@@ -19,7 +19,7 @@
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning"></i>
                         </div>
-                        <p class="mb-0">"SpaceMeet saved our team when we needed a last-minute meeting space for an important client presentation. The booking was seamless, and the space exceeded our expectations!"</p>
+                        <p class="mb-0">"TeamRoom saved our team when we needed a last-minute meeting space for an important client presentation. The booking was seamless, and the space exceeded our expectations!"</p>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-half text-warning"></i>
                         </div>
-                        <p class="mb-0">"As a small business, we can't afford permanent office space yet. SpaceMeet allows us to book professional meeting rooms only when we need them, saving us thousands in overhead costs."</p>
+                        <p class="mb-0">"As a small business, we can't afford permanent office space yet. TeamRoom allows us to book professional meeting rooms only when we need them, saving us thousands in overhead costs."</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                             <i class="bi bi-star-fill text-warning"></i>
                             <i class="bi bi-star-fill text-warning"></i>
                         </div>
-                        <p class="mb-0">"We've been renting out our extra conference room through SpaceMeet, and it's generated over $2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!"</p>
+                        <p class="mb-0">"We've been renting out our extra conference room through TeamRoom, and it's generated over $2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!"</p>
                     </div>
                 </div>
             </div>

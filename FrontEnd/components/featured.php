@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="/p2p/pages/detail.php" class="btn btn-primary w-100">View Details</a>
+                        <a href="/p2p/fontend/pages/detail.php" class="btn btn-primary w-100">View Details</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="/p2p/pages/detail.php" class="btn btn-primary w-100">View Details</a>
+                        <a href="/p2p/frontend/pages/detail.php" class="btn btn-primary w-100">View Details</a>
                     </div>
                 </div>
             </div>
@@ -85,14 +85,14 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="/p2p/pages/detail.php" class="btn btn-primary w-100">View Details</a>
+                        <a href="/p2p/frontend/pages/detail.php" class="btn btn-primary w-100">View Details</a>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="text-center mt-4">
-            <a href="/p2p/pages/listing.php" class="btn btn-outline-primary btn-lg">Browse All Spaces</a>
+            <a href="/p2p/frontend/pages/listing.php" class="btn btn-outline-primary btn-lg">Browse All Spaces</a>
         </div>
     </div>
 </section>
