@@ -30,108 +30,103 @@
 					<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
 
 					<div class="row">
-						<div class="col-xl-6 col-xxl-5 d-flex">
-							<div class="w-100">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Sales</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="truck"></i>
-														</div>
-													</div>
+					<div class="col-xl-6 col-xxl-5 d-flex">
+						<div class="w-100">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col mt-0">
+													<h5 class="card-title">Room Bookings</h5>
 												</div>
-												<h1 class="mt-1 mb-3">2.382</h1>
-												<div class="mb-0">
-													<span class="text-danger"> <i
-															class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-													<span class="text-muted">Since last week</span>
+												<div class="col-auto">
+													<div class="stat text-primary">
+														<i class="align-middle" data-feather="calendar"></i>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Visitors</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="users"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">14.212</h1>
-												<div class="mb-0">
-													<span class="text-success"> <i
-															class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-													<span class="text-muted">Since last week</span>
-												</div>
+											<h1 class="mt-1 mb-3">287</h1>
+											<div class="mb-0">
+												<span class="text-success"> <i
+														class="mdi mdi-arrow-bottom-right"></i> 8.25% </span>
+												<span class="text-muted">Since last week</span>
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Earnings</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
-														</div>
-													</div>
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col mt-0">
+													<h5 class="card-title">New Users</h5>
 												</div>
-												<h1 class="mt-1 mb-3">$21.300</h1>
-												<div class="mb-0">
-													<span class="text-success"> <i
-															class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-													<span class="text-muted">Since last week</span>
+												<div class="col-auto">
+													<div class="stat text-primary">
+														<i class="align-middle" data-feather="users"></i>
+													</div>
 												</div>
 											</div>
+											<h1 class="mt-1 mb-3">1,842</h1>
+											<div class="mb-0">
+												<span class="text-success"> <i
+														class="mdi mdi-arrow-bottom-right"></i> 12.5% </span>
+												<span class="text-muted">Since last week</span>
+											</div>
 										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Orders</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-cart"></i>
-														</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col mt-0">
+													<h5 class="card-title">Revenue</h5>
+												</div>
+												<div class="col-auto">
+													<div class="stat text-primary">
+														<i class="align-middle" data-feather="dollar-sign"></i>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">64</h1>
-												<div class="mb-0">
-													<span class="text-danger"> <i
-															class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-													<span class="text-muted">Since last week</span>
+											</div>
+											<h1 class="mt-1 mb-3">$16,450</h1>
+											<div class="mb-0">
+												<span class="text-success"> <i
+														class="mdi mdi-arrow-bottom-right"></i> 9.35% </span>
+												<span class="text-muted">Since last week</span>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col mt-0">
+													<h5 class="card-title">Available Rooms</h5>
 												</div>
+												<div class="col-auto">
+													<div class="stat text-primary">
+														<i class="align-middle" data-feather="home"></i>
+													</div>
+												</div>
+											</div>
+											<h1 class="mt-1 mb-3">412</h1>
+											<div class="mb-0">
+												<span class="text-success"> <i
+														class="mdi mdi-arrow-bottom-right"></i> 4.75% </span>
+												<span class="text-muted">Since last week</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+					</div>
+	
 						<!-- Recent movements -->
 						
 						<div class="col-xl-6 col-xxl-7">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
-
-									<h5 class="card-title mb-0">Recent Movement</h5>
+									<h5 class="card-title mb-0">Booking Trends</h5>
 								</div>
 								<div class="card-body py-3">
 									<div class="chart chart-sm">
@@ -146,8 +141,7 @@
 						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
-
-									<h5 class="card-title mb-0">Browser Usage</h5>
+									<h5 class="card-title mb-0">Room Type Popularity</h5>
 								</div>
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">
@@ -160,16 +154,16 @@
 										<table class="table mb-0">
 											<tbody>
 												<tr>
-													<td>Chrome</td>
-													<td class="text-end">4306</td>
+													<td>Conference Rooms</td>
+													<td class="text-end">145</td>
 												</tr>
 												<tr>
-													<td>Firefox</td>
-													<td class="text-end">3801</td>
+													<td>Meeting Pods</td>
+													<td class="text-end">98</td>
 												</tr>
 												<tr>
-													<td>IE</td>
-													<td class="text-end">1689</td>
+													<td>Training Spaces</td>
+													<td class="text-end">44</td>
 												</tr>
 											</tbody>
 										</table>
@@ -180,7 +174,6 @@
 						<div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
 							<div class="card flex-fill">
 								<div class="card-header">
-
 									<h5 class="card-title mb-0">Calendar</h5>
 								</div>
 								<div class="card-body d-flex">
@@ -198,75 +191,74 @@
 						<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 							<div class="card flex-fill">
 								<div class="card-header">
-
-									<h5 class="card-title mb-0">Latest Projects</h5>
+									<h5 class="card-title mb-0">Top Performing Spaces</h5>
 								</div>
 								<table class="table table-hover my-0">
 									<thead>
 										<tr>
-											<th>Name</th>
-											<th class="d-none d-xl-table-cell">Start Date</th>
-											<th class="d-none d-xl-table-cell">End Date</th>
+											<th>Room Name</th>
+											<th class="d-none d-xl-table-cell">Location</th>
+											<th class="d-none d-xl-table-cell">Price/Hour</th>
 											<th>Status</th>
-											<th class="d-none d-md-table-cell">Assignee</th>
+											<th class="d-none d-md-table-cell">Host</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>Project Apollo</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
+											<td>Skyline Suite</td>
+											<td class="d-none d-xl-table-cell">Downtown</td>
+											<td class="d-none d-xl-table-cell">$85</td>
+											<td><span class="badge bg-success">Available</span></td>
+											<td class="d-none d-md-table-cell">Sarah Johnson</td>
 										</tr>
 										<tr>
-											<td>Project Fireball</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-danger">Cancelled</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
+											<td>Harbor View</td>
+											<td class="d-none d-xl-table-cell">Waterfront</td>
+											<td class="d-none d-xl-table-cell">$120</td>
+											<td><span class="badge bg-danger">Booked</span></td>
+											<td class="d-none d-md-table-cell">Michael Chen</td>
 										</tr>
 										<tr>
-											<td>Project Hades</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
+											<td>Innovation Lab</td>
+											<td class="d-none d-xl-table-cell">Tech District</td>
+											<td class="d-none d-xl-table-cell">$95</td>
+											<td><span class="badge bg-success">Available</span></td>
+											<td class="d-none d-md-table-cell">Emily Roberts</td>
 										</tr>
 										<tr>
-											<td>Project Nitro</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-warning">In progress</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
+											<td>Collaborative Space</td>
+											<td class="d-none d-xl-table-cell">Midtown</td>
+											<td class="d-none d-xl-table-cell">$75</td>
+											<td><span class="badge bg-warning">Maintenance</span></td>
+											<td class="d-none d-md-table-cell">David Wong</td>
 										</tr>
 										<tr>
-											<td>Project Phoenix</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
+											<td>Executive Board Room</td>
+											<td class="d-none d-xl-table-cell">Financial District</td>
+											<td class="d-none d-xl-table-cell">$150</td>
+											<td><span class="badge bg-success">Available</span></td>
+											<td class="d-none d-md-table-cell">Jessica Thompson</td>
 										</tr>
 										<tr>
-											<td>Project X</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
+											<td>Creative Studio</td>
+											<td class="d-none d-xl-table-cell">Arts Quarter</td>
+											<td class="d-none d-xl-table-cell">$65</td>
+											<td><span class="badge bg-success">Available</span></td>
+											<td class="d-none d-md-table-cell">Marcus Lee</td>
 										</tr>
 										<tr>
-											<td>Project Romeo</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Christina Mason</td>
+											<td>Quiet Zone</td>
+											<td class="d-none d-xl-table-cell">University Area</td>
+											<td class="d-none d-xl-table-cell">$45</td>
+											<td><span class="badge bg-success">Available</span></td>
+											<td class="d-none d-md-table-cell">Olivia Martinez</td>
 										</tr>
 										<tr>
-											<td>Project Wombat</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-warning">In progress</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
+											<td>Team Hub</td>
+											<td class="d-none d-xl-table-cell">Innovation Park</td>
+											<td class="d-none d-xl-table-cell">$90</td>
+											<td><span class="badge bg-warning">Maintenance</span></td>
+											<td class="d-none d-md-table-cell">Ryan Peters</td>
 										</tr>
 									</tbody>
 								</table>
@@ -275,8 +267,7 @@
 						<div class="col-12 col-lg-4 col-xxl-3 d-flex">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
-
-									<h5 class="card-title mb-0">Monthly Sales</h5>
+									<h5 class="card-title mb-0">Monthly Bookings</h5>
 								</div>
 								<div class="card-body d-flex w-100">
 									<div class="align-self-center chart chart-lg">
@@ -286,7 +277,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</main>
 
