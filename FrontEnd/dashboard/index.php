@@ -138,7 +138,7 @@
 					</div>
 
 					<div class="row">
-						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+						<div class="col-12 col-md-6 col-xxl-6 d-flex order-2 order-xxl-3">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
 									<h5 class="card-title mb-0">Room Type Popularity</h5>
@@ -171,7 +171,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
+						<div class="col-12 col-md-6 col-xxl-6 d-flex order-1 order-xxl-1">
 							<div class="card flex-fill">
 								<div class="card-header">
 									<h5 class="card-title mb-0">Calendar</h5>
