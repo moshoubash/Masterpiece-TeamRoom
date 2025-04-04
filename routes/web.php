@@ -50,4 +50,8 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/transactions', function () {
         return view('dashboard.transactions.index');
     });
+
+    Route::get('/settings', function () {
+        return view('dashboard.settings.index');
+    });
 });
