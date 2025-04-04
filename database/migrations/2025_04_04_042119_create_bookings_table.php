@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('space_id')->constrained('spaces', 'id');
             $table->foreignId('renter_id')->constrained('users', 'id');
-            $table->timestamp('start_datetime');
-            $table->timestamp('end_datetime');
+            $table->dateTime('start_datetime');
+            $table->dateTime('end_datetime');
             $table->integer('num_attendees')->nullable();
             $table->string('status', 255)->default('pending')->comment('pending, confirmed, cancelled, completed');
             $table->decimal('total_price', 10, 2);

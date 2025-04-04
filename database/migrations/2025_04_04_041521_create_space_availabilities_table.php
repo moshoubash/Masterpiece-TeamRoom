@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('space_availabilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('space_id')->constrained('spaces', 'space_id');
+            $table->foreignId('space_id')->constrained('spaces', 'id');
             $table->enum('day_of_week', [
                 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
             ]);

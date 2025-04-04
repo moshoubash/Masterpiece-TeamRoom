@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spaces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('host_id')->constrained('users', 'user_id');
+            $table->foreignId('host_id')->constrained('users', 'id');
             $table->string('title', 255);
             $table->text('description');
             $table->string('street_address', 255);
