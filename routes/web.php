@@ -55,3 +55,15 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.settings.index');
     });
 });
+
+Route::get('/users/{id}/show', function ($id) {
+    return view('dashboard.users.show', ['id' => $id, 
+                                         'user' => App\Models\User::findOrFail($id), 
+                                         'address' => App\Models\Address::where('user_id', $id)->first()]);
+});
+
+Route::get('/users/{id}/edit', function ($id) {
+    return view('dashboard.users.edit', ['id' => $id, 
+                                         'user' => App\Models\User::findOrFail($id), 
+                                         'address' => App\Models\Address::where('user_id', $id)->first()]);
+});

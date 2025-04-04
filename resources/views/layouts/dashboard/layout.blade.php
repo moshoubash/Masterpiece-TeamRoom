@@ -8,11 +8,12 @@
 	<meta name="author" content="Mohammad Shoubash">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="{{asset('assets/dashboard/img/icons/icon-48x48.png')}}" />
-
 	<title>@yield('title', 'Admin Dashboard')</title>
-
+    
 	<link href="{{asset('assets/dashboard/css/app.css')}}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/d890c03bb3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

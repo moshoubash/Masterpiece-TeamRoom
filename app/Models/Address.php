@@ -15,7 +15,6 @@ class Address extends Model
         'country',
         'latitude',
         'longitude',
-        'type',
     ];
 
     // Define relationships
