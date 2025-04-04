@@ -35,7 +35,7 @@
 
             <li class="sidebar-item {{  request()->is('dashboard/bookings') ? 'active' : '' }}">
                 <a class="sidebar-link" href="/dashboard/bookings">
-                    <i class="align-middle" data-feather="menu"></i> <span class="align-middle">Bookings</span>
+                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Bookings</span>
                 </a>
             </li>
 

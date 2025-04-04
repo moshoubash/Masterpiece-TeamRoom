@@ -92,11 +92,6 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class, 'user_id', 'user_id');
     }
 
-    public function settings()
-    {
-        return $this->hasOne(UserSetting::class, 'user_id', 'user_id');
-    }
-
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
@@ -105,5 +100,10 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany(Activity::class, 'user_id', 'user_id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id', 'user_id');
     }
 }
