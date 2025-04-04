@@ -1,4 +1,5 @@
 @extends('layouts.dashboard.layout')
+@section('title', 'Bookings')
 @section('content')
     <h1 class="h3 mb-3"><strong>Bookings</strong> Data</h1>
 

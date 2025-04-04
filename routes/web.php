@@ -35,7 +35,19 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.reports.index');
     });
 
-    Route::get('/settings', function () {
-        return view('dashboard.settings.index');
+    Route::get('/roles', function () {
+        return view('dashboard.roles.index');
+    });
+
+    Route::get('/activities', function () {
+        return view('dashboard.activities.index');
+    });
+
+    Route::get('/notifications', function () {
+        return view('dashboard.notifications.index');
+    });
+
+    Route::get('/transactions', function () {
+        return view('dashboard.transactions.index');
     });
 });
