@@ -15,8 +15,8 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.messages.index');
     });
 
-    Route::get('/listings', function () {
-        return view('dashboard.listing.index');
+    Route::get('/spaces', function () {
+        return view('dashboard.spaces.index');
     });
 
     Route::get('/users', function () {
@@ -82,3 +82,18 @@ Route::get('/dashboard/roles/{id}/edit', function ($id) {
     return view('dashboard.roles.edit', ['id' => $id, 
                                          'role' => App\Models\Role::findOrFail($id),
                                          'permissions' => App\Models\Permission::all()]);});
+
+
+                                         Route::get('/dashboard/spaces', function() {
+    return view('dashboard.spaces.index');
+})->name('spaces.index');
+
+Route::get('/dashboard/spaces/{id}/edit', function ($id) {
+    return view('dashboard.spaces.edit', ['id' => $id, 
+                                        'space' => App\Models\Space::findOrFail($id)]);
+});
+
+Route::get('/dashboard/spaces/{id}/show', function ($id) {
+    return view('dashboard.spaces.show', ['id' => $id, 
+                                            'space' => App\Models\Space::findOrFail($id)]); 
+});

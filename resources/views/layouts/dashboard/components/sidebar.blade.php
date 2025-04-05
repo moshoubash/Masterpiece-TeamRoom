@@ -27,9 +27,9 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{  request()->is('dashboard/listings') ? 'active' : '' }}">
-                <a class="sidebar-link" href="/dashboard/listings">
-                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Rooms</span>
+            <li class="sidebar-item {{  request()->is('dashboard/spaces') ? 'active' : '' }}">
+                <a class="sidebar-link" href="/dashboard/spaces">
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Spaces</span>
                 </a>
             </li>
 

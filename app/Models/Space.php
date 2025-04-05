@@ -8,7 +8,7 @@ class Space extends Model
     protected $fillable = [
         'host_id', 'title', 'description', 'street_address', 'city', 'state',
         'postal_code', 'country', 'latitude', 'longitude', 'capacity',
-        'hourly_rate', 'min_booking_duration', 'max_booking_duration', 'is_active'
+        'hourly_rate', 'min_booking_duration', 'max_booking_duration', 'is_active', 'is_deleted',
     ];
 
     public function host()
