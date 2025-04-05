@@ -116,3 +116,9 @@ Route::get('/dashboard/bookings/{id}/show', function ($id) {
     return view('dashboard.booking.show', ['id' => $id, 
                                             'booking' => App\Models\Booking::findOrFail($id)]); 
 });
+
+// Route for the Activities
+
+Route::get('/dashboard/activities', function() {
+    return view('dashboard.activities.index');
+})->name('activities.index');
