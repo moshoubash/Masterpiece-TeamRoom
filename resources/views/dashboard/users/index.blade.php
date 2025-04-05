@@ -51,7 +51,7 @@
 					<td>${item.company_name ? item.company_name : '<span class="badge bg-secondary">Empty</span>'}</td>
 					<td class="d-none d-md-table-cell">${new Date(item.created_at).toLocaleDateString()}</td>
 					<td class="d-none d-md-table-cell">
-						<a href="/users/${item.id}/edit" class="btn btn-primary">
+						<a href="/dashboard/users/${item.id}/edit" class="btn btn-primary">
 							<i class="fa-solid fa-edit"></i>
 						</a>
 						
@@ -59,7 +59,7 @@
 							<i class="fa-solid fa-trash"></i>
 						</button>
 						
-						<a href="/users/${item.id}/show" class="btn btn-dark">
+						<a href="/dashboard/users/${item.id}/show" class="btn btn-dark">
 							<i class="fa-solid fa-circle-info"></i>
 						</a>
 					</td>
