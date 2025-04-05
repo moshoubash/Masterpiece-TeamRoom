@@ -56,6 +56,8 @@ Route::prefix('dashboard')->group(function () {
     });
 });
 
+// Route for the Users
+
 Route::get('/dashboard/users', function() {
     return view('dashboard.users.index');
 })->name('users.index');
@@ -73,6 +75,8 @@ Route::get('/dashboard/users/{id}/edit', function ($id) {
                                          'address' => App\Models\Address::where('user_id', $id)->first()]);
 });
 
+// Route for the Roles
+
 Route::get('/dashboard/roles', function() {
     return view('dashboard.roles.index');
 })->name('roles.index');
@@ -83,17 +87,32 @@ Route::get('/dashboard/roles/{id}/edit', function ($id) {
                                          'role' => App\Models\Role::findOrFail($id),
                                          'permissions' => App\Models\Permission::all()]);});
 
+// Route for the Spaces
 
-                                         Route::get('/dashboard/spaces', function() {
+Route::get('/dashboard/spaces', function() {
     return view('dashboard.spaces.index');
 })->name('spaces.index');
 
 Route::get('/dashboard/spaces/{id}/edit', function ($id) {
     return view('dashboard.spaces.edit', ['id' => $id, 
-                                        'space' => App\Models\Space::findOrFail($id)]);
-});
+                                        'space' => App\Models\Space::findOrFail($id)]);});
 
 Route::get('/dashboard/spaces/{id}/show', function ($id) {
     return view('dashboard.spaces.show', ['id' => $id, 
                                             'space' => App\Models\Space::findOrFail($id)]); 
+});
+
+// Route for the Booking
+
+Route::get('/dashboard/bookings', function() {
+    return view('dashboard.booking.index');
+})->name('bookings.index');
+
+Route::get('/dashboard/bookings/{id}/edit', function ($id) {
+    return view('dashboard.booking.edit', ['id' => $id, 
+                                        'booking' => App\Models\Booking::findOrFail($id)]);});
+
+Route::get('/dashboard/bookings/{id}/show', function ($id) {
+    return view('dashboard.booking.show', ['id' => $id, 
+                                            'booking' => App\Models\Booking::findOrFail($id)]); 
 });

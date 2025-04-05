@@ -3,6 +3,7 @@
 @section('content')
     <div class="row">
         <h1>Edit Space #{{$id}}</h1>
+        
         <form action="{{ route('spaces.update', $id) }}" method="POST">
             @csrf
             @method('PUT')

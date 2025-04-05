@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     protected $fillable = [
-        'space_id', 'renter_id', 'start_datetime', 'end_datetime', 'num_attendees',
-        'booking_purpose', 'status', 'total_price', 'service_fee', 'host_payout',
+        'space_id', 'renter_id', 'start_datetime', 'end_datetime', 'num_attendees', 
+        'status', 'total_price', 'service_fee', 'host_payout',
         'cancellation_reason', 'cancelled_by'
     ];
 
