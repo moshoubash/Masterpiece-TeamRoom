@@ -18,6 +18,7 @@
 							<th class="d-none d-xl-table-cell">Email</th>
 							<th class="d-none d-xl-table-cell">Phone Number</th>
 							<th class="d-none d-xl-table-cell">Is Verified</th>
+							<th class="d-none d-xl-table-cell">Is Deleted</th>
 							<th>Company Name</th>
 							<th class="d-none d-md-table-cell">Created At</th>
 							<th class="d-none d-md-table-cell">Actions</th>
@@ -45,13 +46,15 @@
 					<td>${item.first_name} ${item.last_name}</td>
 					<td class="d-none d-xl-table-cell">${item.email}</td>
 					<td class="d-none d-xl-table-cell">${item.phone_number}</td>
-					<td class="d-none d-xl-table-cell">${item.is_verified ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>'}</td>
+					<td class="d-none d-xl-table-cell">${item.is_verified ? '<span class="badge bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>' : '<span class="badge bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>'}</td>
+					<td class="d-none d-xl-table-cell">${item.is_deleted ? '<span class="badge bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>' : '<span class="badge bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>'}</td>
 					<td>${item.company_name ? item.company_name : '<span class="badge bg-secondary">Empty</span>'}</td>
 					<td class="d-none d-md-table-cell">${new Date(item.created_at).toLocaleDateString()}</td>
 					<td class="d-none d-md-table-cell">
 						<a href="/users/${item.id}/edit" class="btn btn-primary">
 							<i class="fa-solid fa-edit"></i>
 						</a>
+						
 						<button class="btn btn-danger" onclick="deleteUser(${item.id}, this)">
 							<i class="fa-solid fa-trash"></i>
 						</button>
@@ -75,6 +78,14 @@
 					'Content-Type': 'application/json',
 				},
 			})
+			.then(response => {
+				if (response.ok) {
+					location.reload();
+				} else {
+					alert('Failed to delete user.');
+				}
+			})
+			.catch(error => console.error('Error:', error));
 		}
 	}
 </script>

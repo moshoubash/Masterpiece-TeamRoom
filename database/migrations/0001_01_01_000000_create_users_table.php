@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->string('company_name', 255)->nullable();
             $table->boolean('is_verified')->default(false);
+            $table->boolean('is_deleted')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

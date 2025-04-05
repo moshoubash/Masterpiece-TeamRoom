@@ -28,7 +28,7 @@
 
         <div class="form-group">
             <label for="profile_picture_url">Profile Picture</label>
-            <input type="file" name="profile_picture_url" id="profile_picture_url" class="form-control">
+            <input type="text" name="profile_picture_url" id="profile_picture_url" class="form-control">
             @if($user->profile_picture_url)
                 <img src="{{ asset($user->profile_picture_url) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="150">
             @endif
@@ -46,4 +46,35 @@
 
         <button type="submit" class="btn btn-primary">Update User</button>
     </form>
+@endsection
+@section('scripts')
+    <script>
+            document.querySelector('form').addEventListener('submit', async function (event) {
+                const formData = new FormData(this);
+                const id = "{{ $id }}";
+                const url = `/api/users/${id}`;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        window.location = '{{ route('users.index') }}';
+                    } else {
+                        alert('Failed to update user: ' + (data.message || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the user.');
+                }
+            });
+    </script>
 @endsection

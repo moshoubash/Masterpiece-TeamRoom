@@ -56,10 +56,15 @@ Route::prefix('dashboard')->group(function () {
     });
 });
 
+Route::get('/users', function() {
+    return view('dashboard.users.index');
+})->name('users.index');
+
 Route::get('/users/{id}/show', function ($id) {
     return view('dashboard.users.show', ['id' => $id, 
                                          'user' => App\Models\User::findOrFail($id), 
-                                         'address' => App\Models\Address::where('user_id', $id)->first()]);
+                                         'address' => App\Models\Address::where('user_id', $id)->first(),
+                                         'userRoles' => App\Models\User::findOrFail($id)->roles]);
 });
 
 Route::get('/users/{id}/edit', function ($id) {

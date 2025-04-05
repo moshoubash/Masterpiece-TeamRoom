@@ -29,7 +29,7 @@
 
             <li class="sidebar-item {{  request()->is('dashboard/listings') ? 'active' : '' }}">
                 <a class="sidebar-link" href="/dashboard/listings">
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Listings</span>
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Rooms</span>
                 </a>
             </li>
 
