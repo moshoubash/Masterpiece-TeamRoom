@@ -41,7 +41,6 @@ class BookingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
         $booking = \App\Models\Booking::find($id);
         if (!$booking) {
             return response()->json(['message' => 'Booking not found'], 404);

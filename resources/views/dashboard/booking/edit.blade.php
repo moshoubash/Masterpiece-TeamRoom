@@ -63,10 +63,7 @@
 @section('scripts')
     <script>
         document.querySelector('form').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            
             const formData = new FormData(this);
-            
             const id = "{{ $id }}";
             const url = `/api/bookings/${id}`;
 
@@ -84,8 +81,7 @@
 
                 if (response.ok) {
                     window.location = '{{ route('bookings.index') }}';
-                } 
-                else {
+                } else {
                     alert('Failed to update booking: ' + (data.message || 'Unknown error'));
                 }
             } catch (error) {
