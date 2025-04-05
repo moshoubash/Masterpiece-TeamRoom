@@ -1,26 +1,21 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Roles And Permissions')
 @section('content')
-	<h1 class="h3 mb-3"><strong>Roles</strong>And Permissions</h1>
+	<h1 class="h3 mb-3"><strong>Roles</strong> And Permissions</h1>
 
 	<div class="row">
 		<div class="col-12 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-					<h5 class="card-title mb-0">All Users</h5>
+					<h5 class="card-title mb-0">All Roles</h5>
 				</div>
 				<table class="table table-hover my-0 table-striped">
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th class="d-none d-md-table-cell">Profile Picture</th>
-							<th>Full Name</th>
-							<th class="d-none d-xl-table-cell">Email</th>
-							<th class="d-none d-xl-table-cell">Phone Number</th>
-							<th class="d-none d-xl-table-cell">Is Verified</th>
-							<th class="d-none d-xl-table-cell">Is Deleted</th>
-							<th>Company Name</th>
+							<th>Name</th>
 							<th class="d-none d-md-table-cell">Created At</th>
+							<th class="d-none d-md-table-cell">Permissions</th>
 							<th class="d-none d-md-table-cell">Actions</th>
 						</tr>
 					</thead>
@@ -31,10 +26,71 @@
 			</div>
 		</div>
 	</div>	
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0">Add New Role</h5>
+				</div>
+				<div class="card-body">
+					<form id="add-role-form">
+						<div class="mb-3">
+							<label for="role-name" class="form-label">Role Name</label>
+							<input type="text" name="name" class="form-control" id="role-name" placeholder="Enter role name" required>
+						</div>
+				
+						<button type="submit" class="btn btn-primary">Add Role</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 d-flex">
+			<div class="card flex-fill">
+				<div class="card-header">
+					<h5 class="card-title mb-0">All Permissions</h5>
+				</div>
+				<table class="table table-hover my-0 table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th class="d-none d-md-table-cell">Created At</th>
+							<th class="d-none d-md-table-cell">Actions</th>
+						</tr>
+					</thead>
+					<tbody id="permissions-table-body">
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-title mb-0">Add New Permission</h5>
+				</div>
+				<div class="card-body">
+					<form id="add-permission-form">
+						<div class="mb-3">
+							<label for="permission-name" class="form-label">Permission Name</label>
+							<input type="text" name="name" class="form-control" id="permission-name" placeholder="Enter permission name" required>
+						</div>
+				
+						<button type="submit" class="btn btn-primary">Add Permission</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection
 @section('scripts')
 <script>
-	fetch('/api/users')  // Your API route
+	fetch('/api/roles')  // Your API route
 		.then(response => response.json())
 		.then(data => {
 			let tableBody = document.querySelector('#table-body');
@@ -42,26 +98,21 @@
 				let tableRow = document.createElement('tr');
 				tableRow.innerHTML = `
 					<td>${item.id}</td>
-					<td class="d-none d-md-table-cell"><img class="rounded" src="${item.profile_picture_url ?? 'http://www.placehold.co/300x300'}" alt="Profile Picture" width="50"></td>
-					<td>${item.first_name} ${item.last_name}</td>
-					<td class="d-none d-xl-table-cell">${item.email}</td>
-					<td class="d-none d-xl-table-cell">${item.phone_number}</td>
-					<td class="d-none d-xl-table-cell">${item.is_verified ? '<span class="badge bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>' : '<span class="badge bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>'}</td>
-					<td class="d-none d-xl-table-cell">${item.is_deleted ? '<span class="badge bg-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>' : '<span class="badge bg-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>'}</td>
-					<td>${item.company_name ? item.company_name : '<span class="badge bg-secondary">Empty</span>'}</td>
-					<td class="d-none d-md-table-cell">${new Date(item.created_at).toLocaleDateString()}</td>
+					<td class="d-none d-md-table-cell">${item.name}</td>
+					<td>${item.created_at}</td>
+					<td>
+						${item.permissions && item.permissions.length > 0 
+							? item.permissions.map(permission => `<span class="badge bg-primary">${permission.name}</span>`).join(' ') 
+							: '<span class="badge bg-secondary">No Data</span>'}
+					</td>
 					<td class="d-none d-md-table-cell">
-						<a href="/users/${item.id}/edit" class="btn btn-primary">
+						<a href="/dashboard/roles/${item.id}/edit" class="btn btn-primary">
 							<i class="fa-solid fa-edit"></i>
 						</a>
 						
-						<button class="btn btn-danger" onclick="deleteUser(${item.id}, this)">
+						<button class="btn btn-danger" onclick="deleteRole(${item.id}, this)">
 							<i class="fa-solid fa-trash"></i>
 						</button>
-						
-						<a href="/users/${item.id}/show" class="btn btn-dark">
-							<i class="fa-solid fa-circle-info"></i>
-						</a>
 					</td>
 				`;
 				tableBody.appendChild(tableRow);
@@ -70,9 +121,9 @@
 		.catch(error => console.error('Error:', error));
 </script>
 <script>
-	function deleteUser(userId, button) {
-		if (confirm('Are you sure you want to delete this user?')) {
-			fetch(`/api/users/${userId}`, {
+	function deleteRole(id, button) {
+		if (confirm('Are you sure you want to delete this role?')) {
+			fetch(`/api/roles/${id}`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -82,7 +133,100 @@
 				if (response.ok) {
 					location.reload();
 				} else {
-					alert('Failed to delete user.');
+					alert('Failed to delete role because it have permissions.');
+				}
+			})
+			.catch(error => console.error('Error:', error));
+		}
+	}
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		document.querySelector('#add-role-form').addEventListener('submit', function(e) {
+			e.preventDefault();
+			let roleName = document.querySelector('#role-name').value;
+
+			fetch('/api/roles', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: roleName
+				}),
+			})
+			.then(response => {
+				if (response.ok) {
+					location.reload();
+				} else {
+					alert('Failed to add role.');
+				}
+			})
+			.catch(error => console.error('Error:', error));
+		});
+	});
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		document.querySelector('#add-permission-form').addEventListener('submit', function(e) {
+			e.preventDefault();
+			let permissionName = document.querySelector('#permission-name').value;
+
+			fetch('/api/permissions', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: permissionName
+				}),
+			})
+			.then(response => {
+				if (response.ok) {
+					location.reload();
+				} else {
+					alert('Failed to add permission.');
+				}
+			})
+			.catch(error => console.error('Error:', error));
+		});
+	});
+</script>
+<script>
+	fetch('/api/permissions')  // Your API route
+		.then(response => response.json())
+		.then(data => {
+			let tableBody = document.querySelector('#permissions-table-body');
+			data.forEach(item => {
+				let tableRow = document.createElement('tr');
+				tableRow.innerHTML = `
+					<td>${item.id}</td>
+					<td>${item.name}</td>
+					<td>${item.created_at}</td>
+					<td class="d-none d-md-table-cell">
+						<button class="btn btn-danger" onclick="deletePermission(${item.id}, this)">
+							<i class="fa-solid fa-trash"></i>
+						</button>
+					</td>
+				`;
+				tableBody.appendChild(tableRow);
+			});
+		})
+		.catch(error => console.error('Error:', error));
+
+	function deletePermission(id, button) {
+		if (confirm('Are you sure you want to delete this permission?')) {
+			fetch(`/api/permissions/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+			.then(response => {
+				if (response.ok) {
+					location.reload();
+				} else {
+					alert('Failed to delete permission.');
 				}
 			})
 			.catch(error => console.error('Error:', error));

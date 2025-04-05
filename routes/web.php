@@ -72,3 +72,13 @@ Route::get('/dashboard/users/{id}/edit', function ($id) {
                                          'user' => App\Models\User::findOrFail($id), 
                                          'address' => App\Models\Address::where('user_id', $id)->first()]);
 });
+
+Route::get('/dashboard/roles', function() {
+    return view('dashboard.roles.index');
+})->name('roles.index');
+
+Route::get('/dashboard/roles/{id}/edit', function ($id) {
+    $role = App\Models\Role::findOrFail($id);
+    return view('dashboard.roles.edit', ['id' => $id, 
+                                         'role' => App\Models\Role::findOrFail($id),
+                                         'permissions' => App\Models\Permission::all()]);});
