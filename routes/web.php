@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -122,3 +124,13 @@ Route::get('/dashboard/bookings/{id}/show', function ($id) {
 Route::get('/dashboard/activities', function() {
     return view('dashboard.activities.index');
 })->name('activities.index');
+
+// Route for Profile Settings
+
+Route::get('/user/settings/', function($id) {
+    return view('dashboard.settings.index', [
+        'user' => Auth::user()
+    ]);
+});
+
+Route::put('/user/edit/ ', [UserController::class, 'update'])->name('settings.update');
