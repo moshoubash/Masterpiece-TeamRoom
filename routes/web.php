@@ -127,10 +127,16 @@ Route::get('/dashboard/activities', function() {
 
 // Route for Profile Settings
 
-Route::get('/user/settings/', function($id) {
+Route::get('/user/settings/{id}', function($id) {
+    $user = App\Models\User::class::findOrFail($id);
+
     return view('dashboard.settings.index', [
-        'user' => Auth::user()
+        'user' => $user
     ]);
 });
 
 Route::put('/user/edit/ ', [UserController::class, 'update'])->name('settings.update');
+
+Route::get('/dashboard/notifications/', function() {
+    return view('dashboard.notifications.index');
+})->name('notifications.index');
