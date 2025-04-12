@@ -3,7 +3,7 @@
         <div class="m-header">
             <a href="/" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
-                <img src="{{ asset('assets/dashboard/images/logo-dark.svg') }}" class="img-fluid logo-lg" alt="logo">
+                <img src="{{ asset('assets/dashboard/images/team-room-dashboard.svg') }}" width="150" class="img-fluid logo-lg" alt="logo">
             </a>
         </div>
         <div class="navbar-content pc-trigger active" data-simplebar="init">
@@ -121,7 +121,7 @@
 
                                     <li class="pc-item">
                                         <a href="/dashboard/logout" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-log-out"></i></span>
+                                            <span class="pc-micon"><i class="ti ti-logout"></i></span>
                                             <span class="pc-mtext">Logout</span>
                                         </a>
                                     </li>

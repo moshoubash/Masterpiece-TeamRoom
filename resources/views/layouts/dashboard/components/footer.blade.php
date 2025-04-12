@@ -2,7 +2,7 @@
     <div class="footer-wrapper container-fluid">
       <div class="row">
         <div class="col-sm my-1">
-          <p class="m-0">Mantis ♥ crafted by Team <a href="https://themeforest.net/user/codedthemes" target="_blank">Codedthemes</a> Distributed by <a href="https://themewagon.com/">ThemeWagon</a>.</p>
+          <p class="m-0">Admin Dashboard for &copy;P2P Rental Marketplace <script>document.write(new Date().getFullYear())</script>.</p>
         </div>
         <div class="col-auto my-1">
           <ul class="list-inline footer-link mb-0">

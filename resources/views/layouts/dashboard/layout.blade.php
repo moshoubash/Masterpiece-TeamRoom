@@ -9,7 +9,7 @@
     <meta name="author" content="Mohammad Shoubash">
 
     <!-- [Favicon] icon -->
-    <link rel="icon" href="{{ asset('assets/dashboard/images/favicon.svg') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/dashboard/images/team-room-logo-dashboard.svg') }}" type="image/x-icon">
     <!-- [Google Font] Family -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap"
