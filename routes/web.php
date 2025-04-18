@@ -1,6 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpaceController;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +26,7 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.spaces.index');
     });
 
-    Route::get('/users', function () {
-        return view('dashboard.users.index');
-    });
+    Route::get('/users', [UserController::class, 'index']);
 
     Route::get('/reviews', function () {
         return view('dashboard.reviews.index');
@@ -37,17 +40,13 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.reports.index');
     });
 
-    Route::get('/roles', function () {
-        return view('dashboard.roles.index');
-    });
+    Route::get('/roles', [RoleController::class, 'index']);
 
     Route::get('/activities', function () {
         return view('dashboard.activities.index');
     });
 
-    Route::get('/notifications', function () {
-        return view('dashboard.notifications.index');
-    });
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
 
     Route::get('/transactions', function () {
         return view('dashboard.transactions.index');
@@ -60,83 +59,29 @@ Route::prefix('dashboard')->group(function () {
 
 // Route for the Users
 
-Route::get('/dashboard/users', function() {
-    return view('dashboard.users.index');
-})->name('users.index');
+Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
 
-Route::get('/dashboard/users/{id}/show', function ($id) {
-    return view('dashboard.users.show', ['id' => $id, 
-                                         'user' => App\Models\User::findOrFail($id), 
-                                         'address' => App\Models\Address::where('user_id', $id)->first(),
-                                         'userRoles' => App\Models\User::findOrFail($id)->roles]);
-});
+Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit']);
 
-Route::get('/dashboard/users/{id}/edit', function ($id) {
-    return view('dashboard.users.edit', ['id' => $id, 
-                                         'user' => App\Models\User::findOrFail($id), 
-                                         'address' => App\Models\Address::where('user_id', $id)->first()]);
-});
+Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])->name('users.update');
+
+Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
 
 // Route for the Roles
 
-Route::get('/dashboard/roles', function() {
-    return view('dashboard.roles.index');
-})->name('roles.index');
+Route::resource('/dashboard/roles', RoleController::class);
 
-Route::get('/dashboard/roles/{id}/edit', function ($id) {
-    $role = App\Models\Role::findOrFail($id);
-    return view('dashboard.roles.edit', ['id' => $id, 
-                                         'role' => App\Models\Role::findOrFail($id),
-                                         'permissions' => App\Models\Permission::all()]);});
+// Route for the Permissions
+
+Route::resource('/dashboard/permissions', PermissionController::class);
 
 // Route for the Spaces
 
-Route::get('/dashboard/spaces', function() {
-    return view('dashboard.spaces.index');
-})->name('spaces.index');
-
-Route::get('/dashboard/spaces/{id}/edit', function ($id) {
-    return view('dashboard.spaces.edit', ['id' => $id, 
-                                        'space' => App\Models\Space::findOrFail($id)]);});
-
-Route::get('/dashboard/spaces/{id}/show', function ($id) {
-    return view('dashboard.spaces.show', ['id' => $id, 
-                                            'space' => App\Models\Space::findOrFail($id)]); 
-});
+Route::resource('/dashboard/spaces', SpaceController::class);
 
 // Route for the Booking
 
-Route::get('/dashboard/bookings', function() {
-    return view('dashboard.booking.index');
-})->name('bookings.index');
-
-Route::get('/dashboard/bookings/{id}/edit', function ($id) {
-    return view('dashboard.booking.edit', ['id' => $id, 
-                                        'booking' => App\Models\Booking::findOrFail($id)]);});
-
-Route::get('/dashboard/bookings/{id}/show', function ($id) {
-    return view('dashboard.booking.show', ['id' => $id, 
-                                            'booking' => App\Models\Booking::findOrFail($id)]); 
-});
-
-// Route for the Activities
-
-Route::get('/dashboard/activities', function() {
-    return view('dashboard.activities.index');
-})->name('activities.index');
+Route::resource('/dashboard/spaces', BookingController::class);
 
 // Route for Profile Settings
 
-Route::get('/user/settings/{id}', function($id) {
-    $user = App\Models\User::class::findOrFail($id);
-
-    return view('dashboard.settings.index', [
-        'user' => $user
-    ]);
-});
-
-Route::put('/user/edit/ ', [UserController::class, 'update'])->name('settings.update');
-
-Route::get('/dashboard/notifications/', function() {
-    return view('dashboard.notifications.index');
-})->name('notifications.index');

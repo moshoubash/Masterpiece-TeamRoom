@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return view('dashboard.users.index', ['users' => User::all()]);
     }
 
     /**
@@ -47,9 +47,7 @@ class UserController extends Controller
             'updated_at' => now()
         ]);
 
-        return response()->json([
-            'user' => $user,
-        ], 201);
+        return view('dashboard.users.index');
     }
 
     /**
@@ -57,16 +55,12 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        try {
-            $user = User::findOrFail($id);
-            return response()->json([
-                'user' => $user,
-            ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'error' => 'User not found',
-            ], 404);
-        }
+        $user = User::findOrFail($id)->with('roles')->first();
+        return view('dashboard.users.show', compact('user'));
+    }
+
+    public function edit($id){
+        return view('dashboard.users.edit', ['user' => User::findOrFail($id)]);
     }
 
     /**
@@ -90,9 +84,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return view('dashboard.users.index', ['users' => User::all()]);
     }
 
     /**
@@ -104,8 +96,6 @@ class UserController extends Controller
         $user->is_deleted = true;
         $user->save();
 
-        return response()->json([
-            'message' => 'User deleted successfully',
-        ]);
+        return view('dashboard.users.index', ['users' => User::all()]);
     }
 }

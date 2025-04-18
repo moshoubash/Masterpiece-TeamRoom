@@ -1,21 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return \App\Models\Permission::all();
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -29,9 +22,10 @@ class PermissionController extends Controller
         $permission->name = $request->input('name');
         $permission->save();
 
-        return response()->json([
-            'permission' => $permission,
-        ], 201);
+        return view('dashboard.roles.index', [
+            'roles' => Role::all(),
+            'permissions' => Permission::all()
+        ]);
     }
 
     /**
@@ -42,8 +36,9 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return response()->json([
-            'message' => 'Permission deleted successfully',
-        ], 200);
+        return view('dashboard.roles.index', [
+            'roles' => Role::all(),
+            'permissions' => Permission::all()
+        ]);
     }
 }

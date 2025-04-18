@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -13,7 +13,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return Booking::all();
+        return view('dashboard.booking.index');
     }
 
     /**
@@ -21,7 +21,8 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Booking::create($request->all());
+        return view('dashboard.booking.index');
     }
 
     /**
@@ -30,10 +31,7 @@ class BookingController extends Controller
     public function show(string $id)
     {
         $booking = Booking::find($id);
-        if ($booking) {
-            return response()->json($booking, 200);
-        }
-        return response()->json(['message' => 'Booking not found'], 404);
+        return view('dashboard.booking.show', compact('booking'));
     }
 
     /**
@@ -41,12 +39,9 @@ class BookingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $booking = \App\Models\Booking::find($id);
-        if (!$booking) {
-            return response()->json(['message' => 'Booking not found'], 404);
-        }
+        $booking = Booking::find($id);
         $booking->update($request->all());
-        return response()->json($booking, 200);  
+        return view('dashboard.booking.index');  
     }
 
     /**
@@ -55,10 +50,8 @@ class BookingController extends Controller
     public function destroy(string $id)
     {
         $booking = Booking::find($id);
-        if ($booking) {
-            $booking->delete();
-            return response()->json(['message' => 'Booking deleted successfully'], 200);
-        }
-        return response()->json(['message' => 'Booking not found'], 404);
+        $booking->delete();
+        
+        return view('dashboard.booking.index');
     }
 }

@@ -9,6 +9,7 @@ class Notification extends Model
     protected $fillable = [
         'user_id', 'notification_type', 'title', 'message', 'is_read'
     ];
+    public $timestamps = false; // Disable timestamps
 
     public function user()
     {

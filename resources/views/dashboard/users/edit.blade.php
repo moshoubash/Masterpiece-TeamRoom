@@ -1,10 +1,10 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Edit User')
 @section('content')
-    <h1>Edit User #{{$id}}</h1>
-    <form action="{{ route('users.update', $id) }}" method="POST" enctype="multipart/form-data">
+    <h1>Edit User #{{$user->id}}</h1>
+    <form action="{{ url('/dashboard/users/' . $user->id) . '/update' }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+        @method('POST')
 
         <div class="form-group">
             <label for="email">Email</label>
@@ -46,35 +46,4 @@
 
         <button type="submit" class="btn btn-primary">Update User</button>
     </form>
-@endsection
-@section('scripts')
-    <script>
-            document.querySelector('form').addEventListener('submit', async function (event) {
-                const formData = new FormData(this);
-                const id = "{{ $id }}";
-                const url = `/api/users/${id}`;
-
-                try {
-                    const response = await fetch(url, {
-                        method: 'PUT',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: formData
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        window.location = '{{ route('users.index') }}';
-                    } else {
-                        alert('Failed to update user: ' + (data.message || 'Unknown error'));
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('An error occurred while updating the user.');
-                }
-            });
-    </script>
 @endsection

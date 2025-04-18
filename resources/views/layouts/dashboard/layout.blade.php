@@ -25,6 +25,8 @@
     <!-- [Template CSS Files] -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}" id="main-style-link">
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/style-preset.css') }}">
+    <!-- [Notifier] -->
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/css/notifier.css') }}">
 </head>
 
 <body>
@@ -68,6 +70,6 @@
     <script src="{{ asset('assets/dashboard/js/fonts/custom-font.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/pcoded.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/plugins/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/notifier.js') }}"></script>
 </body>
-
 </html>

@@ -29,13 +29,13 @@
                                         <i class="ti ti-dashboard"></i>
                                     </li>
                                     <li class="pc-item">
-                                        <a href="{{route('users.index')}}" class="pc-link">
+                                        <a href="/dashboard/users" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-users"></i></span>
                                             <span class="pc-mtext">Users</span>
                                         </a>
                                     </li>
                                     <li class="pc-item">
-                                        <a href="{{route('roles.index')}}" class="pc-link">
+                                        <a href="/dashboard/roles" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-shield"></i></span>
                                             <span class="pc-mtext">Roles</span>
                                         </a>
@@ -46,20 +46,20 @@
                                         <i class="ti ti-news"></i>
                                     </li>
                                     <li class="pc-item">
-                                        <a href="{{route('bookings.index')}}" class="pc-link">
+                                        <a href="/dashboard/bookings" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-calendar"></i></span>
                                             <span class="pc-mtext">Bookings</span>
                                         </a>
                                     </li>
                                     <li class="pc-item">
-                                        <a href="{{route('spaces.index')}}" class="pc-link">
+                                        <a href="/dashboard/spaces" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-home"></i></span>
                                             <span class="pc-mtext">Spaces</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="{{route('activities.index')}}" class="pc-link">
+                                        <a href="/dashboard/activities" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-activity"></i></span>
                                             <span class="pc-mtext">Activities</span>
                                         </a>
@@ -73,35 +73,35 @@
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="" class="pc-link">
+                                        <a href="/dashboard/reviews" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-star"></i></span>
                                             <span class="pc-mtext">Reviews</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="" class="pc-link">
+                                        <a href="/dashboard/messages" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-message"></i></span>
                                             <span class="pc-mtext">Messages</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="" class="pc-link">
+                                        <a href="/dashboard/payments" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-credit-card"></i></span>
                                             <span class="pc-mtext">Payments</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="" class="pc-link">
+                                        <a href="/dashboard/reports" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-file-analytics"></i></span>
                                             <span class="pc-mtext">Reports</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="" class="pc-link">
+                                        <a href="/dashboard/transactions" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-currency-dollar"></i></span>
                                             <span class="pc-mtext">Transactions</span>
                                         </a>

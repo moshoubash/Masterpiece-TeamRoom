@@ -1,19 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Activity;
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class SpaceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Activity::all();
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -28,6 +34,14 @@ class ActivityController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         //
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,8 +13,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = \App\Models\Role::with('permissions')->get();
-        return $roles; 
+        $roles = Role::all();
+        $permissions = \App\Models\Permission::all();
+        return view('dashboard.roles.index', ['roles' => $roles, 'permissions' => $permissions]); 
     }
 
     /**
@@ -30,21 +31,12 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
 
-        return response()->json([
-            'role' => $role,
-        ], 201);
+        return view('dashboard.roles.index', ['roles' => Role::all(), 'permissions' => \App\Models\Permission::all()]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $role = \App\Models\Role::find($id);
-        if (!$role) {
-            return response()->json(['message' => 'Role not found'], 404);
-        }
-        return $role;
+    public function edit($id){
+        $role = Role::findOrFail($id);
+        return view('dashboard.roles.edit', ['role' => $role]);
     }
 
     /**
@@ -64,9 +56,7 @@ class RoleController extends Controller
             $role->permissions()->sync($request->input('permissions'));
         }
 
-        return response()->json([
-            'role' => $role->load('permissions'),
-        ]);
+        return view('dashboard.roles.index', ['roles' => Role::all()->with('permissions')]);
     }
 
     /**
@@ -75,10 +65,10 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         $role = \App\Models\Role::find($id);
-        if (!$role) {
-            return response()->json(['message' => 'Role not found'], 404);
+        if($role){
+            $role->delete();
         }
-        $role->delete();
-        return response()->json(['message' => 'Role deleted successfully']);
+
+        return view('dashboard.roles.index', ['roles' => Role::all(), 'permissions' => \App\Models\Permission::all()]);
     }
 }
