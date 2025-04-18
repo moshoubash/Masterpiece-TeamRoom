@@ -13,7 +13,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('dashboard.booking.index');
+        $bookings = Booking::all();
+        return view('dashboard.booking.index', compact('bookings'));
     }
 
     /**
@@ -28,10 +29,15 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
         $booking = Booking::find($id);
         return view('dashboard.booking.show', compact('booking'));
+    }
+
+    public function edit(int $id){
+        $booking = Booking::find($id);
+        return view('dashboard.booking.edit', compact('booking'));
     }
 
     /**
@@ -41,7 +47,9 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $booking->update($request->all());
-        return view('dashboard.booking.index');  
+
+        $bookings = Booking::all();
+        return view('dashboard.booking.index', compact('bookings'));  
     }
 
     /**
@@ -52,6 +60,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->delete();
         
-        return view('dashboard.booking.index');
+        $bookings = Booking::all();
+        return view('dashboard.booking.index', compact('bookings'));
     }
 }

@@ -2,9 +2,9 @@
 @section('title', 'Edit Booking')
 @section('content')
     <div class="row">
-        <h1>Edit Booking #{{$id}}</h1>
+        <h1>Edit Booking #{{$booking->id}}</h1>
 
-        <form action="{{ route('bookings.update', $id) }}" method="POST">
+        <form action="/dashboard/bookings/{{ $booking->id }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -57,37 +57,7 @@
                 <input type="text" name="cancelled_by" id="cancelled_by" class="form-control" value="{{ old('cancelled_by', $booking->cancelled_by) }}">
             </div>
             <button type="submit" class="btn btn-primary">Update Booking</button>
+            <a href="/dashboard/bookings" class="btn btn-secondary">Back to Bookings</a>
         </form>
     </div>
-@endsection
-@section('scripts')
-    <script>
-        document.querySelector('form').addEventListener('submit', async function (event) {
-            const formData = new FormData(this);
-            const id = "{{ $id }}";
-            const url = `/api/bookings/${id}`;
-
-            try {
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    window.location = '{{ route('bookings.index') }}';
-                } else {
-                    alert('Failed to update booking: ' + (data.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while updating the booking.');
-            }
-        });
-    </script>
 @endsection

@@ -14,9 +14,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('dashboard')->group(function () {
-    Route::get('/bookings', function () {
-        return view('dashboard.booking.index');
-    });
+    Route::get('/bookings', [BookingController::class, 'index']);
 
     Route::get('/messages', function () {
         return view('dashboard.messages.index');
@@ -81,7 +79,7 @@ Route::resource('/dashboard/spaces', SpaceController::class);
 
 // Route for the Booking
 
-Route::resource('/dashboard/spaces', BookingController::class);
+Route::resource('/dashboard/bookings', BookingController::class);
 
 // Route for Profile Settings
 

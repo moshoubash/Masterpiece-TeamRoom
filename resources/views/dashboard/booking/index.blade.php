@@ -26,61 +26,38 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
+                        @foreach ($bookings as $booking)
+                            <td>{{ $booking->id }}</td>
+                            <td>{{ $booking->renter_id }}</td>
+                            <td>{{ (new DateTime($booking->start_datetime))->format('Y-m-d H:i:s') }}</td>
+                            <td class="d-none d-md-table-cell">{{ (new DateTime($booking->end_datetime))->format('Y-m-d H:i:s') }}</td>
+                            <td class="d-none d-md-table-cell">{{ $booking->num_attendees ?? 0 }}</td>
+                            <td>{{ $booking->status }}</td>
+                            <td>${{ $booking->total_price }}</td>
+                            <td class="d-none d-md-table-cell">${{ $booking->service_fee }}</td>
+                            <td class="d-none d-md-table-cell">${{ $booking->host_payout }}</td>
+                            <td>{{ $booking->created_at || 'N/A' }}</td>
+                            <td>
+                                <a href="/dashboard/bookings/{{ $booking->id }}/edit" class="btn btn-primary">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
 
+                                <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+
+                                <a href="/dashboard/bookings/{{ $booking->id }}" class="btn btn-dark">
+                                    <i class="fa-solid fa-info-circle"></i>
+                                </a>
+                            </td>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        fetch('/api/bookings')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('table-body');
-                data.forEach(booking => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${booking.id}</td>
-                        <td>${booking.renter_id}</td>
-                        <td>${new Date(booking.start_datetime).toLocaleString()}</td>
-                        <td class="d-none d-md-table-cell">${new Date(booking.end_datetime).toLocaleString()}</td>
-                        <td class="d-none d-md-table-cell">${booking.num_attendees || 0}</td>
-                        <td>${booking.status}</td>
-                        <td>$${booking.total_price}</td>
-                        <td class="d-none d-md-table-cell">$${booking.service_fee}</td>
-                        <td class="d-none d-md-table-cell">$${booking.host_payout}</td>
-                        <td>${booking.created_at || 'N/A'}</td>
-                        <td>
-                            <a href="/dashboard/bookings/${booking.id}/edit" class="btn btn-primary">
-                                <i class="fa-solid fa-edit"></i>
-                            </a>
-                            
-                            <button class="btn btn-danger" onclick="handleDelete(${booking.id})">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-
-                            <a href="/dashboard/bookings/${booking.id}/show" class="btn btn-dark">
-                                <i class="fa-solid fa-info-circle"></i>
-                            </a>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            });
-
-        function handleDelete(id) {
-            if (confirm('Are you sure you want to delete this booking?')) {
-                fetch(`/api/bookings/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                })
-            }
-        }
-	</script>
 @endsection
