@@ -25,33 +25,38 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($spaces as $space)
-                            <td>{{ $space->id }}</td>
-                            <td>{{ $space->host_id }}</td>
-                            <td class="d-none d-md-table-cell">{{ $space->title }}</td>
-                            <td>{{ $space->capacity }}</td>
-                            <td class="d-none d-md-table-cell">${{ $space->hourly_rate }}</td>
-                            <td class="d-none d-md-table-cell">${{ $space->min_booking_duration }}</td>
-                            <td>{{ $space->is_active ? 'yes' : 'no' }}
-                            </td>
-                            <td>{{ $space->is_deleted ? 'yes' : 'no' }}
-                            </td>
-                            <td>{{ (new DateTime($space->created_at))->format('Y-m-d H:i:s') }}</td>
-                            <td>
-                                <a href="/dashboard/spaces/{{$space->id}}/edit" class="btn btn-primary"><i
-                                        class="fa-solid fa-edit"></i></a>
-                                <form action="/dashboard/spaces/{{$space->id}}" method="post">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                                <a href="/dashboard/spaces/{{$space->id}}" class="btn btn-dark"><i
-                                        class="fa-solid fa-info-circle"></i></a>
-                            </td>
+                        @foreach ($spaces->sortByDesc('created_at') as $space)
+                            <tr>
+                                <td>{{ $space->id }}</td>
+                                <td>{{ $space->host_id }}</td>
+                                <td class="d-none d-md-table-cell">{{ $space->title }}</td>
+                                <td>{{ $space->capacity }}</td>
+                                <td class="d-none d-md-table-cell">${{ $space->hourly_rate }}</td>
+                                <td class="d-none d-md-table-cell">${{ $space->min_booking_duration }}</td>
+                                <td>{{ $space->is_active ? 'yes' : 'no' }}
+                                </td>
+                                <td>{{ $space->is_deleted ? 'yes' : 'no' }}
+                                </td>
+                                <td>{{ (new DateTime($space->created_at))->format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    <a href="/dashboard/spaces/{{ $space->id }}/edit" class="btn btn-primary"><i
+                                            class="fa-solid fa-edit"></i></a>
+                                    <form action="/dashboard/spaces/{{ $space->id }}" method="post">
+                                        @csrf @method('DELETE')
+                                        <button class="btn btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    <a href="/dashboard/spaces/{{ $space->id }}" class="btn btn-dark"><i
+                                            class="fa-solid fa-info-circle"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-3 ms-3">
+                    {{ $spaces->links() }}
+                </div>
             </div>
         </div>
     </div>

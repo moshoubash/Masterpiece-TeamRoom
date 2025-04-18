@@ -4,6 +4,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SpaceController;
 use App\Models\Notification;
 use App\Models\Space;
@@ -39,9 +40,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/roles', [RoleController::class, 'index']);
 
-    Route::get('/activities', function () {
-        return view('dashboard.activities.index');
-    });
+    Route::get('/activities', [ActivityController::class, 'index']);
 
     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
 

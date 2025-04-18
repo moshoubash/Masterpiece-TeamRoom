@@ -12,7 +12,7 @@ class SpaceController extends Controller
      */
     public function index()
     {
-        return view('dashboard.spaces.index', ['spaces' => Space::all()]);
+        return view('dashboard.spaces.index', ['spaces' => Space::paginate(10)]);
     }
 
     /**

@@ -26,37 +26,43 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($bookings as $booking)
-                            <td>{{ $booking->id }}</td>
-                            <td>{{ $booking->renter_id }}</td>
-                            <td>{{ (new DateTime($booking->start_datetime))->format('Y-m-d H:i:s') }}</td>
-                            <td class="d-none d-md-table-cell">{{ (new DateTime($booking->end_datetime))->format('Y-m-d H:i:s') }}</td>
-                            <td class="d-none d-md-table-cell">{{ $booking->num_attendees ?? 0 }}</td>
-                            <td>{{ $booking->status }}</td>
-                            <td>${{ $booking->total_price }}</td>
-                            <td class="d-none d-md-table-cell">${{ $booking->service_fee }}</td>
-                            <td class="d-none d-md-table-cell">${{ $booking->host_payout }}</td>
-                            <td>{{ $booking->created_at || 'N/A' }}</td>
-                            <td>
-                                <a href="/dashboard/bookings/{{ $booking->id }}/edit" class="btn btn-primary">
-                                    <i class="fa-solid fa-edit"></i>
-                                </a>
+                        @foreach ($bookings->sortByDesc('created_at') as $booking)
+                            <tr>
+                                <td>{{ $booking->id }}</td>
+                                <td>{{ $booking->renter_id }}</td>
+                                <td>{{ (new DateTime($booking->start_datetime))->format('Y-m-d H:i:s') }}</td>
+                                <td class="d-none d-md-table-cell">
+                                    {{ (new DateTime($booking->end_datetime))->format('Y-m-d H:i:s') }}</td>
+                                <td class="d-none d-md-table-cell">{{ $booking->num_attendees ?? 0 }}</td>
+                                <td>{{ $booking->status }}</td>
+                                <td>${{ $booking->total_price }}</td>
+                                <td class="d-none d-md-table-cell">${{ $booking->service_fee }}</td>
+                                <td class="d-none d-md-table-cell">${{ $booking->host_payout }}</td>
+                                <td>{{ $booking->created_at || 'N/A' }}</td>
+                                <td>
+                                    <a href="/dashboard/bookings/{{ $booking->id }}/edit" class="btn btn-primary">
+                                        <i class="fa-solid fa-edit"></i>
+                                    </a>
 
-                                <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
+                                    <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
 
-                                <a href="/dashboard/bookings/{{ $booking->id }}" class="btn btn-dark">
-                                    <i class="fa-solid fa-info-circle"></i>
-                                </a>
-                            </td>
+                                    <a href="/dashboard/bookings/{{ $booking->id }}" class="btn btn-dark">
+                                        <i class="fa-solid fa-info-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="mt-3 ms-3">
+                    {{ $bookings->links() }}
+                </div>
             </div>
         </div>
     </div>
