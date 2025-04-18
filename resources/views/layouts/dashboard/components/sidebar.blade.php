@@ -66,13 +66,6 @@
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="/dashboard/notifications" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-bell"></i></span>
-                                            <span class="pc-mtext">Notifications</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="pc-item">
                                         <a href="/dashboard/reviews" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-star"></i></span>
                                             <span class="pc-mtext">Reviews</span>
@@ -100,6 +93,13 @@
                                         </a>
                                     </li>
 
+                                    <li class="pc-item">
+                                        <a href="/dashboard/notifications" class="pc-link">
+                                            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+                                            <span class="pc-mtext">Notifications</span>
+                                        </a>
+                                    </li>
+                                    
                                     <li class="pc-item">
                                         <a href="/dashboard/transactions" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-currency-dollar"></i></span>

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('space_id')->constrained('spaces', 'id');
             $table->integer('rating')->comment('between 1 and 5');
             $table->text('review_text')->nullable();
-            $table->text('response_text')->nullable();
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ class Review extends Model
 {
     protected $fillable = [
         'booking_id', 'reviewer_id', 'reviewee_id', 'space_id', 'rating',
-        'review_text', 'response_text'
+        'review_text'
     ];
 
     public function booking()

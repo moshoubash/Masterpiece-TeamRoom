@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SpaceController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Notification;
 use App\Models\Space;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +27,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/users', [UserController::class, 'index']);
 
-    Route::get('/reviews', function () {
-        return view('dashboard.reviews.index');
-    });
+    Route::get('/reviews', [ReviewController::class, 'index']);
 
     Route::get('/payments', function () {
         return view('dashboard.payments.index');
@@ -78,6 +77,10 @@ Route::resource('/dashboard/spaces', SpaceController::class);
 // Route for the Booking
 
 Route::resource('/dashboard/bookings', BookingController::class);
+
+// Route for the Reviews
+
+Route::resource('/dashboard/reviews', ReviewController::class);
 
 // Route for Profile Settings
 
