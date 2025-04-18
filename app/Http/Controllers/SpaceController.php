@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Space;
 
 class SpaceController extends Controller
 {
@@ -11,23 +12,7 @@ class SpaceController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('dashboard.spaces.index', ['spaces' => Space::all()]);
     }
 
     /**
@@ -35,7 +20,8 @@ class SpaceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $space = Space::findOrFail($id);
+        return view('dashboard.spaces.show', ['space' => $space]);
     }
 
     /**
@@ -43,7 +29,8 @@ class SpaceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $space = Space::findOrFail($id);
+        return view('dashboard.spaces.edit', ['space' => $space]);
     }
 
     /**
@@ -51,7 +38,11 @@ class SpaceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $space = Space::findOrFail($id);
+        $space->update($request->all());
+
+        $spaces = Space::all();
+        return view('dashboard.spaces.index', ['spaces' => $spaces]);
     }
 
     /**
@@ -59,6 +50,9 @@ class SpaceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $space = Space::findOrFail($id);
+        $space->delete();
+
+        return view('dashboard.spaces.index', ['spaces' => Space::all()]);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SpaceController;
 use App\Models\Notification;
+use App\Models\Space;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,7 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.messages.index');
     });
 
-    Route::get('/spaces', function () {
-        return view('dashboard.spaces.index');
-    });
+    Route::get('/spaces', [SpaceController::class, 'index']);
 
     Route::get('/users', [UserController::class, 'index']);
 

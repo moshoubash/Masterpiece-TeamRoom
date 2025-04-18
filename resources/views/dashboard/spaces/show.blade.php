@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Space #{{$id}} Details</h1>
+        <h1>Space #{{$space->id}} Details</h1>
         <p>Here you can view the details of the space.</p>
 
         <div class="card">
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td>State</td>
-                        <td>{{ $space->state }}</td>
+                        <td>{{ $space->state ?? 'No Data' }}</td>
                     </tr>
                     <tr>
                         <td>Postal Code</td>
@@ -49,11 +49,11 @@
                     </tr>
                     <tr>
                         <td>Latitude</td>
-                        <td>{{ $space->latitude }}</td>
+                        <td>{{ $space->latitude ?? 'No Data' }}</td>
                     </tr>
                     <tr>
                         <td>Longitude</td>
-                        <td>{{ $space->longitude }}</td>
+                        <td>{{ $space->longitude ?? 'No Data' }}</td>
                     </tr>
                     <tr>
                         <td>Capacity</td>
@@ -61,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>Hourly Rate</td>
-                        <td>{{ $space->hourly_rate }}</td>
+                        <td>${{ $space->hourly_rate }}</td>
                     </tr>
                     <tr>
                         <td>Min Booking Duration</td>
@@ -69,19 +69,20 @@
                     </tr>
                     <tr>
                         <td>Max Booking Duration</td>
-                        <td>{{ $space->max_booking_duration }}</td>
+                        <td>{{ $space->max_booking_duration ?? 'No Data' }}</td>
                     </tr>
                     <tr>
                         <td>Is Active</td>
-                        <td>{{ $space->is_active ? 'Yes' : 'No' }}</td>
+                        <td>{!! $space->is_active ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                     </tr>
                     <tr>
                         <td>Is Deleted</td>
-                        <td>{{ $space->is_deleted ? 'Yes' : 'No' }}</td>
+                        <td>{!! $space->is_deleted ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <a href="/dashboard/spaces" class="btn btn-primary">Back to Spaces</a>
 
         <!--Future Sections-->
         

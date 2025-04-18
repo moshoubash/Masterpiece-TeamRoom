@@ -2,9 +2,9 @@
 @section('title', 'Edit User')
 @section('content')
     <div class="row">
-        <h1>Edit Space #{{$id}}</h1>
+        <h1>Edit Space #{{$space->id}}</h1>
         
-        <form action="{{ route('spaces.update', $id) }}" method="POST">
+        <form action="/dashboard/spaces/{{ $space->id }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -67,37 +67,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Update Space</button>
+            <a href="/dashboard/spaces" class="btn btn-secondary">Back to Spaces</a>
         </form>
     </div>
-@endsection
-@section('scripts')
-    <script>
-        document.querySelector('form').addEventListener('submit', async function (event) {
-            const formData = new FormData(this);
-            const id = "{{ $id }}";
-            const url = `/api/spaces/${id}`;
-
-            try {
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    window.location = '{{ route('spaces.index') }}';
-                } else {
-                    alert('Failed to update space: ' + (data.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while updating the space.');
-            }
-        });
-    </script>
 @endsection
