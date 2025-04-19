@@ -1,5 +1,5 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Edit User')
+@section('title', 'Edit Space')
 @section('content')
     <div class="row">
         <h1>Edit Space #{{$space->id}}</h1>

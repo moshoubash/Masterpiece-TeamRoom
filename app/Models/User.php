@@ -72,11 +72,6 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'reviewee_id', 'user_id');
     }
 
-    public function paymentMethods()
-    {
-        return $this->hasMany(PaymentMethod::class, 'user_id', 'user_id');
-    }
-
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id', 'user_id');

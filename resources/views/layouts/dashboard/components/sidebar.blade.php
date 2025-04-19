@@ -73,16 +73,16 @@
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="/dashboard/messages" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-message"></i></span>
-                                            <span class="pc-mtext">Messages</span>
+                                        <a href="/dashboard/transactions" class="pc-link">
+                                            <span class="pc-micon"><i class="ti ti-currency-dollar"></i></span>
+                                            <span class="pc-mtext">Transactions</span>
                                         </a>
                                     </li>
 
                                     <li class="pc-item">
-                                        <a href="/dashboard/payments" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-credit-card"></i></span>
-                                            <span class="pc-mtext">Payments</span>
+                                        <a href="/dashboard/messages" class="pc-link">
+                                            <span class="pc-micon"><i class="ti ti-message"></i></span>
+                                            <span class="pc-mtext">Messages</span>
                                         </a>
                                     </li>
 
@@ -100,13 +100,6 @@
                                         </a>
                                     </li>
                                     
-                                    <li class="pc-item">
-                                        <a href="/dashboard/transactions" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-currency-dollar"></i></span>
-                                            <span class="pc-mtext">Transactions</span>
-                                        </a>
-                                    </li>
-
                                     <li class="pc-item pc-caption">
                                         <label>Account</label>
                                         <i class="ti ti-brand-chrome"></i>

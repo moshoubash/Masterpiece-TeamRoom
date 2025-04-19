@@ -7,8 +7,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TransactionController;
 use App\Models\Notification;
 use App\Models\Space;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,10 +31,6 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/reviews', [ReviewController::class, 'index']);
 
-    Route::get('/payments', function () {
-        return view('dashboard.payments.index');
-    });
-
     Route::get('/reports', function () {
         return view('dashboard.reports.index');
     });
@@ -43,9 +41,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
 
-    Route::get('/transactions', function () {
-        return view('dashboard.transactions.index');
-    });
+    Route::get('/transactions', [TransactionController::class, 'index']);
 
     Route::get('/settings', function () {
         return view('dashboard.settings.index');
@@ -82,5 +78,6 @@ Route::resource('/dashboard/bookings', BookingController::class);
 
 Route::resource('/dashboard/reviews', ReviewController::class);
 
-// Route for Profile Settings
+// Route for Transactions
 
+Route::resource('/dashboard/transactions', TransactionController::class);

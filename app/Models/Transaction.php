@@ -7,17 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     protected $fillable = [
-        'booking_id', 'payment_method_id', 'transaction_type', 'amount',
-        'status', 'provider_transaction_id'
+        'booking_id', 'payment_method', 'transaction_type', 'amount',
+        'status'
     ];
 
     public function booking()
     {
         return $this->belongsTo(Booking::class, 'booking_id', 'id');
-    }
-
-    public function paymentMethod()
-    {
-        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id');
     }
 }

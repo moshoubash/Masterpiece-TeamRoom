@@ -32,36 +32,5 @@
         
         <button type="submit" class="btn btn-primary">Update Role</button>
     </form>
-    
-@endsection
-@section('scripts')
-    <script>
-            document.querySelector('form').addEventListener('submit', async function (event) {
-                const formData = new FormData(this);
-                const id = "{{ $id }}";
-                const url = `/api/roles/${id}`;
-
-                try {
-                    const response = await fetch(url, {
-                        method: 'PUT',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: formData
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        window.location = '{{ route('roles.index') }}';
-                    } else {
-                        alert('Failed to update role: ' + (data.message || 'Unknown error'));
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('An error occurred while updating the role.');
-                }
-            });
-    </script>
+    <a href="/dashboard/roles" class="btn btn-secondary">Back to Roles</a>
 @endsection
