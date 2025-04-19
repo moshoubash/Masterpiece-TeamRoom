@@ -27,7 +27,7 @@
                             <tr>
 								<td>{{ $transaction->booking_id ?? 0}}</td>
 								<td>{{ $transaction->transaction_type ?? 'No Data'}}</td>
-								<td>{{ $transaction->amount ?? 'No Data'}}</td>
+								<td>${{ $transaction->amount ?? 'No Data'}}</td>
 								<td>
 									@if($transaction->status == 'pending')
 										<span class="badge bg-warning">Pending</span>
@@ -44,13 +44,38 @@
 									<a href="/dashboard/transactions/{{ $transaction->id }}/edit" class="btn btn-primary">
 										<i class="fa-solid fa-edit"></i>
 									</a>
-									<form action="/dahsboard/transactions/{{ $transaction->id }}" method="post">
-										@csrf
-										@method('DELETE')
-										<button class="btn btn-danger">
-											<i class="fa-solid fa-trash"></i>
-										</button>
-									</form>
+									<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+										data-bs-target="#deleteModal{{ $transaction->id }}">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+
+									<!--Modal-->
+									<div class="modal fade" id="deleteModal{{ $transaction->id }}" tabindex="-1"
+										aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Delete Transaction</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal"
+														aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													Are you sure you want to delete this transaction?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">Close</button>
+													<form action="/dashboard/transactions/{{ $transaction->id }}"
+														method="post">
+														@csrf
+														@method('DELETE')
+														<button type="submit" class="btn btn-danger">Delete</button>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+
 									<a href="/dashboard/transactions/{{ $transaction->id }}" class="btn btn-dark">
 										<i class="fa-solid fa-info-circle"></i>
 									</a>

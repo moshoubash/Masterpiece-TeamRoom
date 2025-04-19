@@ -51,8 +51,9 @@ class SpaceController extends Controller
     public function destroy(string $id)
     {
         $space = Space::findOrFail($id);
-        $space->delete();
+        $space->is_deleted = true;
+        $space->save();
 
-        return view('dashboard.spaces.index', ['spaces' => Space::all()]);
+        return view('dashboard.spaces.index', ['spaces' => Space::paginate(10)]);
     }
 }

@@ -18,15 +18,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        Booking::create($request->all());
-        return view('dashboard.booking.index');
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(int $id)
@@ -48,7 +39,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->update($request->all());
 
-        $bookings = Booking::all();
+        $bookings = Booking::paginate(10);
         return view('dashboard.booking.index', compact('bookings'));  
     }
 
@@ -58,9 +49,14 @@ class BookingController extends Controller
     public function destroy(string $id)
     {
         $booking = Booking::find($id);
+
+        if ($booking->transactions()->exists()) {
+            return back()->with('message', 'This booking has transactions and cannot be deleted.');
+        }
+
         $booking->delete();
         
-        $bookings = Booking::all();
+        $bookings = Booking::paginate(10);
         return view('dashboard.booking.index', compact('bookings'));
     }
 }
