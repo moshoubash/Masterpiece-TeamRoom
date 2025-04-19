@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -96,6 +97,12 @@ class UserController extends Controller
         $user->is_deleted = true;
         $user->save();
 
-        return view('dashboard.users.index', ['users' => User::all()]);
+        return back();
+    }
+
+    public function adminSettings(){
+        return view('dashboard.settings.index', [
+            'user' => Auth::user()
+        ]);
     }
 }

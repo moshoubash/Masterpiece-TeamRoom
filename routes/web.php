@@ -44,9 +44,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/transactions', [TransactionController::class, 'index']);
 
-    Route::get('/settings', function () {
-        return view('dashboard.settings.index');
-    });
+    Route::get('/settings', [UserController::class, 'adminSettings']);
 });
 
 // Route for the Users

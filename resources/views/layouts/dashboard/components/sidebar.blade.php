@@ -86,36 +86,36 @@
                                         </a>
                                     </li>
 
-                                    <li class="pc-item">
+                                    {{-- <li class="pc-item">
                                         <a href="/dashboard/messages" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-message"></i></span>
                                             <span class="pc-mtext">Messages</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
-                                    <li class="pc-item">
+                                    {{-- <li class="pc-item">
                                         <a href="/dashboard/reports" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-file-analytics"></i></span>
                                             <span class="pc-mtext">Reports</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="pc-item pc-caption">
                                         <label>Account</label>
                                         <i class="ti ti-brand-chrome"></i>
                                     </li>
 
-                                    <li class="pc-item">
+                                    {{-- <li class="pc-item">
                                         <a href="/user/settings/1" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-settings"></i></span>
                                             <span class="pc-mtext">Settings</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="pc-item">
                                         <a href="/dashboard/logout" class="pc-link">
-                                            <span class="pc-micon"><i class="ti ti-logout"></i></span>
-                                            <span class="pc-mtext">Logout</span>
+                                            <span class="pc-micon text-danger"><i class="ti ti-logout"></i></span>
+                                            <span class="pc-mtext text-danger">Logout</span>
                                         </a>
                                     </li>
                                 </ul>

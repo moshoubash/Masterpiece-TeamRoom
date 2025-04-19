@@ -78,7 +78,6 @@
                             <th>Title</th>
                             <th>Type</th>
                             <th>Message</th>
-                            <th>Is Read</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -90,7 +89,6 @@
                                 <td>{{$item->title}}</td>
                                 <td>{{$item->notification_type}}</td>
                                 <td>{{$item->message}}</td>
-                                <td>{{$item->is_read == 0 ? 'No' : 'Yes'}}</td>
                                 <td>{{ (new DateTime($item->created_at))->format('Y-m-d H:i:s')}}</td>
                                 <td>
                                     <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
