@@ -55,7 +55,6 @@ class BookingController extends Controller
 
         $booking->delete();
         
-        $bookings = Booking::paginate(10);
-        return view('dashboard.booking.index', compact('bookings'));
+        return back();
     }
 }

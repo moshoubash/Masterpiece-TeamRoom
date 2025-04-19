@@ -42,7 +42,7 @@ class TransactionController extends Controller
         $transaction->updated_at = now();
         $transaction->save();
 
-        return view('dashboard.transactions.index', ['transactions' => Transaction::paginate(10)]);
+        return back();
     }
 
     /**
@@ -53,6 +53,6 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();
 
-        return view('dashboard.transactions.index', ['transactions' => Transaction::paginate(10)]);
+        return back();
     }
 }

@@ -41,8 +41,7 @@ class SpaceController extends Controller
         $space = Space::findOrFail($id);
         $space->update($request->all());
 
-        $spaces = Space::all();
-        return view('dashboard.spaces.index', ['spaces' => $spaces]);
+        return back();
     }
 
     /**
@@ -54,6 +53,6 @@ class SpaceController extends Controller
         $space->is_deleted = true;
         $space->save();
 
-        return view('dashboard.spaces.index', ['spaces' => Space::paginate(10)]);
+        return back();
     }
 }

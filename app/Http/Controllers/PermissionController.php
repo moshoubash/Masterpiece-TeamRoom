@@ -22,10 +22,7 @@ class PermissionController extends Controller
         $permission->name = $request->input('name');
         $permission->save();
 
-        return view('dashboard.roles.index', [
-            'roles' => Role::all(),
-            'permissions' => Permission::all()
-        ]);
+        return back();
     }
 
     /**
@@ -36,9 +33,6 @@ class PermissionController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return view('dashboard.roles.index', [
-            'roles' => Role::all(),
-            'permissions' => Permission::all()
-        ]);
+        return back();
     }
 }

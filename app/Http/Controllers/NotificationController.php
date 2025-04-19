@@ -47,9 +47,6 @@ class NotificationController extends Controller
         $notification = Notification::find($id);
         $notification->delete();
 
-        return view('dashboard.notifications.index', [
-            'notifications' => Notification::paginate(10)->sortByDesc('created_at'),
-            'users' => User::all()
-        ]);
+        return back();
     }
 }
