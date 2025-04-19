@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
@@ -13,18 +14,20 @@ class NotificationController extends Controller
     public function index()
     {
         return view('dashboard.notifications.index', [
-            'notifications' => Notification::all()
+            'notifications' => Notification::paginate(10),
+            'users' => User::all()
         ]);
     }
     
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
         Notification::create($request->all());
 
-        return view('dashboard.notifications.index');
+        return back()->with('alert', 'Notification sent successfully');
     }
 
     // mark as read
@@ -33,7 +36,7 @@ class NotificationController extends Controller
         $notification->is_read = true;
         $notification->save();
 
-        return view('dashboard.notifications.index');
+        return back();
     }
 
     /**
@@ -44,6 +47,9 @@ class NotificationController extends Controller
         $notification = Notification::find($id);
         $notification->delete();
 
-        return view('dashboard.notifications.index');
+        return view('dashboard.notifications.index', [
+            'notifications' => Notification::paginate(10)->sortByDesc('created_at'),
+            'users' => User::all()
+        ]);
     }
 }

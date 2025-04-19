@@ -57,13 +57,21 @@
             </div>
         </div>
     </div>
+
+    <!--Alert if there is an message-->
+    @if (session('alert'))
+        <div class="alert alert-success">
+            {{ session('alert') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12 d-flex">
             <div class="card flex-fill">
                 <div class="card-header">
                     <h5 class="card-title mb-0">All Notifications</h5>
                 </div>
-                <table class="table table-hover my-0 table-striped">
+                <table class="table table-hover my-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -72,22 +80,34 @@
                             <th>Message</th>
                             <th>Is Read</th>
                             <th>Created At</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         @foreach($notifications as $item)
-                            <tr>
+                            <tr class="{{ $item->is_read == 0 ? '' : 'table-active'}}">
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->title}}</td>
                                 <td>{{$item->notification_type}}</td>
                                 <td>{{$item->message}}</td>
                                 <td>{{$item->is_read == 0 ? 'No' : 'Yes'}}</td>
-                                <td>{{new DateTime($item->created_at).toLocaleDateString()}}</td>
+                                <td>{{ (new DateTime($item->created_at))->format('Y-m-d H:i:s')}}</td>
+                                <td>
+                                    <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-dark">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-
+                <div class="mt-3 ms-3">
+                    {{ $notifications->links() }}
+                </div>
             </div>
         </div>
     </div>

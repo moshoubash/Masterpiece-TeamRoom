@@ -9,11 +9,11 @@
             @method('PUT')
             <div class="form-group">
                 <label for="space_id">Space ID</label>
-                <input type="number" name="space_id" id="space_id" class="form-control" value="{{ old('space_id', $booking->space_id) }}" required>
+                <input type="number" name="space_id" id="space_id" class="form-control" value="{{ old('space_id', $booking->space_id) }}" required @readonly(true)>
             </div>
             <div class="form-group">
                 <label for="renter_id">Renter ID</label>
-                <input type="number" name="renter_id" id="renter_id" class="form-control" value="{{ old('renter_id', $booking->renter_id) }}" required>
+                <input type="number" name="renter_id" id="renter_id" class="form-control" value="{{ old('renter_id', $booking->renter_id) }}" required @readonly(true)>
             </div>
             <div class="form-group">
                 <label for="start_datetime">Start Date & Time</label>
@@ -54,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label for="cancelled_by">Cancelled By</label>
-                <input type="text" name="cancelled_by" id="cancelled_by" class="form-control" value="{{ old('cancelled_by', $booking->cancelled_by) }}">
+                <input type="text" name="cancelled_by" id="cancelled_by" class="form-control" value="{{ old('cancelled_by', $booking->cancelled_by) }}" @readonly(true)>
             </div>
             <button type="submit" class="btn btn-primary">Update Booking</button>
             <a href="/dashboard/bookings" class="btn btn-secondary">Back to Bookings</a>

@@ -8,6 +8,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Notification;
 use App\Models\Space;
 use App\Models\Transaction;
@@ -39,7 +40,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/activities', [ActivityController::class, 'index']);
 
-    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
+    Route::get('/notifications', [NotificationController::class, 'index']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);
 
@@ -81,3 +82,8 @@ Route::resource('/dashboard/reviews', ReviewController::class);
 // Route for Transactions
 
 Route::resource('/dashboard/transactions', TransactionController::class);
+
+// Route for the Notifications
+
+Route::resource('/dashboard/notifications', NotificationController::class);
+Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);

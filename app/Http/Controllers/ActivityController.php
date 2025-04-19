@@ -24,7 +24,7 @@ class ActivityController extends Controller
     {
         Activity::create($request->all());
 
-        return view('dashboard.activities.index');
+        return back();
     }
 
     /**
@@ -35,6 +35,6 @@ class ActivityController extends Controller
         $activity = Activity::find($id);
         $activity->delete();
 
-        return view('dashboard.activities.index');
+        return back();
     }
 }

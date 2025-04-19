@@ -39,8 +39,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->update($request->all());
 
-        $bookings = Booking::paginate(10);
-        return view('dashboard.booking.index', compact('bookings'));  
+        return redirect()->back();  
     }
 
     /**
