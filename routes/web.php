@@ -9,15 +9,15 @@ use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Notification;
 use App\Models\Space;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [DashboardController::class, 'index']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index']);

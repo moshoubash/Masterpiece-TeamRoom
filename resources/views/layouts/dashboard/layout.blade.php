@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/style-preset.css') }}">
     <!-- [Notifier] -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/notifier.css') }}">
+
+    @yield('styles')
 </head>
 
 <body>

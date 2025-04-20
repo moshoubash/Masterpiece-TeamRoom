@@ -20,7 +20,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">287</h1>
+                                <h1 class="mt-1 mb-3">{{$totalBookings}}</h1>
                                 <div class="mb-0">
                                     <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 8.25% </span>
                                     <span class="text-muted">Since last week</span>
@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">1,842</h1>
+                                <h1 class="mt-1 mb-3">{{$totalUsers}}</h1>
                                 <div class="mb-0">
                                     <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 12.5% </span>
                                     <span class="text-muted">Since last week</span>
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">$16,450</h1>
+                                <h1 class="mt-1 mb-3">${{$totalRevenue}}</h1>
                                 <div class="mb-0">
                                     <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 9.35% </span>
                                     <span class="text-muted">Since last week</span>
@@ -79,7 +79,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">412</h1>
+                                <h1 class="mt-1 mb-3">{{$totalSpaces}}</h1>
                                 <div class="mb-0">
                                     <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 4.75% </span>
                                     <span class="text-muted">Since last week</span>
@@ -248,6 +248,7 @@
         </div>
     </div>
 @endsection
+
 
 @section('scripts')
     <script>
