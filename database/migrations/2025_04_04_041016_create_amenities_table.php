@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('icon', 255)->nullable();
-            $table->string('category', 255)->nullable()->comment('e.g., technology, furniture, service, etc.');
         });
     }
 

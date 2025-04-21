@@ -1,48 +1,38 @@
-<nav>
-    <h1>P2P Rental Marketplace</h1>
+<nav class="flex justify-between items-center py-4">
+    <h1 class="text-3xl font-bold">P2P Rental Marketplace</h1>
 
-    <ul>
-        <li>
-            <a href=""></a>
+    <ul class="flex justify-between">
+        <li class="mr-6">
+            <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
         </li>
-
-        <li>
-            <a href=""></a>
+        <li class="mr-6">
+            <a href="/" class="text-gray-600 hover:text-gray-900">Explore</a>
         </li>
-
-        <li>
-            <a href=""></a>
+        <li class="mr-6">
+            <a href="/" class="text-gray-600 hover:text-gray-900">Contact</a>
         </li>
-
-        <li>
-            <a href=""></a>
+        <li class="mr-6">
+            <a href="/" class="text-gray-600 hover:text-gray-900">About</a>
         </li>
     </ul>
-
+    
     <!-- Authentication Links -->
+    @auth
+        <ul class="flex justify-end">
+            <form action="{{route('logout')}}" method="POST">
+                @csrf
+                <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>
+            </form>
+        </ul>
+    @endauth
     @guest
-        @if (Route::has('login'))
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        <ul class="flex justify-end">
+            <li class="mr-6">
+                <a href="/login" class="text-gray-600 hover:text-gray-900">Login</a>
             </li>
-        @endif
-    @else
-        <li class="nav-item dropdown">
-            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ Auth::user()->name }} <span class="caret"></span>
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>    
-            </div>
-        </li>
+            <li class="mr-6">
+                <a href="/register" class="text-gray-600 hover:text-gray-900">Register</a>
+            </li>
+        </ul>    
     @endguest
 </nav>

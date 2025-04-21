@@ -1,5 +1,3 @@
-@extends('layouts.Dashboard.layout')    
+@extends('layouts.Home.layout')
 @section('content')
-    @include('layouts.Dashboard.components.navbar')
-    @include('layouts.Dashboard.components.footer')
 @endsection

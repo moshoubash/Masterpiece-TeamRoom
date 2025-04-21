@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Amenity extends Model
 {
-    protected $fillable = ['name', 'icon', 'category'];
+    protected $fillable = ['name', 'icon'];
 
     public function spaces()
     {

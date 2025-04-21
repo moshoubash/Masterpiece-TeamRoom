@@ -14,8 +14,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        $permissions = \App\Models\Permission::all();
-        return view('dashboard.roles.index', ['roles' => $roles, 'permissions' => $permissions]); 
+        return view('dashboard.roles.index', ['roles' => $roles]); 
     }
 
     /**
@@ -31,7 +30,7 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
 
-        return view('dashboard.roles.index', ['roles' => Role::all(), 'permissions' => \App\Models\Permission::all()]);
+        return view('dashboard.roles.index', ['roles' => Role::all()]);
     }
 
     public function edit($id){
@@ -52,11 +51,7 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         $role->save();
 
-        if ($request->has('permissions')) {
-            $role->permissions()->sync($request->input('permissions'));
-        }
-
-        return view('dashboard.roles.index', ['roles' => Role::all()->with('permissions')]);
+        return view('dashboard.roles.index', ['roles' => Role::all()]);
     }
 
     /**
@@ -69,6 +64,6 @@ class RoleController extends Controller
             $role->delete();
         }
 
-        return view('dashboard.roles.index', ['roles' => Role::all(), 'permissions' => \App\Models\Permission::all()]);
+        return view('dashboard.roles.index', ['roles' => Role::all()]);
     }
 }
