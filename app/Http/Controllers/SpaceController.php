@@ -55,4 +55,22 @@ class SpaceController extends Controller
 
         return back();
     }
+
+    public function explore() {
+        return view('pages.explore', ['rooms' => Space::paginate(10)]);
+    }
+
+    public function roomDetails(string $slug) {
+        $space = Space::where('slug', $slug)->first();
+        return view('pages.spaces.details', ['space' => $space]);
+    }
+
+    public function create(){
+        $currentStep = 1;
+        $completionPercentage = 25;
+        return view('pages.spaces.create', [
+            'currentStep' => $currentStep,
+            'completionPercentage' => $completionPercentage
+        ]);
+    }
 }

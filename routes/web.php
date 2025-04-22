@@ -11,7 +11,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\PermissionController;
 
 Route::get('/', function(){
     return view('welcome');
@@ -51,45 +50,46 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     // Route for the Users
+    Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
 
-Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
+    Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit']);
 
-Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit']);
+    Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])->name('users.update');
 
-Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])->name('users.update');
+    Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
 
-Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+    // Route for the Roles
 
-// Route for the Roles
+    Route::resource('/dashboard/roles', RoleController::class);
 
-Route::resource('/dashboard/roles', RoleController::class);
+    // Route for the Spaces
 
-// Route for the Permissions
+    Route::resource('/dashboard/spaces', SpaceController::class);
 
-Route::resource('/dashboard/permissions', PermissionController::class);
+    // Route for the Booking
 
-// Route for the Spaces
+    Route::resource('/dashboard/bookings', BookingController::class);
 
-Route::resource('/dashboard/spaces', SpaceController::class);
+    // Route for the Reviews
 
-// Route for the Booking
+    Route::resource('/dashboard/reviews', ReviewController::class);
 
-Route::resource('/dashboard/bookings', BookingController::class);
+    // Route for Transactions
 
-// Route for the Reviews
+    Route::resource('/dashboard/transactions', TransactionController::class);
 
-Route::resource('/dashboard/reviews', ReviewController::class);
+    // Route for the Notifications
 
-// Route for Transactions
-
-Route::resource('/dashboard/transactions', TransactionController::class);
-
-// Route for the Notifications
-
-Route::resource('/dashboard/notifications', NotificationController::class);
-Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
+    Route::resource('/dashboard/notifications', NotificationController::class);
+    Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
 
 });
 
+// Routes for public website
+
+Route::get('/explore', [SpaceController::class, 'explore'])->name('explore');
+Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
+Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('user.profile')->middleware('auth');
+Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
 
 require __DIR__.'/auth.php';

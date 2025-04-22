@@ -1,38 +1,36 @@
-<nav class="flex justify-between items-center py-4">
-    <h1 class="text-3xl font-bold">P2P Rental Marketplace</h1>
-
-    <ul class="flex justify-between">
-        <li class="mr-6">
-            <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
-        </li>
-        <li class="mr-6">
-            <a href="/" class="text-gray-600 hover:text-gray-900">Explore</a>
-        </li>
-        <li class="mr-6">
-            <a href="/" class="text-gray-600 hover:text-gray-900">Contact</a>
-        </li>
-        <li class="mr-6">
-            <a href="/" class="text-gray-600 hover:text-gray-900">About</a>
-        </li>
-    </ul>
-    
-    <!-- Authentication Links -->
-    @auth
-        <ul class="flex justify-end">
-            <form action="{{route('logout')}}" method="POST">
-                @csrf
-                <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>
-            </form>
-        </ul>
-    @endauth
-    @guest
-        <ul class="flex justify-end">
-            <li class="mr-6">
-                <a href="/login" class="text-gray-600 hover:text-gray-900">Login</a>
-            </li>
-            <li class="mr-6">
-                <a href="/register" class="text-gray-600 hover:text-gray-900">Register</a>
-            </li>
-        </ul>    
-    @endguest
-</nav>
+<!-- Header -->
+<header class="shadow-lg shadow-blue-500/5">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="h-10 rounded-lg flex items-center justify-center">
+                <a href="/">
+                    <img src="{{ asset('assets/dashboard/images/team-room-dashboard.svg') }}" alt="Team Room" width="150">
+                </a>
+            </div>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a href="#features" class="text-gray-600 hover:text-blue-500">Features</a>
+            <a href="#how-it-works" class="text-gray-600 hover:text-blue-500">How it works</a>
+            <a href="/explore" class="text-gray-600 hover:text-blue-500">Explore</a>
+            <a href="#testimonials" class="text-gray-600 hover:text-blue-500">Testimonials</a>
+        </nav>
+        @auth
+            <div class="flex items-center space-x-4">
+                <a href="{{route('user.profile', Auth::user()->id)}}" class="text-blue-500 font-medium hover:text-blue-600">Profile</a>
+                <form action="{{route('logout')}}" method="POST">
+                    @csrf
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer">Sign out</button>
+                </form>
+            </div>    
+        @endauth
+        @guest
+            <div class="flex items-center space-x-4">
+                <a href="{{route('login')}}" class="text-blue-500 font-medium hover:text-blue-600">Log in</a>
+                <a href="{{route('register')}}" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition">Sign up</a>
+            </div>    
+        @endguest
+        <button class="md:hidden text-gray-700">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+</header>

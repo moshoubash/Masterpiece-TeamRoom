@@ -105,4 +105,11 @@ class UserController extends Controller
             'user' => Auth::user()
         ]);
     }
+
+    public function profile(string $id){
+        $user = User::findOrFail($id);
+        return view('pages.users.profile', [
+            'user' => $user
+        ]);
+    }
 }

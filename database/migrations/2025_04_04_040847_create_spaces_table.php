@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('max_booking_duration')->nullable()->comment('in hours');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_deleted')->default(false);
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

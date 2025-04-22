@@ -113,10 +113,13 @@
                                     </li> --}}
 
                                     <li class="pc-item">
-                                        <a href="/dashboard/logout" class="pc-link">
-                                            <span class="pc-micon text-danger"><i class="ti ti-logout"></i></span>
-                                            <span class="pc-mtext text-danger">Logout</span>
-                                        </a>
+                                        <form action="{{route('logout')}}" method="POST">
+                                            @csrf
+                                            <button class="pc-link" style="border: none; background: none">
+                                                <span class="pc-micon text-danger"><i class="ti ti-logout"></i></span>
+                                                <span class="pc-mtext text-danger">Logout</span>
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </div>

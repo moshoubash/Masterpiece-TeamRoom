@@ -1,5 +1,5 @@
 <header class="pc-header">
-    <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
+    <div class="header-wrapper">
         <div class="me-auto pc-mob-drp">
             <ul class="list-unstyled">
                 <!-- ======= Menu collapse Icon ===== -->
@@ -13,40 +13,6 @@
                         <i class="ti ti-menu-2"></i>
                     </a>
                 </li>
-                {{-- <li class="dropdown pc-h-item d-inline-flex d-md-none">
-                    <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown"
-                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="ti ti-search"></i>
-                    </a>
-                    <div class="dropdown-menu pc-h-dropdown drp-search">
-                        <form class="px-3">
-                            <div class="form-group mb-0 d-flex align-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="feather feather-search">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65">
-                                    </line>
-                                </svg>
-                                <input type="search" class="form-control border-0 shadow-none"
-                                    placeholder="Search here. . .">
-                            </div>
-                        </form>
-                    </div>
-                </li>
-                <li class="pc-h-item d-none d-md-inline-flex">
-                    <form class="header-search">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-search icon-search">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        <input type="search" class="form-control" placeholder="Search here. . .">
-                    </form>
-                </li> --}}
             </ul>
         </div>
         <!-- [Mobile Media Block end] -->
@@ -196,11 +162,13 @@
                                     <i class="ti ti-edit-circle"></i>
                                     <span>Edit Profile</span>
                                 </a>
-                                
-                                <a href="#!" class="dropdown-item">
-                                    <i class="ti ti-power"></i>
-                                    <span>Logout</span>
-                                </a>
+                                <form action="{{route('logout')}}" method="post">
+                                    @csrf
+                                    <button class="dropdown-item">
+                                        <i class="ti ti-power"></i>
+                                        <span>Logout</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
