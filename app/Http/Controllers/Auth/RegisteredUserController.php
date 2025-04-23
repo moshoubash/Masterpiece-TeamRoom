@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $roles = Role::all();
+        return view('auth.register', compact('roles'));
     }
 
     /**
@@ -43,6 +45,16 @@ class RegisteredUserController extends Controller
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
         ]);
+
+        if($request->role == 'renter'){
+            $role = Role::where('name', 'renter')->first();
+            $user->roles()->attach($role);
+        }
+
+        if($request->role == 'host'){
+            $role = Role::where('name', 'host')->first();
+            $user->roles()->attach($role);
+        }
 
         event(new Registered($user));
 

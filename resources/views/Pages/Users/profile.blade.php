@@ -9,8 +9,8 @@
                 <img src="{{ asset('images/profile-avatar.jpg') }}" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover">
             </div>
             <div class="flex-grow">
-                <h1 class="text-2xl font-bold text-gray-900">John Doe</h1>
-                <p class="text-gray-600 mb-2">Member since April 2025</p>
+                <h1 class="text-2xl font-bold text-gray-900">{{ $name }}</h1>
+                <p class="text-gray-600 mb-2">Member since {{ $created_at }}</p>
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex items-center">
                         <span class="inline-flex items-center justify-center w-5 h-5 bg-green-500 rounded-full mr-2">
@@ -27,40 +27,42 @@
                         <span>4.9 (28 reviews)</span>
                     </div>
                     <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1.581.814L12 14.229l-2.419 2.585A1 1 0 018 16V4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1.581.814L18 14.229V4a2 2 0 00-2-2h-8a2 2 0 00-2 2v12a1 1 0 01-1.581.814L4 14.229l-2.419 2.585A1 1 0 010 16V4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1.581.814L10 14.229l-2.419 2.585A1 1 0 016 16V4z" clip-rule="evenodd" />
+                        <svg class="w-5 h-5 text-gray-600 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
                         </svg>
-                        <span>Host</span>
+                        <span>{{$role}}</span>
                     </div>
                 </div>
             </div>
-            <div class="mt-4 md:mt-0">
-                <button class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-5 rounded-md transition">
-                    Edit Profile
-                </button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Profile Navigation -->
-    <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
-            <a href="#" class="border-b-2 border-blue-700 text-blue-700 font-medium pb-4 px-1">My Spaces</a>
-            <a href="#" class="border-b-2 border-transparent hover:text-blue-700 hover:border-blue-300 text-gray-500 pb-4 px-1">Bookings</a>
-            <a href="#" class="border-b-2 border-transparent hover:text-blue-700 hover:border-blue-300 text-gray-500 pb-4 px-1">Reviews</a>
-            <a href="#" class="border-b-2 border-transparent hover:text-blue-700 hover:border-blue-300 text-gray-500 pb-4 px-1">Settings</a>
-        </nav>
+            @auth
+                @if($user->id == Auth::user()->id)
+                    <div class="mt-4 md:mt-0">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition">
+                            Edit Profile
+                        </button>
+                    </div>
+                @endif  
+            @endauth
+        </div>
     </div>
 
     <!-- Listed Spaces -->
     <div class="mb-12">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-900">My Listed Spaces</h2>
-            <form action="{{route('room.create')}}">
-                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-5 rounded-md transition">
-                    List a New Space
-                </button>
-            </form>
+            <h2 class="text-xl font-bold text-gray-900">Listed Spaces</h2>
+            @auth
+                @if($role == 'HOST' && $user->id == Auth::user()->id)
+                    <form action="{{route('room.create')}}">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition flex items-center">
+                            <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            List New Space
+                        </button>
+                    </form>
+                @endif
+            @endauth
         </div>
 
         <!-- Grid of Spaces -->
@@ -99,8 +101,8 @@
                         <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                     </div>
                     <div class="flex space-x-2">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View details</a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Stats</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View Stats</a>
                     </div>
                 </div>
             </div>
@@ -139,8 +141,8 @@
                         <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                     </div>
                     <div class="flex space-x-2">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View details</a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Stats</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View Stats</a>
                     </div>
                 </div>
             </div>
@@ -179,8 +181,8 @@
                         <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                     </div>
                     <div class="flex space-x-2">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View details</a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Stats</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View Stats</a>
                     </div>
                 </div>
             </div>
@@ -219,8 +221,8 @@
                         <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                     </div>
                     <div class="flex space-x-2">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View details</a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Stats</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View Stats</a>
                     </div>
                 </div>
             </div>
@@ -259,8 +261,8 @@
                         <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                     </div>
                     <div class="flex space-x-2">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View details</a>
-                        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Stats</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                        <a href="#" class="text-blue-500 hover:text-blue-600 text-sm font-medium">View Stats</a>
                     </div>
                 </div>
             </div>
@@ -279,20 +281,20 @@
 
             <!-- Average Rating -->
             <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="text-gray-600 mb-2">Total Bookings</h3>
-                <p class="text-3xl font-bold text-gray-900">142</p>
+                <h3 class="text-gray-600 mb-2">Average Rating</h3>
+                <p class="text-3xl font-bold text-gray-900">4.8/5</p>
             </div>
 
             <!-- Total Revenue -->
             <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="text-gray-600 mb-2">Total Bookings</h3>
-                <p class="text-3xl font-bold text-gray-900">142</p>
+                <h3 class="text-gray-600 mb-2">Total Revenue</h3>
+                <p class="text-3xl font-bold text-gray-900">$2,500</p>
             </div>
 
             <!-- Total Reviews -->
             <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="text-gray-600 mb-2">Total Bookings</h3>
-                <p class="text-3xl font-bold text-gray-900">142</p>
+                <h3 class="text-gray-600 mb-2">Total Reviews</h3>
+                <p class="text-3xl font-bold text-gray-900">42</p>
             </div>
         </div>
     </div>

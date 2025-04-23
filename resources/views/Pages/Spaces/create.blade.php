@@ -12,7 +12,7 @@
             <p class="text-sm"><span id="completion-percentage">25</span>% Complete</p>
         </div>
         <div class="h-2 w-full bg-gray-200 rounded-full">
-            <div id="progress-bar" class="h-2 bg-indigo-700 rounded-full" style="width: 25%"></div>
+            <div id="progress-bar" class="h-2 bg-blue-500 rounded-full" style="width: 25%"></div>
         </div>
     </div>
     
@@ -47,7 +47,7 @@
             </div>
             
             <div class="flex justify-end">
-                <button type="button" class="bg-indigo-700 text-white px-6 py-2 rounded-md hover:bg-indigo-800 next-step">Continue</button>
+                <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
             
             <div class="flex justify-between">
                 <button type="button" class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
-                <button type="button" class="bg-indigo-700 text-white px-6 py-2 rounded-md hover:bg-indigo-800 next-step">Continue</button>
+                <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
             </div>
         </div>
         
@@ -69,7 +69,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div class="flex items-center">
-                    <input type="checkbox" id="wifi" name="amenities[]" value="wifi" class="h-4 w-4 text-indigo-600">
+                    <input type="checkbox" id="wifi" name="amenities[]" value="wifi" class="h-4 w-4 text-blue-600">
                     <label for="wifi" class="ml-2 flex items-center">
                         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
@@ -79,7 +79,7 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <input type="checkbox" id="tv" name="amenities[]" value="tv" class="h-4 w-4 text-indigo-600">
+                    <input type="checkbox" id="tv" name="amenities[]" value="tv" class="h-4 w-4 text-blue-600">
                     <label for="tv" class="ml-2 flex items-center">
                         <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -94,7 +94,7 @@
             
             <div class="flex justify-between">
                 <button type="button" class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
-                <button type="button" class="bg-indigo-700 text-white px-6 py-2 rounded-md hover:bg-indigo-800 next-step">Continue</button>
+                <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
             </div>
         </div>
         
@@ -118,7 +118,7 @@
             
             <div class="flex justify-between">
                 <button type="button" class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
-                <button type="button" class="bg-indigo-700 text-white px-6 py-2 rounded-md hover:bg-indigo-800" id="submit-listing">List My Space</button>
+                <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800" id="submit-listing">List My Space</button>
             </div>
         </div>
     </form>
@@ -126,11 +126,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Set initial state
         let currentStep = 1;
         const totalSteps = 4;
         
-        // Get DOM elements
         const stepElements = document.querySelectorAll('.step-content');
         const nextButtons = document.querySelectorAll('.next-step');
         const prevButtons = document.querySelectorAll('.prev-step');
@@ -139,59 +137,34 @@
         const currentStepElement = document.getElementById('current-step');
         const completionPercentageElement = document.getElementById('completion-percentage');
         
-        // Add event listeners for next buttons
         nextButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Hide current step
                 document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                
-                // Move to next step
                 currentStep++;
-                
-                // Show new step
                 document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                
-                // Update progress indicators
                 updateProgress();
             });
         });
         
-        // Add event listeners for previous buttons
         prevButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Hide current step
                 document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                
-                // Move to previous step
                 currentStep--;
-                
-                // Show new step
                 document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                
-                // Update progress indicators
                 updateProgress();
             });
         });
         
-        // Add event listener for submit button
         if (submitButton) {
             submitButton.addEventListener('click', () => {
-                // Handle form submission
                 document.getElementById('listing-form').submit();
             });
         }
         
-        // Function to update progress indicators
         function updateProgress() {
             const completionPercentage = (currentStep / totalSteps) * 100;
-            
-            // Update displayed step number
             currentStepElement.textContent = currentStep;
-            
-            // Update percentage text
             completionPercentageElement.textContent = completionPercentage;
-            
-            // Update progress bar width
             progressBar.style.width = `${completionPercentage}%`;
         }
     });

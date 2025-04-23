@@ -2,7 +2,7 @@
 @section('styles')
     <style>
         #hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9)), url("{{ asset('https://api.deepai.org/job-view-file/0d35da95-2730-4dce-8237-8ca04469fa46/outputs/output.jpg') }}");
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{{ asset('https://www.renderhub.com/archcorners/modern-meeting-room/modern-meeting-room-01.jpg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -11,8 +11,8 @@
 @endsection
 @section('content')
     <!-- Hero Content -->
-    <div id="hero" class="relative z-10 flex flex-col items-center justify-center h-2/3 text-center bg-black-">
-        <div class="h-100" style="display:flex; align-items: center ; justify-content: center; flex-direction: column">
+    <div id="hero" class="relative z-10 flex flex-col items-center justify-center h-screen text-center p-8">
+        <div class="" style="display:flex; align-items: center ; justify-content: center; flex-direction: column">
             <h1 class="text-6xl font-bold text-white mb-2">
                 Find the Perfect <span class="italic text-blue-500">Meeting Room</span>
             </h1>
@@ -20,66 +20,93 @@
                 Book professional meeting rooms from local businesses and individuals at competitive rates
             </p>
 
-            <!-- Search Form -->
-            <form class="flex bg-white max-w-4xl rounded-full overflow-hidden border-2 border-gray-200 p-2" action="" method="get">
-                <!-- Location Input -->
-                <div class="flex flex-col px-4 py-2 border-r border-gray-200 flex-1 w-1/6">
+            <form class="flex flex-wrap bg-white max-w-4xl rounded-xl overflow-hidden border-2 border-gray-200 p-2 gap-2 md:gap-0 md:rounded-full md:flex-nowrap" action="" method="get">
+                <!-- Location Select -->
+                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Location</label>
-                    <input type="text" value="Amman" class="outline-none text-gray-800 text-center">
+                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
+                        <option value="Amman">Amman</option>
+                        <option value="Aqaba">Aqaba</option>
+                        <option value="Irbid">Irbid</option>
+                        <option value="Zarqa">Zarqa</option>
+                        <option value="Madaba">Madaba</option>
+                        <option value="Jerash">Jerash</option>
+                        <option value="Karak">Karak</option>
+                        <option value="Ajloun">Ajloun</option>
+                        <option value="Salt">Salt</option>
+                        <option value="Petra">Petra</option>
+                        <option value="Wadi Rum">Wadi Rum</option>
+                        <option value="Dead Sea">Dead Sea</option>
+                    </select>
                 </div>
-
+            
                 <!-- Date Input -->
-                <div class="flex flex-col px-4 py-2 border-r border-gray-200 flex-1 w-1/6">
+                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Date</label>
-                    <input type="text" value="12-2-2025" class="outline-none text-gray-800 text-center">
+                    <input type="date" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" value="2025-02-12">
                 </div>
-
+            
                 <!-- Check-in Time -->
-                <div class="flex flex-col px-4 py-2 border-r border-gray-200 flex-1 w-1/6">
+                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Check-in</label>
-                    <input type="text" value="19:00 PM" class="outline-none text-gray-800 text-center">
+                    <input type="time" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" value="19:00">
                 </div>
-
-                <!-- Check-out Time -->
-                <div class="flex flex-col px-4 py-2 border-r border-gray-200 flex-1 w-1/6">
-                    <label class="text-xs text-gray-500">Check-out</label>
-                    <input type="text" value="20:00 PM" class="outline-none text-gray-800 text-center">
-                </div>
-
+            
                 <!-- Capacity -->
-                <div class="flex flex-col px-4 py-2 border-r border-gray-200 flex-1 w-1/6">
+                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Capacity</label>
-                    <input type="text" value="1-5" class="outline-none text-gray-800 text-center">
+                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
+                        <option value="1">1 Person</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4 People</option>
+                        <option value="5">5 People</option>
+                        <option value="6-10">6-10 People</option>
+                        <option value="10+">10+ People</option>
+                    </select>
                 </div>
-
+            
                 <!-- Search Button -->
-                <button
-                    class="bg-blue-500 text-white px-6 flex items-center justify-center w-1/6 rounded-full ml-4 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 20 20"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <button class="bg-blue-500 hover:bg-blue-600 transition-colors text-white px-6 flex items-center justify-center w-1/6 rounded-full ml-4 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Stats Section -->
-    <section class="py-16 bg-white">
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 bg-white">
         <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">How it works</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get started in minutes with our simple setup process.</p>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blue-500 mb-2">3,000+</div>
-                    <p class="text-xl text-gray-600">Companies using our platform</p>
+                    <div
+                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
+                        1</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Create your account</h3>
+                    <p class="text-gray-600">Sign up and configure your workspace details and meeting rooms.</p>
                 </div>
+
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blue-500 mb-2">10M+</div>
-                    <p class="text-xl text-gray-600">Bookings managed monthly</p>
+                    <div
+                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
+                        2</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Invite your team</h3>
+                    <p class="text-gray-600">Add team members to start collaborating on room bookings.</p>
                 </div>
+
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blue-500 mb-2">99.9%</div>
-                    <p class="text-xl text-gray-600">Uptime reliability</p>
+                    <div
+                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
+                        3</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Start booking</h3>
+                    <p class="text-gray-600">Reserve rooms, manage resources, and optimize your workspace.</p>
                 </div>
             </div>
         </div>
@@ -195,42 +222,6 @@
                         </div>
                         <div class="mt-3 font-semibold text-gray-900">$10/hr</div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">How it works</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get started in minutes with our simple setup process.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        1</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Create your account</h3>
-                    <p class="text-gray-600">Sign up and configure your workspace details and meeting rooms.</p>
-                </div>
-
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        2</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Invite your team</h3>
-                    <p class="text-gray-600">Add team members to start collaborating on room bookings.</p>
-                </div>
-
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        3</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Start booking</h3>
-                    <p class="text-gray-600">Reserve rooms, manage resources, and optimize your workspace.</p>
                 </div>
             </div>
         </div>
@@ -373,13 +364,24 @@
             <p class="text-xl text-black mb-8 max-w-3xl mx-auto">Join thousands of companies already using MeetSpace to
                 streamline their meeting room bookings.</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href=""
-                    class="bg-black text-white px-8 py-3 rounded-lg border-1 border-black font-medium hover:bg-transparent hover:text-black transition">Get started
-                    for free</a>
-                <a href=""
-                    class="border border-black text-black px-8 py-3 rounded-lg font-medium transition">Contact
-                    sales</a>
+                <a href="/explore"
+                    class="bg-black text-white px-8 py-3 rounded-lg border-1 border-black font-medium hover:bg-transparent hover:text-black transition">Find a Space</a>
+                <a href="{{route('room.create')}}"
+                    class="border border-black text-black px-8 py-3 rounded-lg font-medium transition">List your space</a>
             </div>
         </div>
     </section>
+@endsection
+@section('scripts')
+    <script>
+        const dateInput = document.querySelector('input[type="date"]');
+        
+        if (!dateInput.value) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+        }
+    </script>
 @endsection

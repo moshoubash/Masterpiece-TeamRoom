@@ -108,8 +108,17 @@ class UserController extends Controller
 
     public function profile(string $id){
         $user = User::findOrFail($id);
+        $role = strtoupper($user->roles()->first()->name);
+        $name = $user->first_name . ' ' . $user->last_name;
+        $created_at = $user->created_at->format('M d, Y');
+        $profile_image = $user->profile_picture_url;
+
         return view('pages.users.profile', [
-            'user' => $user
+            'user' => $user,
+            'role' => $role,
+            'name' => $name,
+            'created_at' => $created_at,
+            'profile_image' => $profile_image
         ]);
     }
 }

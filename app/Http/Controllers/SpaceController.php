@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Space;
+use Illuminate\Support\Facades\Auth;
 
 class SpaceController extends Controller
 {
@@ -66,6 +67,10 @@ class SpaceController extends Controller
     }
 
     public function create(){
+        if(Auth::user()->roles->first()->name == 'renter') {
+            return back();
+        }
+        
         $currentStep = 1;
         $completionPercentage = 25;
         return view('pages.spaces.create', [

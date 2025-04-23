@@ -32,6 +32,17 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
+                <!-- Role Selection -->
+                <div>
+                    <x-input-label for="role" :value="__('Register as')" />
+                    <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-400" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="renter">Renter</option>
+                        <option value="host">Host</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                </div>
+
                 <!-- Password -->
                 <div>
                     <x-input-label for="password" :value="__('Password')" />
