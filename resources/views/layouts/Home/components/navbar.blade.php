@@ -9,10 +9,8 @@
             </div>
         </div>
         <nav class="hidden md:flex space-x-8">
-            <a href="#features" class="text-gray-600 hover:text-blue-500">Features</a>
-            <a href="#how-it-works" class="text-gray-600 hover:text-blue-500">How it works</a>
+            <a href="/" class="text-gray-600 hover:text-blue-500">Home</a>
             <a href="/explore" class="text-gray-600 hover:text-blue-500">Explore</a>
-            <a href="#testimonials" class="text-gray-600 hover:text-blue-500">Testimonials</a>
         </nav>
         @auth
             <div class="flex items-center space-x-4">

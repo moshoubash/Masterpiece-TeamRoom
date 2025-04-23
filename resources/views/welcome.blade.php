@@ -20,49 +20,38 @@
                 Book professional meeting rooms from local businesses and individuals at competitive rates
             </p>
 
-            <form class="flex flex-wrap bg-white max-w-4xl rounded-xl overflow-hidden border-2 border-gray-200 p-2 gap-2 md:gap-0 md:rounded-full md:flex-nowrap" action="" method="get">
+            <form class="flex flex-wrap bg-white max-w-4xl rounded-xl overflow-hidden border-2 border-gray-200 p-2 gap-2 md:gap-0 md:rounded-full md:flex-nowrap" action="{{route('explore')}}" method="get">
                 <!-- Location Select -->
                 <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Location</label>
-                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
-                        <option value="Amman">Amman</option>
-                        <option value="Aqaba">Aqaba</option>
-                        <option value="Irbid">Irbid</option>
-                        <option value="Zarqa">Zarqa</option>
-                        <option value="Madaba">Madaba</option>
-                        <option value="Jerash">Jerash</option>
-                        <option value="Karak">Karak</option>
-                        <option value="Ajloun">Ajloun</option>
-                        <option value="Salt">Salt</option>
-                        <option value="Petra">Petra</option>
-                        <option value="Wadi Rum">Wadi Rum</option>
-                        <option value="Dead Sea">Dead Sea</option>
+                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" name="location">
+                        <option value="amman">Amman</option>
+                        <option value="irbid">Irbid</option>
                     </select>
                 </div>
             
                 <!-- Date Input -->
                 <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Date</label>
-                    <input type="date" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" value="2025-02-12">
+                    <input type="date" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" name="date" value="2025-02-12">
                 </div>
             
                 <!-- Check-in Time -->
                 <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Check-in</label>
-                    <input type="time" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" value="19:00">
+                    <input type="time" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" name="start_time" value="19:00">
                 </div>
             
                 <!-- Capacity -->
                 <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
                     <label class="text-xs text-gray-500">Capacity</label>
-                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
-                        <option value="1">1 Person</option>
-                        <option value="2">2 People</option>
-                        <option value="3">3 People</option>
-                        <option value="4">4 People</option>
-                        <option value="5">5 People</option>
-                        <option value="6-10">6-10 People</option>
-                        <option value="10+">10+ People</option>
+                    <select name="capacity" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
+                        <option value="">Any capacity</option>
+                        <option value="4" {{ request('capacity') == '4' ? 'selected' : '' }}>4+ people</option>
+                        <option value="8" {{ request('capacity') == '8' ? 'selected' : '' }}>8+ people</option>
+                        <option value="12" {{ request('capacity') == '12' ? 'selected' : '' }}>12+ people</option>
+                        <option value="20" {{ request('capacity') == '20' ? 'selected' : '' }}>20+ people</option>
+                        <option value="50" {{ request('capacity') == '50' ? 'selected' : '' }}>50+ people</option>
                     </select>
                 </div>
             
@@ -237,7 +226,7 @@
             </div>
         
             <!-- Testimonials Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-rows-2 md:grid-cols-2 gap-6">
                 <!-- Testimonial 1 -->
                 <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                     <div class="flex items-center mb-4">

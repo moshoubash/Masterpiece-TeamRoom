@@ -13,7 +13,7 @@ class Space extends Model
 
     public function host()
     {
-        return $this->belongsTo(User::class, 'host_id', 'user_id');
+        return $this->belongsTo(User::class, 'host_id', 'id');
     }
 
     public function amenities()

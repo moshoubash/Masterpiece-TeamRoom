@@ -1,7 +1,6 @@
 <!-- resources/views/pages/explore.blade.php -->
 
 @extends('layouts.Home.layout')
-
 @section('content')
 <div class="py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,66 +89,28 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Time Range
                             </label>
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
                                 <div class="w-1/2">
-                                    <select id="start_time" name="start_time" class="w-full pl-3 pr-10 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                        <option value="">From</option>
-                                        @foreach(['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'] as $time)
-                                            <option value="{{ $time }}" {{ request('start_time') == $time ? 'selected' : '' }}>{{ $time }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="time" id="start_time" name="start_time" class="w-30 pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ request('start_time') }}">
                                 </div>
                                 <div class="w-1/2">
-                                    <select id="end_time" name="end_time" class="w-full pl-3 pr-10 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                        <option value="">To</option>
-                                        @foreach(['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'] as $time)
-                                            <option value="{{ $time }}" {{ request('end_time') == $time ? 'selected' : '' }}>{{ $time }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="time" id="end_time" name="end_time" class="w-30 pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="{{ request('end_time') }}">
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Features Filter with Icons -->
+                        <!-- Amenities Filter with Icons -->
                         <div class="mb-6">
                             <span class="block text-sm font-medium text-gray-700 mb-3">Amenities</span>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="projector" name="features[]" value="projector"
-                                           {{ in_array('projector', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="projector" class="ml-2 text-sm text-gray-700">Projector</label>
-                                </div>
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="whiteboard" name="features[]" value="whiteboard"
-                                           {{ in_array('whiteboard', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="whiteboard" class="ml-2 text-sm text-gray-700">Whiteboard</label>
-                                </div>
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="videoconference" name="features[]" value="videoconference"
-                                           {{ in_array('videoconference', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="videoconference" class="ml-2 text-sm text-gray-700">Video Conf</label>
-                                </div>
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="accessibility" name="features[]" value="accessibility"
-                                           {{ in_array('accessibility', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="accessibility" class="ml-2 text-sm text-gray-700">Accessible</label>
-                                </div>
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="coffee" name="features[]" value="coffee"
-                                           {{ in_array('coffee', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="coffee" class="ml-2 text-sm text-gray-700">Coffee</label>
-                                </div>
-                                <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <input type="checkbox" id="wifi" name="features[]" value="wifi"
-                                           {{ in_array('wifi', request('features', [])) ? 'checked' : '' }}
-                                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    <label for="wifi" class="ml-2 text-sm text-gray-700">WiFi</label>
-                                </div>
+                            <div class="grid grid-cols-1 gap-3">
+                                @foreach($amenities as $amenity)
+                                    <div class="flex items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                        <input type="checkbox" id="{{ $amenity->id }}" name="amenities[]" value="{{ $amenity->id }}"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            {{ in_array($amenity->id, request('amenities', [])) ? 'checked' : '' }}>
+                                        <label for="{{ $amenity->id }}" class="ml-2 text-sm text-gray-700"><span><i class="{{ $amenity->icon }}"></i></span> {{ $amenity->name }}</label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         
@@ -161,10 +122,8 @@
                             <div class="relative">
                                 <select id="location" name="location" class="w-full pl-3 pr-10 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">All Locations</option>
-                                    <option value="main" {{ request('location') == 'main' ? 'selected' : '' }}>Main Building</option>
-                                    <option value="east" {{ request('location') == 'east' ? 'selected' : '' }}>East Wing</option>
-                                    <option value="west" {{ request('location') == 'west' ? 'selected' : '' }}>West Wing</option>
-                                    <option value="north" {{ request('location') == 'north' ? 'selected' : '' }}>North Wing</option>
+                                    <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>Amman</option>
+                                    <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>Irbid</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                     <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,7 +172,7 @@
                 </div>
             </div>
             
-            <!-- Room Listings - 3 Cards Per Row -->
+            <!-- Room Listings - Horizontal Cards -->
             <div class="w-full lg:w-3/4">
                 @if($rooms->isEmpty())
                     <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center justify-center h-80">
@@ -229,14 +188,15 @@
                         <p class="text-gray-600">Showing <span class="font-medium">{{ $rooms->firstItem() }}</span> to <span class="font-medium">{{ $rooms->lastItem() }}</span> of <span class="font-medium">{{ $rooms->total() }}</span> spaces</p>
                     </div>
                     
-                    <!-- Modern Card Grid - 3 cards per row -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Horizontal Card Layout -->
+                    <div class="space-y-6">
                         @foreach($rooms as $room)
-                            <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col transition">
-                                <div class="relative h-48">
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row transition">
+                                <!-- Left side - Image -->
+                                <div class="relative w-full md:w-1/3">
                                     <img src="{{ asset('storage/' . $room->images->first()->image_url) }}" 
-                                         alt="{{ $room->name }}" 
-                                         class="object-cover w-full h-full">
+                                        alt="{{ $room->name }}" 
+                                        class="object-cover w-full h-full min-h-48 md:min-h-full">
                                     
                                     @if($room->is_active)
                                         <div class="absolute top-3 right-3">
@@ -256,43 +216,54 @@
                                     
                                     <div class="absolute bottom-3 left-3">
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            ${{ number_format($room->hourly_rate ?? rand(20, 100), 2) }}/hour
+                                            ${{ number_format($room->hourly_rate, 2) }}/hour
                                         </span>
                                     </div>
                                 </div>
                                 
-                                <div class="p-5 flex-grow">
-                                    <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $room->name ?? 'Meeting Room ' . $loop->iteration }}</h3>
-                                    
-                                    <div class="flex items-center text-sm text-gray-600 mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        {{ $room->location ?? 'Main Building' }}
+                                <!-- Right side - Details -->
+                                <div class="flex flex-col w-full md:w-2/3">
+                                    <div class="p-5 flex-grow">
+                                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $room->title }}</h3>
+                                        
+                                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            {{ $room->city ?? 'Main Building' }}
+                                        </div>
+                                        
+                                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                                            <!-- user svg -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                            {{ $room->host->first_name }} {{ $room->host->last_name }}
+                                        </div>
+
+                                        <div class="flex items-center text-sm text-gray-600 mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                            {{ $room->capacity }} People
+                                        </div>
+                                        
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            @foreach($room->amenities as $amenity)
+                                                <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+                                                    <i class="{{ $amenity->icon }}"></i> {{ $amenity->name }}
+                                                </span>
+                                            @endforeach
+                                        </div>
                                     </div>
                                     
-                                    <div class="flex items-center text-sm text-gray-600 mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        {{ $room->capacity ?? rand(4, 30) }} People
+                                    <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 mt-auto">
+                                        <a href="{{route('rooms.details', $room->slug)}}" 
+                                        class="block w-full text-center bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                                            View Details
+                                        </a>
                                     </div>
-                                    
-                                    <div class="mt-4 flex flex-wrap gap-2">
-                                        @foreach($room->features ?? ['projector', 'whiteboard', 'wifi'] as $feature)
-                                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-                                                {{ ucfirst($feature) }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                
-                                <div class="px-5 py-4 bg-gray-50 border-t border-gray-100">
-                                    <a href="{{route('rooms.details', $room->slug)}}" 
-                                       class="block w-full text-center bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-150 ease-in-out">
-                                        View Details
-                                    </a>
                                 </div>
                             </div>
                         @endforeach

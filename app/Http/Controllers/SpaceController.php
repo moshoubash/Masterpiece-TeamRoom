@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Amenity;
 use App\Models\SpaceAvailability;
+use Carbon\Carbon;
 
 class SpaceController extends Controller
 {
@@ -61,8 +62,71 @@ class SpaceController extends Controller
         return back();
     }
 
-    public function explore() {
-        return view('pages.explore', ['rooms' => Space::with('images')->paginate(10)]);
+    public function explore(Request $request)
+    {
+        $spaces = Space::with(['images', 'host']);
+
+        if ($request->filled('search')) {
+            $spaces->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('city', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Capacity filter
+        if ($request->filled('capacity')) {
+            $spaces->where('capacity', '>=', $request->capacity);
+        }
+
+        // Date filter
+        if ($request->filled('date')) {
+            $selectedDay = Carbon::parse($request->date)->format('l');
+            
+            $spaces->whereHas('availability', function ($q) use ($selectedDay) {
+                $q->where('day_of_week', $selectedDay);
+            });
+        }
+
+        // Time Range filter
+        if ($request->filled('start_time') && $request->filled('end_time')) {
+            $spaces->whereHas('availability', function ($query) use ($request) {
+                $query->where('start_time', '<=', $request->start_time)
+                      ->where('end_time', '>=', $request->end_time);
+            });
+        }
+
+        // Amenities filter (assuming pivot table or JSON column)
+        if ($request->filled('amenities')) {
+            foreach ($request->amenities as $amenityId) {
+                $spaces->whereHas('amenities', function ($q) use ($amenityId) {
+                    $q->where('id', $amenityId);
+                });
+            }
+        }
+
+        // Location filter
+        if ($request->filled('location')) {
+            $spaces->where('city', $request->location);
+        }
+
+        // Price Range filter
+        if ($request->filled('min_price')) {
+            $spaces->where('hourly_rate', '>=', $request->min_price);
+        }
+        if ($request->filled('max_price')) {
+            $spaces->where('hourly_rate', '<=', $request->max_price);
+        }
+
+        // Paginate and pass to view
+        $spaces = $spaces->paginate(10)->appends($request->query());
+
+        // Assuming $amenities for sidebar
+        $amenities = Amenity::all();
+
+        return view('pages.explore', [
+            'rooms' => $spaces,
+            'amenities' => $amenities
+        ]);
     }
 
     public function roomDetails(string $slug) {
