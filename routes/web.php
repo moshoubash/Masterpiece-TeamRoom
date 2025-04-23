@@ -91,5 +91,5 @@ Route::get('/explore', [SpaceController::class, 'explore'])->name('explore');
 Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
 Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
-
+Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth');
 require __DIR__.'/auth.php';

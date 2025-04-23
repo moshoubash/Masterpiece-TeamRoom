@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Space;
+use App\Models\SpaceImage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use App\Models\Amenity;
+use App\Models\SpaceAvailability;
 
 class SpaceController extends Controller
 {
@@ -58,11 +62,11 @@ class SpaceController extends Controller
     }
 
     public function explore() {
-        return view('pages.explore', ['rooms' => Space::paginate(10)]);
+        return view('pages.explore', ['rooms' => Space::with('images')->paginate(10)]);
     }
 
     public function roomDetails(string $slug) {
-        $space = Space::where('slug', $slug)->first();
+        $space = Space::with('images')->where('slug', $slug)->first();
         return view('pages.spaces.details', ['space' => $space]);
     }
 
@@ -72,10 +76,73 @@ class SpaceController extends Controller
         }
         
         $currentStep = 1;
-        $completionPercentage = 25;
+        $completionPercentage = 20;
+
+        $amenities = Amenity::all();
+        
         return view('pages.spaces.create', [
             'currentStep' => $currentStep,
-            'completionPercentage' => $completionPercentage
+            'completionPercentage' => $completionPercentage,
+            'amenities' => $amenities
         ]);
+    }
+
+    public function store(Request $request) {
+        $space = Space::create([
+            'host_id' => Auth::id(),
+            'title' => $request->title,
+            'description' => $request->description,
+            'street_address' => $request->street_address,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'country' => $request->country,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'capacity' => $request->capacity,
+            'hourly_rate' => $request->hourly_rate,
+            'min_booking_duration' => $request->min_booking_duration,
+            'max_booking_duration' => $request->max_booking_duration,
+            'is_active' => true,
+            'is_deleted' => false,
+            'slug' => Str::slug($request->title . '-' . time()), // Unique slug
+        ]);
+    
+        // Handle image uploads if exist
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('space_images', 'public');
+                
+                SpaceImage::create([
+                    'space_id' => $space->id,
+                    'image_url' => $path,
+                    'caption' => $space->title
+                ]);
+            }
+        }
+
+        // Handle Amenities
+        if ($request->has('amenities')) {
+            $space->amenities()->attach($request->amenities);
+        }
+
+        // Handle Availabilities
+        if ($request->has('availability')) {
+            foreach ($request->availability as $day => $data) {
+                // Save only if checkbox is ticked
+                if (isset($data['is_available'])) {
+                    SpaceAvailability::create([
+                        'space_id' => $space->id,
+                        'day_of_week' => $day,
+                        'start_time' => $data['start_time'],
+                        'end_time' => $data['end_time'],
+                        'is_available' => true,
+                    ]);
+                }
+            }
+        }
+
+        $space->save();
+
+        return view('welcome');
     }
 }

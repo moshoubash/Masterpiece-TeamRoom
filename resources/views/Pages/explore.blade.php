@@ -234,11 +234,11 @@
                         @foreach($rooms as $room)
                             <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col transition">
                                 <div class="relative h-48">
-                                    <img src="{{ $room->image_url ?? asset('images/placeholder-room.jpg') }}" 
+                                    <img src="{{ asset('storage/' . $room->images->first()->image_url) }}" 
                                          alt="{{ $room->name }}" 
                                          class="object-cover w-full h-full">
                                     
-                                    @if($room->is_available ?? rand(0, 1))
+                                    @if($room->is_active)
                                         <div class="absolute top-3 right-3">
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>

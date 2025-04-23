@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('street_address', 255);
             $table->string('city', 255);
-            $table->string('state', 255)->nullable();
             $table->string('postal_code', 255);
             $table->string('country', 255);
             $table->decimal('latitude', 10, 8)->nullable();
