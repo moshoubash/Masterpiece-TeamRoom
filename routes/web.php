@@ -9,12 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 
-Route::get('/', function(){
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', function() {
@@ -93,4 +92,5 @@ Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('us
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
 Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth');
 Route::post('/booking/store', [BookingController::class, 'store'])->name('spaces.book')->middleware('auth');
+
 require __DIR__.'/auth.php';

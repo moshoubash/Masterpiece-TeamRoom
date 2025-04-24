@@ -67,6 +67,19 @@ class SpaceController extends Controller
     {
         $spaces = Space::with(['images', 'host']);
 
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $spaces->orderBy('hourly_rate', 'asc');
+                    break;
+                case 'price_desc':
+                    $spaces->orderBy('hourly_rate', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
         if ($request->filled('search')) {
             $spaces->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%')

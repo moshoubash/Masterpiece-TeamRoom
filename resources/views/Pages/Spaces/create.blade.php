@@ -1,6 +1,5 @@
 @extends('layouts.home.layout')
 @section('styles')
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 @endsection
 @section('content')
@@ -244,6 +243,7 @@
         const map = L.map('map').setView([30.5852, 36.2384], 7); // Default: Jordan
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 

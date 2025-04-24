@@ -225,8 +225,10 @@
                         <img src="https://via.placeholder.com/50x50" alt="Host Avatar"
                             class="w-12 h-12 rounded-full mr-4">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800">{{ $space->host->first_name }}
-                                {{ $space->host->last_name }}</h3>
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                    <a href="{{route('user.profile', $space->host->id)}}">{{ $space->host->first_name }} {{ $space->host->last_name }}
+                                </h3>
+                            </a>
                             <p class="text-gray-600">Host</p>
                         </div>
                     </div>

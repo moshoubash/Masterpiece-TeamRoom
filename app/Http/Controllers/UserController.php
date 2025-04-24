@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Space;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class UserController extends Controller
 {
     /**
@@ -109,9 +111,9 @@ class UserController extends Controller
 
     public function profile(string $id){
         $user = User::findOrFail($id);
+        
         $role = strtoupper($user->roles()->first()->name);
-
-        if($role == 'ADMIN'){
+        if($role == 'ADMIN' || $user->is_deleted == true){
             return back();
         }
 
@@ -119,7 +121,21 @@ class UserController extends Controller
         $created_at = $user->created_at->format('M d, Y');
         $profile_image = $user->profile_picture_url;
 
-        $spaces = Space::where('host_id', $id)->get();
+        if($role == 'HOST'){
+            $spaces = Space::where('host_id', $id)->get();
+
+            return view('pages.users.profile', [
+                'user' => $user,
+                'role' => $role,
+                'name' => $name,
+                'created_at' => $created_at,
+                'profile_image' => $profile_image,
+                'spaces' => $spaces,
+                'is_verified' => $user->is_verified
+            ]);
+        }
+
+        $bookings = $user->bookingsAsRenter()->with('space')->get();
 
         return view('pages.users.profile', [
             'user' => $user,
@@ -127,8 +143,8 @@ class UserController extends Controller
             'name' => $name,
             'created_at' => $created_at,
             'profile_image' => $profile_image,
-            'spaces' => $spaces,
-            'is_verified' => $user->is_verified
+            'is_verified' => $user->is_verified,
+            'bookings' => $bookings
         ]);
     }
 }

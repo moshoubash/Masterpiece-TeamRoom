@@ -49,42 +49,42 @@ class User extends Authenticatable
 
     public function spaces()
     {
-        return $this->hasMany(Space::class, 'host_id', 'user_id');
+        return $this->hasMany(Space::class, 'host_id', 'id');
     }
 
     public function bookingsAsRenter()
     {
-        return $this->hasMany(Booking::class, 'renter_id', 'user_id');
+        return $this->hasMany(Booking::class, 'renter_id', 'id');
     }
 
     public function bookingsCancelled()
     {
-        return $this->hasMany(Booking::class, 'cancelled_by', 'user_id');
+        return $this->hasMany(Booking::class, 'cancelled_by', 'id');
     }
 
     public function reviewsAsReviewer()
     {
-        return $this->hasMany(Review::class, 'reviewer_id', 'user_id');
+        return $this->hasMany(Review::class, 'reviewer_id', 'id');
     }
 
     public function reviewsAsReviewee()
     {
-        return $this->hasMany(Review::class, 'reviewee_id', 'user_id');
+        return $this->hasMany(Review::class, 'reviewee_id', 'id');
     }
 
     public function sentMessages()
     {
-        return $this->hasMany(Message::class, 'sender_id', 'user_id');
+        return $this->hasMany(Message::class, 'sender_id', 'id');
     }
 
     public function receivedMessages()
     {
-        return $this->hasMany(Message::class, 'recipient_id', 'user_id');
+        return $this->hasMany(Message::class, 'recipient_id', 'id');
     }
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class, 'user_id', 'user_id');
+        return $this->hasMany(Notification::class, 'user_id', 'id');
     }
 
     public function roles()
@@ -94,11 +94,11 @@ class User extends Authenticatable
 
     public function activities()
     {
-        return $this->hasMany(Activity::class, 'user_id', 'user_id');
+        return $this->hasMany(Activity::class, 'user_id', 'id');
     }
 
     public function addresses()
     {
-        return $this->hasMany(Address::class, 'user_id', 'user_id');
+        return $this->hasMany(Address::class, 'user_id', 'id');
     }
 }
