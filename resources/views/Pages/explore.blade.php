@@ -4,6 +4,12 @@
 @section('content')
 <div class="py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+    <div class="flex items-center text-sm text-gray-600 mb-4">
+        <a href="/" class="hover:text-blue-600">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{{route('explore')}}" class="hover:text-blue-600">Explore</a>
+    </div>
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-4 md:mb-0">
                 Discover Spaces

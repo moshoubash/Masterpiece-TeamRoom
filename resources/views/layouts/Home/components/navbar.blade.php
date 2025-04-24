@@ -14,7 +14,12 @@
         </nav>
         @auth
             <div class="flex items-center space-x-4">
-                <a href="{{route('user.profile', Auth::user()->id)}}" class="text-blue-500 font-medium hover:text-blue-600">Profile</a>
+                @if(Auth::user()->roles[0]->name == 'admin')
+                    <a href="/dashboard" class="text-blue-500 font-medium hover:text-blue-600">Dashboard</a>
+                @else
+                    <a href="{{route('user.profile', Auth::user()->id)}}" class="text-blue-500 font-medium hover:text-blue-600">Profile</a>
+                @endif
+                
                 <form action="{{route('logout')}}" method="POST">
                     @csrf
                     <button class="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer">Sign out</button>

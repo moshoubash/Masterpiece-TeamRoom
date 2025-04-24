@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -56,5 +57,32 @@ class BookingController extends Controller
         $booking->delete();
         
         return back();
+    }
+
+    public function store(Request $request){
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
+        $date = $request->date;
+
+        $start_datetime = date('Y-m-d H:i:s', strtotime("$date $start_time"));
+        $end_datetime = date('Y-m-d H:i:s', strtotime("$date $end_time"));
+
+        $request->merge([
+            'start_datetime' => $start_datetime,
+            'end_datetime' => $end_datetime,
+        ]);
+
+        Booking::create([
+            'space_id' => $request->space_id,
+            'renter_id' => Auth::user()->id,
+            'start_datetime' => $start_datetime,
+            'end_datetime' => $end_datetime,
+            'num_attendees' => $request->num_attendees,
+            'total_price' => $request->total_price,
+            'service_fee' => $request->service_fee,
+            'host_payout' => $request->host_payout
+        ]);
+        
+        return redirect()->back();
     }
 }

@@ -190,80 +190,81 @@
             </div>
         </form>
     </div>
+@endsection
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentStep = 1;
+        const totalSteps = 5;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let currentStep = 1;
-            const totalSteps = 5;
+        const stepElements = document.querySelectorAll('.step-content');
+        const nextButtons = document.querySelectorAll('.next-step');
+        const prevButtons = document.querySelectorAll('.prev-step');
+        const submitButton = document.getElementById('submit-listing');
+        const progressBar = document.getElementById('progress-bar');
+        const currentStepElement = document.getElementById('current-step');
+        const completionPercentageElement = document.getElementById('completion-percentage');
 
-            const stepElements = document.querySelectorAll('.step-content');
-            const nextButtons = document.querySelectorAll('.next-step');
-            const prevButtons = document.querySelectorAll('.prev-step');
-            const submitButton = document.getElementById('submit-listing');
-            const progressBar = document.getElementById('progress-bar');
-            const currentStepElement = document.getElementById('current-step');
-            const completionPercentageElement = document.getElementById('completion-percentage');
-
-            nextButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                    currentStep++;
-                    document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                    updateProgress();
-                });
-            });
-
-            prevButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                    currentStep--;
-                    document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                    updateProgress();
-                });
-            });
-
-            if (submitButton) {
-                submitButton.addEventListener('click', () => {
-                    document.getElementById('listing-form').submit();
-                });
-            }
-
-            function updateProgress() {
-                const completionPercentage = (currentStep / totalSteps) * 100;
-                currentStepElement.textContent = currentStep;
-                completionPercentageElement.textContent = completionPercentage;
-                progressBar.style.width = `${completionPercentage}%`;
-            }
-        });
-    </script>
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const map = L.map('map').setView([30.5852, 36.2384], 7); // Default: Jordan
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
-
-            let marker;
-
-            map.on('click', function(e) {
-                const {
-                    lat,
-                    lng
-                } = e.latlng;
-
-                if (marker) {
-                    marker.setLatLng([lat, lng]);
-                } else {
-                    marker = L.marker([lat, lng]).addTo(map);
-                }
-
-                // Fill hidden fields
-                document.getElementById('latitude').value = lat;
-                document.getElementById('longitude').value = lng;
+        nextButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep++;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                updateProgress();
             });
         });
-    </script>
+
+        prevButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep--;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                updateProgress();
+            });
+        });
+
+        if (submitButton) {
+            submitButton.addEventListener('click', () => {
+                document.getElementById('listing-form').submit();
+            });
+        }
+
+        function updateProgress() {
+            const completionPercentage = (currentStep / totalSteps) * 100;
+            currentStepElement.textContent = currentStep;
+            completionPercentageElement.textContent = completionPercentage;
+            progressBar.style.width = `${completionPercentage}%`;
+        }
+    });
+</script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const map = L.map('map').setView([30.5852, 36.2384], 7); // Default: Jordan
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let marker;
+
+        map.on('click', function(e) {
+            const {
+                lat,
+                lng
+            } = e.latlng;
+
+            if (marker) {
+                marker.setLatLng([lat, lng]);
+            } else {
+                marker = L.marker([lat, lng]).addTo(map);
+            }
+
+            // Fill hidden fields
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+        });
+    });
+</script>
 @endsection

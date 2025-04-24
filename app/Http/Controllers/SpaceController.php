@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Amenity;
 use App\Models\SpaceAvailability;
+use App\Models\Review;
 use Carbon\Carbon;
 
 class SpaceController extends Controller
@@ -131,7 +132,12 @@ class SpaceController extends Controller
 
     public function roomDetails(string $slug) {
         $space = Space::with('images')->where('slug', $slug)->first();
-        return view('pages.spaces.details', ['space' => $space]);
+        $availability = SpaceAvailability::where('space_id', $space->id)->where('day_of_week', now()->dayOfWeek)->first();
+        $hostSpaces = Space::where('host_id', $space->host_id)->get();
+        $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
+        $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
+        
+        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
     }
 
     public function create(){
