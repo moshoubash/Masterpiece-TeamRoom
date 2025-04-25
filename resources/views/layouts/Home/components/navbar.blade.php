@@ -11,6 +11,7 @@
         <nav class="hidden md:flex space-x-8">
             <a href="/" class="text-gray-600 hover:text-blue-500">Home</a>
             <a href="/explore" class="text-gray-600 hover:text-blue-500">Explore</a>
+            <a href="/contact" class="text-gray-600 hover:text-blue-500">Contact</a>
         </nav>
         @auth
             <div class="flex items-center space-x-4">

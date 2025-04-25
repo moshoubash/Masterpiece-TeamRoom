@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
@@ -101,6 +102,10 @@ Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('u
 Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
 Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
 
+Route::get('/contact', function () {
+    return view('pages.contact');
+});
 
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 require __DIR__.'/auth.php';
