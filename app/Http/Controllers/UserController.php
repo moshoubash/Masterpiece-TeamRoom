@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Space;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -110,11 +111,16 @@ class UserController extends Controller
     }
 
     public function profile(string $id){
-        $user = User::findOrFail($id);
+        $user = User::where('id', $id)->first();
         
+        if($user == null){
+            return view('pages.404');
+        }
+
         $role = strtoupper($user->roles()->first()->name);
-        if($role == 'ADMIN' || $user->is_deleted == true){
-            return back();
+        
+        if($role == 'ADMIN' || $role == 'SUPERADMIN' || $user->is_deleted == true){
+            return view('pages.404');
         }
 
         $name = $user->first_name . ' ' . $user->last_name;
@@ -146,5 +152,54 @@ class UserController extends Controller
             'is_verified' => $user->is_verified,
             'bookings' => $bookings
         ]);
+    }
+
+    public function profileEdit(string $id){
+        
+        $user = User::where('id', $id)->first();
+
+        if($user == null){
+            return view('pages.404');
+        }
+
+        if($user->is_deleted == true || $user->id != Auth::user()->id){
+            return view('pages.404');
+        }
+
+        return view('pages.users.edit', ['user' => $user]);
+    }
+
+    public function updateProfile(Request $request, string $id){
+        $user = User::findOrFail($id);
+        
+        $request->validate([
+            'first_name' => 'sometimes|required|string|max:255',
+            'last_name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'sometimes|string|min:8|confirmed|required',
+            'bio' => 'nullable|string|max:500',
+            'phone_number' => 'nullable|string|max:15',
+            'profile_picture_url' => 'nullable|url|max:255',
+            'company_name' => 'nullable|string|max:255',
+        ]);
+
+        $user->update($request->all());
+        
+        return back()->with('message', 'user updated successfully.');
+    }
+
+    public function updatePassword(Request $request, string $id){
+        $user = User::where('id', $id)->first();
+
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Auth::logout();
+
+        return redirect('/login')->with('message', 'password updated successfully.');
     }
 }

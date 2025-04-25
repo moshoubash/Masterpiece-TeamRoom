@@ -97,4 +97,10 @@ Route::post('/booking/checkout', [PaymentController::class, 'checkout'])->name('
 Route::post('/booking/process', [PaymentController::class, 'process'])->name('payment.process')->middleware('auth');
 Route::get('/bookings/confirmation/{booking}', [PaymentController::class, 'confirmation'])->name('bookings.confirmation')->middleware('auth');
 
+Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
+Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
+Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
+
+
+
 require __DIR__.'/auth.php';

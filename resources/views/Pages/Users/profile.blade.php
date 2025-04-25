@@ -44,10 +44,12 @@
                 @auth
                     @if ($user->id == Auth::user()->id)
                         <div class="mt-4 md:mt-0">
-                            <button
-                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition">
-                                Edit Profile
-                            </button>
+                            <form action="{{ route('user.edit', $user->id) }}">
+                                <button
+                                    class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition">
+                                    Edit Profile
+                                </button>
+                            <form>
                         </div>
                     @endif
                 @endauth
