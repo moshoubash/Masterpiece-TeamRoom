@@ -133,35 +133,7 @@
                 </div>
             </div>
 
-            <!-- Hosting Statistics -->
-            <div>
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Hosting Statistics</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Total Bookings -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-gray-600 mb-2">Total Bookings</h3>
-                        <p class="text-3xl font-bold text-gray-900">142</p>
-                    </div>
-
-                    <!-- Average Rating -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-gray-600 mb-2">Average Rating</h3>
-                        <p class="text-3xl font-bold text-gray-900">4.8/5</p>
-                    </div>
-
-                    <!-- Total Revenue -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-gray-600 mb-2">Total Revenue</h3>
-                        <p class="text-3xl font-bold text-gray-900">$2,500</p>
-                    </div>
-
-                    <!-- Total Reviews -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h3 class="text-gray-600 mb-2">Total Reviews</h3>
-                        <p class="text-3xl font-bold text-gray-900">42</p>
-                    </div>
-                </div>
-            </div>
+            
         @else
             <!-- Renter Bookings -->
             <div>

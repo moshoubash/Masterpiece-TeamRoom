@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Space;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -15,6 +15,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->roles->first()->name !== 'admin') {
+            abort(403);
+        }
+
         $totalRevenue = Booking::where('status', 'completed')->sum('total_price');
         $totalUsers = User::count();
         $totalSpaces = Space::where('is_active', true)->count();
@@ -26,53 +30,5 @@ class DashboardController extends Controller
             'totalSpaces' => $totalSpaces,
             'totalBookings' => $totalBookings
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

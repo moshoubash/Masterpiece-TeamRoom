@@ -12,6 +12,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -92,5 +93,8 @@ Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('us
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
 Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth');
 Route::post('/booking/store', [BookingController::class, 'store'])->name('spaces.book')->middleware('auth');
+Route::post('/booking/checkout', [PaymentController::class, 'checkout'])->name('booking.checkout')->middleware('auth');
+Route::post('/booking/process', [PaymentController::class, 'process'])->name('payment.process')->middleware('auth');
+Route::get('/bookings/confirmation/{booking}', [PaymentController::class, 'confirmation'])->name('bookings.confirmation')->middleware('auth');
 
 require __DIR__.'/auth.php';
