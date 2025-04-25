@@ -112,4 +112,7 @@ Route::get('/about', function () {
 
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
+
+Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
+
 require __DIR__.'/auth.php';

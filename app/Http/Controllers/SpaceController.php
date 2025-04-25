@@ -187,7 +187,7 @@ class SpaceController extends Controller
             'max_booking_duration' => $request->max_booking_duration,
             'is_active' => true,
             'is_deleted' => false,
-            'slug' => Str::slug($request->title . '-' . time()), // Unique slug
+            'slug' => Str::slug($request->title . '-' . time()), 
         ]);
     
         // Handle image uploads if exist

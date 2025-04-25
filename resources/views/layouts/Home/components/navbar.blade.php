@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="shadow-lg shadow-blue-500/5">
+<header class="shadow-lg shadow-blue-500/5 bg-white sticky top-0 left-0 w-full z-100">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
             <div class="h-10 rounded-lg flex items-center justify-center">

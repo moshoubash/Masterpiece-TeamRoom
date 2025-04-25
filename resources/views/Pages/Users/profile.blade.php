@@ -142,6 +142,7 @@
                 <div class="grid grid-cols-2 xm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-6">
                     @foreach ($bookings as $booking)
                         <div class="bg-white rounded-lg shadow p-6">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Booking ID: {{ $booking->id }}</h2>
                             <h3 class="text-gray-600 mb-2">{{ $booking->space->name }}</h3>
                             <p class="text-gray-600 mb-2">{{ $booking->space->city }}</p>
                             <p class="text-gray-600 mb-2">{{ $booking->start_datetime }} - {{ $booking->end_datetime }}
@@ -152,7 +153,7 @@
                                 <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
                             </div>
                             <div class="flex space-x-2">
-                                <a href="{{ route('rooms.details', [$booking->space->slug]) }}"
+                                <a href="{{ route('bookings.details', $booking->id) }}"
                                     class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
                             </div>
                         </div>

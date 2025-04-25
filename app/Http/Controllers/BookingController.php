@@ -85,4 +85,25 @@ class BookingController extends Controller
         
         return redirect()->back();
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function info(string $id) {
+        $booking = Booking::find($id);
+
+        // check authentication
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
+
+        if($booking->renter_id == Auth::user()->id){
+            return view('pages.users.bookings.details', compact('booking'));
+        }
+
+        return view('pages.404');
+    }
 }
