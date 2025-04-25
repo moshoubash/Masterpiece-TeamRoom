@@ -106,6 +106,10 @@ Route::get('/contact', function () {
     return view('pages.contact');
 });
 
+Route::get('/about', function () {
+    return view('pages.about');
+});
+
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 require __DIR__.'/auth.php';

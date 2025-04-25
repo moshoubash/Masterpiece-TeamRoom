@@ -1,14 +1,18 @@
 @extends('layouts.home.layout')
 
 @section('content')
+<!-- Page Header -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-700 py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl font-bold text-white mb-4">Get in touch</h1>
+            <p class="text-xl text-white/90">We'd love to hear from you. Please fill out the form below and we'll get back to you as soon as possible.</p>
+        </div>
+    </div>
+</div>
 <div class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
-        <!-- Page Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Contact Us</h1>
-            <p class="text-lg text-gray-600">We'd love to hear from you. Please fill out the form below and we'll get back to you as soon as possible.</p>
-        </div>
-
+        <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Contact Us</h1>
         <!-- Contact Form Section -->
         <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
             @if(session('success'))
