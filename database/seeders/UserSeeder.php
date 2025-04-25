@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -21,6 +22,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Renter',
             'email' => 'renter@example.com',
             'password' => Hash::make('123123123'),
+            'slug' => Str::slug("Renter Renter" . '-' . time()),
         ]);
 
         $renterRole = Role::where('name', 'renter')->first();
@@ -32,6 +34,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Host',
             'email' => 'host@example.com',
             'password' => Hash::make('123123123'),
+            'slug' => Str::slug("Host Host" . '-' . time()),
         ]);
 
         $hostRole = Role::where('name', 'host')->first();
@@ -43,6 +46,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('123123123'),
+            'slug' => Str::slug("Admin Admin" . '-' . time()),
         ]);
 
         $adminRole = Role::where('name', 'admin')->first();
@@ -54,6 +58,7 @@ class UserSeeder extends Seeder
             'last_name' => 'SuperAdmin',
             'email' => 'superadmin@example.com',
             'password' => Hash::make('123123123'),
+            'slug' => Str::slug("SuperAdmin SuperAdmin" . '-' . time()),
         ]);
 
         $superAdminRole = Role::where('name', 'superadmin')->first();

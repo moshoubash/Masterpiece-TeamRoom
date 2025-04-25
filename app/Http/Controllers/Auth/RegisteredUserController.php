@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 use App\Models\Role;
 
 class RegisteredUserController extends Controller
@@ -44,6 +45,7 @@ class RegisteredUserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
+            'slug' => Str::slug($request->first_name . '-' . $request->last_name . '-' . time()),
         ]);
 
         if($request->role == 'renter'){

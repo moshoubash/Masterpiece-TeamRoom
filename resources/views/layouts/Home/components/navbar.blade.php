@@ -17,7 +17,7 @@
                 @if(Auth::user()->roles[0]->name == 'admin')
                     <a href="/dashboard" class="text-blue-500 font-medium hover:text-blue-600">Dashboard</a>
                 @else
-                    <a href="{{route('user.profile', Auth::user()->id)}}" class="text-blue-500 font-medium hover:text-blue-600">Profile</a>
+                    <a href="{{route('user.profile', Auth::user()->slug)}}" class="text-blue-500 font-medium hover:text-blue-600">Profile</a>
                 @endif
                 
                 <form action="{{route('logout')}}" method="POST">

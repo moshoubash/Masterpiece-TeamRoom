@@ -110,8 +110,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function profile(string $id){
-        $user = User::where('id', $id)->first();
+    public function profile(string $slug){
+        $user = User::where('slug', $slug)->first();
         
         if($user == null){
             return view('pages.404');
@@ -128,7 +128,7 @@ class UserController extends Controller
         $profile_image = $user->profile_picture_url;
 
         if($role == 'HOST'){
-            $spaces = Space::where('host_id', $id)->get();
+            $spaces = Space::where('host_id', $user->id)->get();
 
             return view('pages.users.profile', [
                 'user' => $user,
@@ -154,9 +154,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function profileEdit(string $id){
+
+    public function profileEdit(string $slug){
         
-        $user = User::where('id', $id)->first();
+        $user = User::where('slug', $slug)->first();
 
         if($user == null){
             return view('pages.404');

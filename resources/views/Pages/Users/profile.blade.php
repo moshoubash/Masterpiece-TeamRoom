@@ -44,7 +44,7 @@
                 @auth
                     @if ($user->id == Auth::user()->id)
                         <div class="mt-4 md:mt-0">
-                            <form action="{{ route('user.edit', $user->id) }}">
+                            <form action="{{ route('user.edit', $user->slug) }}">
                                 <button
                                     class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition">
                                     Edit Profile
@@ -63,18 +63,16 @@
                     <h2 class="text-xl font-bold text-gray-900">Listed Spaces</h2>
                     @auth
                         @if ($role == 'HOST' && $user->id == Auth::user()->id)
-                            <form action="{{ route('room.create') }}">
-                                <button
-                                    class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition flex items-center cursor-pointer">
-                                    <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    List New Space
-                                </button>
-                            </form>
+                            <a href="{{ route('room.create') }}"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition flex items-center cursor-pointer">
+                                <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                List New Space
+                            </a>
                         @endif
                     @endauth
                 </div>
