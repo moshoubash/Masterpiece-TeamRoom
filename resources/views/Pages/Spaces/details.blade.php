@@ -15,6 +15,12 @@
             <span class="font-medium text-gray-900">{{ $space->title }}</span>
         </div>
 
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                {{ session('success') }}
+            </div>     
+        @endif
+
         <!-- Room Title and Actions -->
         <div class="flex justify-between items-center mb-6">
             <div>
@@ -212,6 +218,9 @@
 
                         <!-- Book Now Button -->
                         <button type="submit"
+                            @if(Auth::check() && Auth::user()->roles->first()->name == 'host') 
+                                disabled 
+                            @endif
                             class="cursor-pointer w-full bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
                             Book Now
                         </button>
@@ -227,7 +236,7 @@
                             class="w-12 h-12 rounded-full mr-4">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">
-                                <a href="{{ route('user.profile', $space->host->id) }}">{{ $space->host->first_name }}
+                                <a href="{{ route('user.profile', $space->host->slug) }}">{{ $space->host->first_name }}
                                     {{ $space->host->last_name }}
                             </h3>
                             </a>

@@ -17,7 +17,7 @@ use App\Http\Controllers\PaymentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', function() {
         return view('dashboard');
     });
@@ -49,7 +49,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/settings', [UserController::class, 'adminSettings']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'admin')->group(function () {
     // Route for the Users
     Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
 
@@ -60,7 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Route for the Roles
-
     Route::resource('/dashboard/roles', RoleController::class);
 
     // Route for the Spaces
@@ -89,30 +88,28 @@ Route::middleware('auth')->group(function () {
 // Routes for public website
 
 Route::get('/explore', [SpaceController::class, 'explore'])->name('explore');
-Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
 Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
+
+Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
 Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth');
+Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit')->middleware('auth');
+Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update')->middleware('auth');
+
 Route::post('/booking/store', [BookingController::class, 'store'])->name('spaces.book')->middleware('auth');
 Route::post('/booking/checkout', [PaymentController::class, 'checkout'])->name('booking.checkout')->middleware('auth');
 Route::post('/booking/process', [PaymentController::class, 'process'])->name('payment.process')->middleware('auth');
 Route::get('/bookings/confirmation/{booking}', [PaymentController::class, 'confirmation'])->name('bookings.confirmation')->middleware('auth');
+Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
 
 Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
 Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
 Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
 
-Route::get('/contact', function () {
-    return view('pages.contact');
-});
-
-Route::get('/about', function () {
-    return view('pages.about');
-});
-
+Route::get('/contact', function () { return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/about', function () { return view('pages.about'); });
 
 
-Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
 
 require __DIR__.'/auth.php';

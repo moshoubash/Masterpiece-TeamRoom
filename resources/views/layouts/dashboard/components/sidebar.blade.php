@@ -1,7 +1,7 @@
 <nav class="pc-sidebar pc-trigger">
     <div class="navbar-wrapper" style="display: block;">
         <div class="m-header">
-            <a href="/" class="b-brand text-primary">
+            <a href="/dashboard" class="b-brand text-primary">
                 <!-- ========   Change your logo from here   ============ -->
                 <img src="{{ asset('assets/dashboard/images/team-room-dashboard.svg') }}" width="150" class="img-fluid logo-lg" alt="logo">
             </a>

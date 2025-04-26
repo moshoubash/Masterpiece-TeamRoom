@@ -129,7 +129,6 @@ class UserController extends Controller
 
         if($role == 'HOST'){
             $spaces = Space::where('host_id', $user->id)->get();
-
             return view('pages.users.profile', [
                 'user' => $user,
                 'role' => $role,

@@ -84,23 +84,18 @@
                                 <div class="relative">
                                     <img src="{{ asset('storage/' . $space->images->first()->image_url) }}"
                                         alt="Executive Meeting Room" class="w-full h-48 object-cover">
-                                    <div class="absolute top-3 right-3 space-x-2">
-                                        <button class="bg-white p-2 rounded-md shadow hover:bg-gray-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600"
+                                    {{-- enable this section for the owner or host --}}
+                                    @if (Auth::check() && $role == 'HOST' && $user->id == Auth::user()->id)
+                                        <div class="absolute top-3 right-3 space-x-2">
+                                        <a href="{{ route('space.edit', $space->slug) }}" class="cursor-pointer bg-white p-2 w-9 h-9 flex items-center justify-center rounded-md shadow hover:bg-gray-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600"
                                                 viewBox="0 0 20 20" fill="currentColor">
                                                 <path
                                                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                             </svg>
-                                        </button>
-                                        <button class="bg-white p-2 rounded-md shadow hover:bg-gray-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
+                                        </a>
                                     </div>
+                                    @endif
                                 </div>
                                 <div class="p-4">
                                     <div class="flex justify-between items-start mb-2">

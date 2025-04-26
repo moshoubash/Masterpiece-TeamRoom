@@ -303,7 +303,7 @@
                             <form action="/" method="POST">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
+                                    class="cursor-pointer w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
                                     <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

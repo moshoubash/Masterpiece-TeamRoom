@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="shadow-lg shadow-blue-500/5 bg-white sticky top-0 left-0 w-full z-100">
+<header class="shadow-lg shadow-blue-500/5 bg-white sticky top-0 left-0 w-full" style="z-index: 99999;">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
             <div class="h-10 rounded-lg flex items-center justify-center">
@@ -34,7 +34,7 @@
                 <a href="{{route('register')}}" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition">Sign up</a>
             </div>    
         @endguest
-        <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+        <button id="mobile-menu-button" class="cursor-pointer md:hidden text-gray-700 focus:outline-none">
             <i class="fas fa-bars text-xl"></i>
         </button>
     </div>
