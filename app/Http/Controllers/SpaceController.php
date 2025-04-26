@@ -157,10 +157,6 @@ class SpaceController extends Controller
 
     public function create()
     {
-        if (Auth::user()->roles->first()->name == 'renter') {
-            return back();
-        }
-
         $currentStep = 1;
         $completionPercentage = 20;
 

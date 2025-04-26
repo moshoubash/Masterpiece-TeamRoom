@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\VerificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -82,7 +83,6 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::resource('/dashboard/notifications', NotificationController::class);
     Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
-
 });
 
 // Routes for public website
@@ -91,8 +91,10 @@ Route::get('/explore', [SpaceController::class, 'explore'])->name('explore');
 Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
 
 Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
-Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth');
-Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth');
+
+Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth', 'host', 'id.verified');
+Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth', 'host', 'id.verified');
+
 Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit')->middleware('auth');
 Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update')->middleware('auth');
 
@@ -110,6 +112,19 @@ Route::get('/contact', function () { return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::get('/about', function () { return view('pages.about'); });
 
+// Route for the KYC
+// Admin Routes
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard/kyc/requests', [VerificationController::class, 'requests'])->name('requests.page');
+    Route::post('/dashboard/kyc-approve/{user}', [VerificationController::class, 'approve'])->name('kyc.approve');
+    Route::post('/dashboard/kyc-reject/{user}', [VerificationController::class, 'reject'])->name('kyc.reject');
+});
+
+// Host Routes
+Route::middleware(['auth', 'host'])->group(function () {
+    Route::get('/host/verification', [VerificationController::class, 'verification'])->name('verification.page');
+    Route::post('/host/verification/submit', [VerificationController::class, 'submit'])->name('verification.submit');
+});
 
 require __DIR__.'/auth.php';

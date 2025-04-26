@@ -10,6 +10,13 @@
     </style>
 @endsection
 @section('content')
+    <!-- Alert if there is an message -->
+    @if (session('message'))
+        <div class="z-999999 fixed top-20 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif
+    
     <!-- Hero Content -->
     <div id="hero" class="relative z-10 flex flex-col items-center justify-center h-screen text-center p-8">
         <div class="" style="display:flex; align-items: center ; justify-content: center; flex-direction: column">

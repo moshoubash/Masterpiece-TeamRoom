@@ -101,4 +101,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class, 'user_id', 'id');
     }
+
+    public function isKycApproved()
+    {
+        return $this->kyc_status === 'approved';
+    }
 }

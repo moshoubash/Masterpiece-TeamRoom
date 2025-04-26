@@ -18,7 +18,7 @@
                             <div class="simplebar-content" style="padding: 10px 0px;">
                                 <ul class="pc-navbar" style="display: block;">
                                     <li class="pc-item">
-                                        <a href="/" class="pc-link">
+                                        <a href="/dashboard" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
                                             <span class="pc-mtext">Dashboard</span>
                                         </a>
@@ -83,6 +83,15 @@
                                         <a href="/dashboard/notifications" class="pc-link">
                                             <span class="pc-micon"><i class="ti ti-bell"></i></span>
                                             <span class="pc-mtext">Notifications</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="pc-item">
+                                        <a href="{{route('requests.page')}}" class="pc-link">
+                                            <span class="pc-micon"><i class="ti ti-id"></i></span>
+                                            <span class="pc-mtext">KYC</span>
+
+                                            {{-- <span class="px-1 pc-arrow bg-primary text-white rounded-circle" style="height: 80%; width: 20px; text-align: center">1</span> --}}
                                         </a>
                                     </li>
 

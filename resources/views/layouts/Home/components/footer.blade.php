@@ -5,7 +5,7 @@
             <div>
                 <div class="flex items-center space-x-2 mb-6">
                     <a href="/">
-                        <img src="{{ asset('assets/dashboard/images/team-room-dark.svg') }}" alt="Team Room Logo" width="200">
+                        <img src="{{ asset('assets/dashboard/images/team-room-dark.svg') }}" alt="Team Room Logo" width="150">
                     </a>
                 </div>
                 <p class="text-gray-400">Streamline your workspace management with our intuitive booking system.</p>
