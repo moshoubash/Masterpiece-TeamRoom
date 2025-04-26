@@ -15,13 +15,12 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', function() {
-        return view('dashboard');
-    });
+    Route::get('/', [DashboardController::class, 'index']);
     
     Route::get('/bookings', [BookingController::class, 'index']);
 
@@ -48,6 +47,7 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/transactions', [TransactionController::class, 'index']);
 
     Route::get('/settings', [UserController::class, 'adminSettings']);
+    Route::put('/user/update/{user}', [UserController::class, 'updateProfile'])->name('settings.update');
 });
 
 Route::middleware('auth', 'admin')->group(function () {
@@ -111,6 +111,8 @@ Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword
 Route::get('/contact', function () { return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::get('/about', function () { return view('pages.about'); });
+Route::get('/terms', function () { return view('pages.terms'); });
+Route::get('/privacy', function () { return view('pages.privacy'); });
 
 // Route for the KYC
 // Admin Routes
@@ -119,6 +121,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/kyc/requests', [VerificationController::class, 'requests'])->name('requests.page');
     Route::post('/dashboard/kyc-approve/{user}', [VerificationController::class, 'approve'])->name('kyc.approve');
     Route::post('/dashboard/kyc-reject/{user}', [VerificationController::class, 'reject'])->name('kyc.reject');
+
+    Route::get('/dashboard/search/', [DashboardController::class, 'search'])->name('search.page');
 });
 
 // Host Routes

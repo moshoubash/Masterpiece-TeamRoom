@@ -13,6 +13,13 @@
                         <i class="ti ti-menu-2"></i>
                     </a>
                 </li>
+                <li class="pc-h-item d-none d-md-inline-flex">
+                    <form action="{{route('search.page')}}" method="GET" class="header-search">
+                        @csrf
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search icon-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="search" name="search" class="form-control" placeholder="Search here. . .">
+                    </form>
+                </li>
             </ul>
         </div>
         <!-- [Mobile Media Block end] -->
@@ -28,34 +35,35 @@
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside"
                         aria-expanded="false">
-                        <img src="{{asset('assets/dashboard/images/user/avatar-2.jpg')}}" alt="user-image" class="user-avtar">
-                        <span>Stebin Ben</span>
+                        <img src="
+                            @if (Auth::user()->profile_picture_url)
+                                {{ asset($profile_picture_url) }}
+                            @else
+                                {{ asset('images/profile-pictures/default-avatar.svg') }}
+                            @endif
+                        " alt="user-image" class="user-avtar">
+                        <span>{{Auth::user()->first_name . ' ' . Auth::user()->last_name}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header">
                             <div class="d-flex mb-1">
                                 <div class="flex-shrink-0">
-                                    <img src="{{asset('assets/dashboard/images/user/avatar-2.jpg')}}" alt="user-image"
-                                        class="user-avtar wid-35">
+                                    <img src="
+                                    @if (Auth::user()->profile_picture_url)
+                                        {{ asset($profile_picture_url) }}
+                                    @else
+                                        {{ asset('images/profile-pictures/default-avatar.svg') }}
+                                    @endif
+                                    " alt="user-image"
+                                        class="user-avtar wid-35 hgt-35">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">Stebin Ben</h6>
-                                    <span>UI/UX Designer</span>
+                                    <h6 class="mb-1">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</h6>
+                                    <span>{{ Auth::user()->email }}</span>
                                 </div>
-                                <a href="#!" class="pc-head-link bg-transparent"><i
-                                        class="ti ti-power text-danger"></i></a>
                             </div>
                         </div>
-                        <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="drp-t1" data-bs-toggle="tab"
-                                    data-bs-target="#drp-tab-1" type="button" role="tab"
-                                    aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i>
-                                    Profile</button>
-                            </li>
-                            
-                        </ul>
-                        <div class="tab-content" id="mysrpTabContent">
+                        <div class="border-top tab-content" id="mysrpTabContent">
                             <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel"
                                 aria-labelledby="drp-t1" tabindex="0">
                                 <a href="#!" class="dropdown-item">
@@ -64,7 +72,7 @@
                                 </a>
                                 <form action="{{route('logout')}}" method="post">
                                     @csrf
-                                    <button class="dropdown-item">
+                                    <button class="dropdown-item text-danger">
                                         <i class="ti ti-power"></i>
                                         <span>Logout</span>
                                     </button>

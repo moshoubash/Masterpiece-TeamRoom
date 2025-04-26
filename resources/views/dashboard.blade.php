@@ -1,412 +1,383 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Home - Admin Dashboard')
+@section('title', 'Meeting Room Booking Dashboard')
 @section('content')
-    <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+    <h1 class="h3 mb-3"><strong>Meeting Room</strong> Dashboard</h1>
 
+    <!-- Top Row - 4 Small Cards -->
     <div class="row">
-        <div class="col-xl-6 col-xxl-5 d-flex">
-            <div class="w-100">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">Room Bookings</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">{{$totalBookings ?? 0}}</h1>
-                                <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 8.25% </span>
-                                    <span class="text-muted">Since last week</span>
-                                </div>
-                            </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-1">${{ $totalRevenue }}</h3>
+                            <p class="text-muted mb-0">All Earnings</p>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">New Users</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="users"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">{{$totalUsers ?? 0}}</h1>
-                                <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 12.5% </span>
-                                    <span class="text-muted">Since last week</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">Revenue</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="dollar-sign"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">${{$totalRevenue ?? 0}}</h1>
-                                <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 9.35% </span>
-                                    <span class="text-muted">Since last week</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title">Available Rooms</h5>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <i class="align-middle" data-feather="home"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h1 class="mt-1 mb-3">{{$totalSpaces ?? 0}}</h1>
-                                <div class="mb-0">
-                                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 4.75% </span>
-                                    <span class="text-muted">Since last week</span>
-                                </div>
-                            </div>
+                        <div class="col-4 text-end">
+                            <i class="ti ti-currency-dollar text-success f-36"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recent movements -->
-
-        <div class="col-xl-6 col-xxl-7">
-            <div class="card flex-fill w-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Booking Trends</h5>
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-1">{{ $totalUsers }}</h3>
+                            <p class="text-muted mb-0">All Users</p>
+                        </div>
+                        <div class="col-4 text-end">
+                            <i class="ti ti-users text-primary f-36"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body py-3">
-                    <div class="chart chart-sm">
-                        <canvas id="chartjs-dashboard-line"></canvas>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-1">{{ $totalBookings }}</h3>
+                            <p class="text-muted mb-0">All Bookings</p>
+                        </div>
+                        <div class="col-4 text-end">
+                            <i class="ti ti-calendar-event text-info f-36"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-1">{{ $totalSpaces }}</h3>
+                            <p class="text-muted mb-0">All Spaces</p>
+                        </div>
+                        <div class="col-4 text-end ">
+                            <i class="ti ti-home text-warning f-36"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Middle Row - Two Charts -->
     <div class="row">
-        <div class="col-12 col-md-6 col-xxl-6 d-flex order-2 order-xxl-3">
-            <div class="card flex-fill w-100">
+        <!-- Left Chart - Circle -->
+        <div class="col-12 col-lg-6 mb-3">
+            <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Room Type Popularity</h5>
+                    <h5 class="card-title mb-0">Room Utilization</h5>
                 </div>
-                <div class="card-body d-flex">
-                    <div class="align-self-center w-100">
-                        <div class="py-3">
-                            <div class="chart chart-xs">
-                                <canvas id="chartjs-dashboard-pie"></canvas>
-                            </div>
-                        </div>
 
-                        <table class="table mb-0">
+                <div class="card-body">
+                    <div id="roomUtilizationChart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Chart - Line Graph -->
+        <div class="col-12 col-lg-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Booking per day</h5>
+                </div>
+                <div class="card-body">
+                    <div id="bookingTrendsChart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row - Table + Sidebar -->
+    <div class="row">
+        <!-- Main Table - Meeting Rooms -->
+        <div class="col-12 col-xl-9 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Room Availability</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover my-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">ID</th>
+                                    <th width="80">Image</th>
+                                    <th>Title</th>
+                                    <th class="text-center" width="80">Capacity</th>
+                                    <th class="text-end" width="100">Hourly Rate</th>
+                                    <th class="text-center" width="120">Min Duration</th>
+                                    <th class="text-center" width="80">Status</th>
+                                    <th class="text-center" width="140">Actions</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td>Conference Rooms</td>
-                                    <td class="text-end">145</td>
-                                </tr>
-                                <tr>
-                                    <td>Meeting Pods</td>
-                                    <td class="text-end">98</td>
-                                </tr>
-                                <tr>
-                                    <td>Training Spaces</td>
-                                    <td class="text-end">44</td>
-                                </tr>
+                                @foreach ($spaces->sortByDesc('created_at') as $space)
+                                    <tr>
+                                        <td class="text-center fw-bold">{{ $space->id }}</td>
+                                        <td>
+                                            <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
+                                                alt="{{ $space->title }}" class="img-fluid rounded">
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div>{{ $space->title }}</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">{{ $space->capacity }}</td>
+                                        <td class="text-end fw-medium">${{ number_format($space->hourly_rate, 2) }}</td>
+                                        <td class="text-center">{{ $space->min_booking_duration }} hrs</td>
+                                        <td class="text-center">
+                                            @if ($space->is_deleted)
+                                                <span class="badge bg-danger">Deleted</span>
+                                            @elseif($space->is_active)
+                                                <span class="badge bg-success">Active</span>
+                                            @else
+                                                <span class="badge bg-warning text-dark">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-1">
+                                                <a href="/dashboard/spaces/{{ $space->id }}" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="tooltip" title="View Details">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                                <a href="/dashboard/spaces/{{ $space->id }}/edit"
+                                                    class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                    title="Edit Space">
+                                                    <i class="fa-solid fa-edit"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $space->id }}"
+                                                    data-bs-toggle="tooltip" title="Delete Space">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
+
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="deleteModal{{ $space->id }}" tabindex="-1"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger text-white">
+                                                            <h5 class="modal-title">Delete Space</h5>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="text-center mb-3">
+                                                                <i
+                                                                    class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
+                                                                <h5>Are you sure you want to delete this space?</h5>
+                                                                <p class="text-muted mb-0">Space:
+                                                                    <strong>{{ $space->title }}</strong></p>
+                                                                <p class="text-muted">This action cannot be undone.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                <i class="fa-solid fa-times me-1"></i> Cancel
+                                                            </button>
+                                                            <form action="/dashboard/spaces/{{ $space->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    <i class="fa-solid fa-trash me-1"></i> Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-xxl-6 d-flex order-1 order-xxl-1">
-            <div class="card flex-fill">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Calendar</h5>
-                </div>
-                <div class="card-body d-flex">
-                    <div class="align-self-center w-100">
-                        <div class="chart">
-                            <div id="datetimepicker-dashboard"></div>
+                        <div class="d-flex justify-content-end">
+                            {{ $spaces->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-            <div class="card flex-fill">
+        <!-- Sidebar - Vertical Section -->
+        <div class="col-12 col-xl-3 mb-3">
+            <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Top Performing Spaces</h5>
+                    <h5 class="card-title mb-0">Peak Hours</h5>
                 </div>
-                <table class="table table-hover my-0">
-                    <thead>
-                        <tr>
-                            <th>Room Name</th>
-                            <th class="d-none d-xl-table-cell">Location</th>
-                            <th class="d-none d-xl-table-cell">Price/Hour</th>
-                            <th>Status</th>
-                            <th class="d-none d-md-table-cell">Host</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Skyline Suite</td>
-                            <td class="d-none d-xl-table-cell">Downtown</td>
-                            <td class="d-none d-xl-table-cell">$85</td>
-                            <td><span class="badge bg-success">Available</span></td>
-                            <td class="d-none d-md-table-cell">Sarah Johnson</td>
-                        </tr>
-                        <tr>
-                            <td>Harbor View</td>
-                            <td class="d-none d-xl-table-cell">Waterfront</td>
-                            <td class="d-none d-xl-table-cell">$120</td>
-                            <td><span class="badge bg-danger">Booked</span></td>
-                            <td class="d-none d-md-table-cell">Michael Chen</td>
-                        </tr>
-                        <tr>
-                            <td>Innovation Lab</td>
-                            <td class="d-none d-xl-table-cell">Tech District</td>
-                            <td class="d-none d-xl-table-cell">$95</td>
-                            <td><span class="badge bg-success">Available</span></td>
-                            <td class="d-none d-md-table-cell">Emily Roberts</td>
-                        </tr>
-                        <tr>
-                            <td>Collaborative Space</td>
-                            <td class="d-none d-xl-table-cell">Midtown</td>
-                            <td class="d-none d-xl-table-cell">$75</td>
-                            <td><span class="badge bg-warning">Maintenance</span></td>
-                            <td class="d-none d-md-table-cell">David Wong</td>
-                        </tr>
-                        <tr>
-                            <td>Executive Board Room</td>
-                            <td class="d-none d-xl-table-cell">Financial District</td>
-                            <td class="d-none d-xl-table-cell">$150</td>
-                            <td><span class="badge bg-success">Available</span></td>
-                            <td class="d-none d-md-table-cell">Jessica Thompson</td>
-                        </tr>
-                        <tr>
-                            <td>Creative Studio</td>
-                            <td class="d-none d-xl-table-cell">Arts Quarter</td>
-                            <td class="d-none d-xl-table-cell">$65</td>
-                            <td><span class="badge bg-success">Available</span></td>
-                            <td class="d-none d-md-table-cell">Marcus Lee</td>
-                        </tr>
-                        <tr>
-                            <td>Quiet Zone</td>
-                            <td class="d-none d-xl-table-cell">University Area</td>
-                            <td class="d-none d-xl-table-cell">$45</td>
-                            <td><span class="badge bg-success">Available</span></td>
-                            <td class="d-none d-md-table-cell">Olivia Martinez</td>
-                        </tr>
-                        <tr>
-                            <td>Team Hub</td>
-                            <td class="d-none d-xl-table-cell">Innovation Park</td>
-                            <td class="d-none d-xl-table-cell">$90</td>
-                            <td><span class="badge bg-warning">Maintenance</span></td>
-                            <td class="d-none d-md-table-cell">Ryan Peters</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-            <div class="card flex-fill w-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Monthly Bookings</h5>
-                </div>
-                <div class="card-body d-flex w-100">
-                    <div class="align-self-center chart chart-lg">
-                        <canvas id="chartjs-dashboard-bar"></canvas>
-                    </div>
+                <div class="card-body">
+                    <div id="peakHoursChart" style="height: 350px;"></div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
 
+    <!-- ApexCharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-@section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-            gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-            gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-            // Line chart
-            new Chart(document.getElementById("chartjs-dashboard-line"), {
-                type: "line",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "Sales ($)",
-                        fill: true,
-                        backgroundColor: gradient,
-                        borderColor: window.theme.primary,
-                        data: [
-                            2115,
-                            1562,
-                            1584,
-                            1892,
-                            1587,
-                            1923,
-                            2566,
-                            2448,
-                            2805,
-                            3438,
-                            2917,
-                            3327
-                        ]
-                    }]
+            // Room Utilization Chart (Donut)
+            var roomUtilizationOptions = {
+                series: [65, 35],
+                chart: {
+                    type: 'donut',
+                    height: 300,
+                    fontFamily: 'Inter, sans-serif'
                 },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    tooltips: {
-                        intersect: false
-                    },
-                    hover: {
-                        intersect: true
-                    },
-                    plugins: {
-                        filler: {
-                            propagate: false
+                labels: ['Booked', 'Available'],
+                colors: ['#3B82F6', '#E5E7EB'],
+                legend: {
+                    position: 'bottom'
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val + "%";
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total Rooms',
+                                    formatter: function(w) {
+                                        return '{{ $totalRooms ?? 0 }}';
+                                    }
+                                }
+                            }
                         }
-                    },
-                    scales: {
-                        xAxes: [{
-                            reverse: true,
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                stepSize: 1000
-                            },
-                            display: true,
-                            borderDash: [3, 3],
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }]
                     }
                 }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Pie chart
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-                type: "pie",
-                data: {
-                    labels: ["Chrome", "Firefox", "IE"],
-                    datasets: [{
-                        data: [4306, 3801, 1689],
-                        backgroundColor: [
-                            window.theme.primary,
-                            window.theme.warning,
-                            window.theme.danger
-                        ],
-                        borderWidth: 5
-                    }]
+            };
+
+            var roomUtilizationChart = new ApexCharts(document.querySelector("#roomUtilizationChart"),
+                roomUtilizationOptions);
+            roomUtilizationChart.render();
+
+            // Booking Trends Chart (Line)
+            var bookingTrendsOptions = {
+                series: [{
+                    name: 'Bookings',
+                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 150, 135, 160]
+                }],
+                chart: {
+                    type: 'line',
+                    height: 300,
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: {
+                        show: false
+                    }
                 },
-                options: {
-                    responsive: !window.MSInputMethodContext,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    cutoutPercentage: 75
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Bar chart
-            new Chart(document.getElementById("chartjs-dashboard-bar"), {
-                type: "bar",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "This year",
-                        backgroundColor: window.theme.primary,
-                        borderColor: window.theme.primary,
-                        hoverBackgroundColor: window.theme.primary,
-                        hoverBorderColor: window.theme.primary,
-                        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-                        barPercentage: .75,
-                        categoryPercentage: .5
-                    }]
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
                 },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: false
-                            },
-                            stacked: false,
-                            ticks: {
-                                stepSize: 20
-                            }
-                        }],
-                        xAxes: [{
-                            stacked: false,
-                            gridLines: {
-                                color: "transparent"
-                            }
-                        }]
+                colors: ['#3B82F6'],
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                        'Dec'
+                    ]
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Bookings'
+                    }
+                },
+                grid: {
+                    borderColor: '#f1f1f1',
+                    strokeDashArray: 4
+                },
+                markers: {
+                    size: 4,
+                    colors: ['#3B82F6'],
+                    strokeColors: '#fff',
+                    strokeWidth: 2
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + " bookings";
+                        }
                     }
                 }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var date = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
-            var defaultDate = date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
-            document.getElementById("datetimepicker-dashboard").flatpickr({
-                inline: true,
-                prevArrow: "<span title=\"Previous month\">&laquo;</span>",
-                nextArrow: "<span title=\"Next month\">&raquo;</span>",
-                defaultDate: defaultDate
-            });
+            };
+
+            var bookingTrendsChart = new ApexCharts(document.querySelector("#bookingTrendsChart"),
+                bookingTrendsOptions);
+            bookingTrendsChart.render();
+
+            // Peak Hours Chart (Vertical Bar)
+            var peakHoursOptions = {
+                series: [{
+                    name: 'Bookings',
+                    data: [12, 19, 27, 30, 32, 29, 22, 18, 14, 9]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    fontFamily: 'Inter, sans-serif',
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        vertical: true,
+                        columnWidth: '65%',
+                        distributed: false,
+                        dataLabels: {
+                            position: 'top'
+                        }
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val;
+                    },
+                    offsetY: -20
+                },
+                colors: ['#3B82F6'],
+                xaxis: {
+                    categories: ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'],
+                    axisBorder: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Bookings'
+                    }
+                },
+                grid: {
+                    borderColor: '#f1f1f1',
+                    strokeDashArray: 4
+                }
+            };
+
+            var peakHoursChart = new ApexCharts(document.querySelector("#peakHoursChart"), peakHoursOptions);
+            peakHoursChart.render();
         });
     </script>
 @endsection

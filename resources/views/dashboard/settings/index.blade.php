@@ -5,7 +5,7 @@
 
 	<div class="row">
 		<div class="col-12">
-			<form action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
+			<form action="{{ route('settings.update', $user) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				@method('PUT')
 

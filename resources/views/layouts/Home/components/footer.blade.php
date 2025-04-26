@@ -34,10 +34,10 @@
             <div>
                 <h3 class="text-lg font-bold mb-4">Company</h3>
                 <ul class="space-y-2">
-                    <li><a href="" class="text-gray-400 hover:text-white">About us</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Careers</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Contact</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                    <li><a href="/about" class="text-gray-400 hover:text-white">About us</a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                    <li><a href="/terms" class="text-gray-400 hover:text-white">Terms of service</a></li>
+                    <li><a href="/privacy" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
                 </ul>
             </div>
         </div>
