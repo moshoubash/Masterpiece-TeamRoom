@@ -129,6 +129,17 @@ class UserController extends Controller
 
         if($role == 'HOST'){
             $spaces = Space::where('host_id', $user->id)->get();
+
+            $average_rating = 0;
+            $total_reviews = 0;
+            if($spaces->count() > 0){
+                foreach($spaces as $space){
+                    $average_rating += $space->reviews()->avg('rating');
+                    $total_reviews += $space->reviews()->count();
+                }
+                $average_rating = $average_rating / $spaces->count();
+            }
+
             return view('pages.users.profile', [
                 'user' => $user,
                 'role' => $role,
@@ -136,7 +147,9 @@ class UserController extends Controller
                 'created_at' => $created_at,
                 'profile_image' => $profile_image,
                 'spaces' => $spaces,
-                'is_verified' => $user->is_verified
+                'is_verified' => $user->is_verified,
+                'average_rating' => $average_rating,
+                'total_reviews' => $total_reviews
             ]);
         }
 
@@ -152,7 +165,6 @@ class UserController extends Controller
             'bookings' => $bookings
         ]);
     }
-
 
     public function profileEdit(string $slug){
         
@@ -179,11 +191,31 @@ class UserController extends Controller
             'password' => 'sometimes|string|min:8|confirmed|required',
             'bio' => 'nullable|string|max:500',
             'phone_number' => 'nullable|string|max:15',
-            'profile_picture_url' => 'nullable|url|max:255',
             'company_name' => 'nullable|string|max:255',
         ]);
 
-        $user->update($request->all());
+        if($request->hasFile('profile_picture_url')){
+            $request->validate([
+                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $image = $request->file('profile_picture_url');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile-pictures');
+            $image->move($destinationPath, $name);
+            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+        }
+        
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'bio' => $request->bio,
+            'phone_number' => $request->phone_number,
+            'company_name' => $request->company_name,
+            'updated_at' => now()
+        ]);
         
         return back()->with('message', 'user updated successfully.');
     }

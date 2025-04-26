@@ -9,7 +9,7 @@
             <p class="mt-1 text-sm text-gray-500">Update your personal information and settings.</p>
         </div>
         <div class="border-t border-gray-200">
-            <form method="POST" action="{{ route('user.update', $user->id) }}" class="px-4 py-5 sm:p-6">
+            <form method="POST" action="{{ route('user.update', $user->id) }}" class="px-4 py-5 sm:p-6" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -61,8 +61,8 @@
                     
                     <!-- Profile Picture URL -->
                     <div>
-                        <label for="profile_picture_url" class="block text-sm font-medium text-gray-700">Profile Picture URL</label>
-                        <input type="url" name="profile_picture_url" id="profile_picture_url" value="{{ old('profile_picture_url', $user->profile_picture_url) }}" class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <label for="profile_picture_url" class="block text-sm font-medium text-gray-700">Profile Picture</label>
+                        <input type="file" name="profile_picture_url" id="profile_picture_url" value="{{ old('profile_picture_url', $user->profile_picture_url) }}" class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
                         @error('profile_picture_url')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

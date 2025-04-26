@@ -232,8 +232,16 @@
                 <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
                     <h2 class="text-xl font-bold text-gray-900 mb-4">About the Host</h2>
                     <div class="flex items-center mb-4">
-                        <img src="https://via.placeholder.com/50x50" alt="Host Avatar"
-                            class="w-12 h-12 rounded-full mr-4">
+                        <img src="
+                            @if ($space->host->profile_picture_url)
+                                {{ asset($space->host->profile_picture_url) }}
+                            @else
+                                {{ asset('images/profile-pictures/default-avatar.svg') }}
+                            @endif
+                        " 
+                        alt="Profile Picture"
+                        class="w-12 h-12 rounded-full object-cover shadow-md mr-4"
+                    >
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">
                                 <a href="{{ route('user.profile', $space->host->slug) }}">{{ $space->host->first_name }}
