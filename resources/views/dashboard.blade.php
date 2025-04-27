@@ -262,7 +262,7 @@
                                     show: true,
                                     label: 'Total Rooms',
                                     formatter: function(w) {
-                                        return '{{ $totalRooms ?? 0 }}';
+                                        return '{{ $doughnutChartSpaces ?? 0 }}';
                                     }
                                 }
                             }

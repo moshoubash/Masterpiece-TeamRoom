@@ -25,13 +25,15 @@ class DashboardController extends Controller
         $totalBookings = Booking::count();
 
         $spaces = Space::paginate(10);
-
+        $doughnutChartSpaces = Space::all()->count(); 
+        
         return view('dashboard', [
             'totalRevenue' => $totalRevenue,
             'totalUsers' => $totalUsers,
             'totalSpaces' => $totalSpaces,
             'totalBookings' => $totalBookings,
-            'spaces' => $spaces
+            'spaces' => $spaces,
+            'doughnutChartSpaces' => $doughnutChartSpaces
         ]);
     }
 

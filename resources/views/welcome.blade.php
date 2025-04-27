@@ -12,64 +12,80 @@
 @section('content')
     <!-- Alert if there is an message -->
     @if (session('message'))
-        <div class="z-999999 fixed top-20 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+        <div class="z-999999 fixed top-20 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+            role="alert">
             {{ session('message') }}
         </div>
     @endif
-    
-    <!-- Hero Content -->
-    <div id="hero" class="relative z-10 flex flex-col items-center justify-center h-screen text-center p-8">
-        <div class="" style="display:flex; align-items: center ; justify-content: center; flex-direction: column">
-            <h1 class="text-6xl font-bold text-white mb-2">
-                Find the Perfect <span class="italic text-blue-500">Meeting Room</span>
+
+    <!-- Hero Section -->
+    <div id="hero"
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
+        <!-- Background Pattern Overlay -->
+        <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+        <div class="relative z-10 max-w-5xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+                Find the Perfect <span class="italic text-blue-400 relative inline-block">
+                    <span class="relative z-10">Meeting Room</span>
+                    <span class="absolute -bottom-1 left-0 w-full h-3 bg-blue-600 opacity-30 rounded"></span>
+                </span>
             </h1>
-            <p class="text-xl text-white mb-8">
+            <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
                 Book professional meeting rooms from local businesses and individuals at competitive rates
             </p>
 
             <form
-                class="flex flex-wrap bg-white max-w-4xl rounded-xl overflow-hidden border-2 border-gray-200 p-2 gap-2 md:gap-0 md:rounded-full md:flex-nowrap"
+                class="flex flex-col md:flex-row bg-white/95 max-w-4xl mx-auto rounded-xl shadow-2xl overflow-hidden border-2 border-blue-100/20 p-3 gap-3 md:gap-0 md:p-2 backdrop-blur-sm transition-all hover:shadow-blue-500/20"
                 action="{{ route('explore') }}" method="get">
+
                 <!-- Location Select -->
-                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
-                    <label class="text-xs text-gray-500">Location</label>
-                    <select class="outline-none text-gray-800 text-center bg-transparent cursor-pointer" name="location">
-                        <option value="amman">Amman</option>
-                        <option value="irbid">Irbid</option>
+                <div
+                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
+                    <label
+                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Location</label>
+                    <select class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="location">
+                        <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>Amman</option>
+                        <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>Irbid</option>
                     </select>
                 </div>
 
                 <!-- Date Input -->
-                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
-                    <label class="text-xs text-gray-500">Date</label>
-                    <input type="date" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer"
-                        name="date" value="2025-02-12">
+                <div
+                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
+                    <label
+                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Date</label>
+                    <input type="date" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
+                        name="date" value="{{ request('date', now()->format('Y-m-d')) }}">
                 </div>
 
                 <!-- Check-in Time -->
-                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
-                    <label class="text-xs text-gray-500">Check-in</label>
-                    <input type="time" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer"
-                        name="start_time" value="19:00">
+                <div
+                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
+                    <label
+                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Check-in</label>
+                    <input type="time" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
+                        name="start_time" value="{{ request('start_time', '09:00') }}">
                 </div>
 
                 <!-- Capacity -->
-                <div class="flex flex-col px-4 py-2 border-r md:border-r border-gray-200 flex-1 min-w-[150px]">
-                    <label class="text-xs text-gray-500">Capacity</label>
-                    <select name="capacity" class="outline-none text-gray-800 text-center bg-transparent cursor-pointer">
+                <div
+                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
+                    <label
+                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Capacity</label>
+                    <select name="capacity" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
                         <option value="">Any capacity</option>
-                        <option value="4" {{ request('capacity') == '4' ? 'selected' : '' }}>4+ people</option>
-                        <option value="8" {{ request('capacity') == '8' ? 'selected' : '' }}>8+ people</option>
-                        <option value="12" {{ request('capacity') == '12' ? 'selected' : '' }}>12+ people</option>
-                        <option value="20" {{ request('capacity') == '20' ? 'selected' : '' }}>20+ people</option>
-                        <option value="50" {{ request('capacity') == '50' ? 'selected' : '' }}>50+ people</option>
+                        @foreach ([4, 8, 12, 20, 50] as $size)
+                            <option value="{{ $size }}" {{ request('capacity') == $size ? 'selected' : '' }}>
+                                {{ $size }}+ people</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!-- Search Button -->
-                <button
-                    class="bg-blue-500 hover:bg-blue-600 transition-colors text-white px-6 flex items-center justify-center w-1/6 rounded-full ml-4 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 transform hover:-translate-y-0.5 active:translate-y-0">
+                    <span class="mr-2 md:hidden lg:inline">Search</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -80,58 +96,99 @@
     </div>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="py-16 bg-white">
+    <section id="how-it-works" class="py-20 bg-gradient-to-b from-white to-blue-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">How it works</h2>
+                <span class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Simple
+                    Process</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How it <span
+                        class="text-blue-600">works</span></h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get started in minutes with our simple setup process.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        1</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Create your account</h3>
-                    <p class="text-gray-600">Sign up and configure your workspace details and meeting rooms.</p>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                @php
+                    $steps = [
+                        [
+                            'number' => 1,
+                            'title' => 'Create your account',
+                            'description' => 'Sign up and configure your workspace details and meeting rooms.',
+                            'icon' => 'user-plus',
+                        ],
+                        [
+                            'number' => 2,
+                            'title' => 'Invite your team',
+                            'description' => 'Add team members to start collaborating on room bookings.',
+                            'icon' => 'users',
+                        ],
+                        [
+                            'number' => 3,
+                            'title' => 'Start booking',
+                            'description' => 'Reserve rooms, manage resources, and optimize your workspace.',
+                            'icon' => 'calendar',
+                        ],
+                    ];
+                @endphp
 
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        2</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Invite your team</h3>
-                    <p class="text-gray-600">Add team members to start collaborating on room bookings.</p>
-                </div>
+                @foreach ($steps as $step)
+                    <div class="text-center group">
+                        <div class="relative">
+                            <!-- Step Number -->
+                            <div
+                                class="w-20 h-20 bg-blue-600 group-hover:bg-blue-700 transition-all duration-300 rounded-2xl rotate-45 flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl group-hover:shadow-blue-300">
+                                <span class="text-white font-bold text-2xl -rotate-45">{{ $step['number'] }}</span>
+                            </div>
 
-                <div class="text-center">
-                    <div
-                        class="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">
-                        3</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Start booking</h3>
-                    <p class="text-gray-600">Reserve rooms, manage resources, and optimize your workspace.</p>
-                </div>
+                            <!-- Connector Line (except for last item) -->
+                            @if (!$loop->last)
+                                <div class="hidden md:block absolute top-10 left-[55%] w-full h-1 bg-blue-200"></div>
+                            @endif
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                            {{ $step['title'] }}</h3>
+                        <p class="text-gray-600 px-6">{{ $step['description'] }}</p>
+
+                        <!-- Animated Button -->
+                        @if ($step['number'] === 1)
+                            <a href="{{ route('register') }}"
+                                class="inline-block mt-4 px-6 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-colors">
+                                Get Started
+                            </a>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features">
+    <section id="features" class="py-16 bg-white">
         <div class="container mx-auto px-4 py-8">
             <!-- Header Section -->
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold">Featured Meeting Spaces</h2>
-                    <p class="text-gray-600">Discover our most popular and highly-rated meeting rooms</p>
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-12">
+                <div class="mb-6 md:mb-0">
+                    <span
+                        class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Curated
+                        Spaces</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Featured Meeting Spaces</h2>
+                    <p class="text-gray-600 max-w-2xl">Discover our most popular and highly-rated meeting rooms</p>
                 </div>
-                <div class="flex space-x-2">
-                    <button class="bg-gray-200 rounded-full p-2 hover:bg-gray-300 cursor-pointer">
+
+                <!-- Navigation Controls with Blade Component -->
+                <div class="flex space-x-3">
+                    @php
+                        $buttonClasses =
+                            'flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
+                    @endphp
+
+                    <button id="prev-spaces" class="{{ $buttonClasses }}" aria-label="Previous spaces">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
-                    <button class="bg-gray-200 rounded-full p-2 hover:bg-gray-300 cursor-pointer">
+                    <button id="next-spaces" class="{{ $buttonClasses }}" aria-label="Next spaces">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -140,314 +197,279 @@
                 </div>
             </div>
 
-            <!-- Meeting Spaces Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Executive Boardroom Card -->
-                <div class="rounded-lg overflow-hidden bg-white shadow">
-                    <img src="https://images.pexels.com/photos/236730/pexels-photo-236730.jpeg" alt="Executive Boardroom"
-                        class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Executive Boardroom</h3>
-                        <div class="flex items-center space-x-4 mt-2 text-sm text-gray-600">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">Amman</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1">4.8</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">Up to 20 people</span>
-                            </div>
-                        </div>
-                        <div class="mt-3 font-semibold text-gray-900">$20/hr</div>
-                    </div>
-                </div>
+            <!-- Meeting Spaces Cards Grid with Blade Components -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @php
+                    $meetingRooms = [
+                        [
+                            'id' => 1,
+                            'title' => 'Executive Boardroom',
+                            'image' => 'https://images.pexels.com/photos/236730/pexels-photo-236730.jpeg',
+                            'location' => 'Amman',
+                            'rating' => 4.8,
+                            'capacity' => 20,
+                            'price' => 20,
+                            'amenities' => ['Projector', 'Catering', 'High-speed WiFi'],
+                            'isNew' => false,
+                        ],
+                        [
+                            'id' => 2,
+                            'title' => 'Modern Conference Room',
+                            'image' => 'https://images.pexels.com/photos/6899393/pexels-photo-6899393.jpeg',
+                            'location' => 'Amman',
+                            'rating' => 4.9,
+                            'capacity' => 12,
+                            'price' => 15,
+                            'amenities' => ['Smart TV', 'Whiteboard', 'Coffee'],
+                            'isNew' => true,
+                        ],
+                        [
+                            'id' => 3,
+                            'title' => 'Creative Brainstorm Space',
+                            'image' =>
+                                'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                            'location' => 'Amman',
+                            'rating' => 4.5,
+                            'capacity' => 5,
+                            'price' => 10,
+                            'amenities' => ['Whiteboard', 'Lounge Area', 'Art Supplies'],
+                            'isNew' => false,
+                        ],
+                    ];
+                @endphp
 
-                <!-- Modern Conference Room Card -->
-                <div class="rounded-lg overflow-hidden bg-white shadow">
-                    <img src="https://images.pexels.com/photos/6899393/pexels-photo-6899393.jpeg"
-                        alt="Modern Conference Room" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Modern Conference Room</h3>
-                        <div class="flex items-center space-x-4 mt-2 text-sm text-gray-600">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">Amman</span>
+                @foreach ($meetingRooms as $room)
+                    <div
+                        class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-100 relative">
+                        <!-- New Badge (if applicable) -->
+                        @if ($room['isNew'])
+                            <div
+                                class="absolute top-4 right-4 z-10 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                New
                             </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1">4.9</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">Up to 12 people</span>
-                            </div>
-                        </div>
-                        <div class="mt-3 font-semibold text-gray-900">$15/hr</div>
-                    </div>
-                </div>
+                        @endif
 
-                <!-- Creative Brainstorm Space Card -->
-                <div class="rounded-lg overflow-hidden bg-white shadow">
-                    <img src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                        alt="Creative Brainstorm Space" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Creative Brainstorm Space</h3>
-                        <div class="flex items-center space-x-4 mt-2 text-sm text-gray-600">
-                            <div class="flex items-center">
+                        <!-- Room Image with Hover Effect -->
+                        <div class="relative overflow-hidden h-56">
+                            <img src="{{ $room['image'] }}" alt="{{ $room['title'] }}"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <!-- Quick Actions (visible on hover) -->
+                            <div
+                                class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                <a href="{{ route('spaces.show', $room['id']) }}"
+                                    class="bg-white/90 hover:bg-white text-blue-600 px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
+                                    View Details
+                                </a>
+                                <a href="{{ route('spaces.book', $room['id']) }}"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Room Info -->
+                        <div class="p-5">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
+                                    {{ $room['title'] }}</h3>
+                                <div class="flex items-center bg-blue-50 rounded-lg px-2 py-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span class="ml-1 font-medium">{{ $room['rating'] }}</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mt-3 text-sm text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <span class="ml-1">Amman</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                                <span class="ml-1">4.5</span>
-                            </div>
-                            <div class="flex items-center">
+                                <span class="ml-1">{{ $room['location'] }}</span>
+
+                                <span class="mx-2">•</span>
+
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <span class="ml-1">Up to 5 people</span>
+                                <span class="ml-1">Up to {{ $room['capacity'] }} people</span>
+                            </div>
+
+                            <!-- Amenities -->
+                            <div class="mt-3 flex flex-wrap gap-1">
+                                @foreach ($room['amenities'] as $amenity)
+                                    <span class="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs text-gray-700">
+                                        {{ $amenity }}
+                                    </span>
+                                @endforeach
+                            </div>
+
+                            <!-- Price with Book Button -->
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-xl text-gray-900">${{ $room['price'] }}</span>
+                                    <span class="text-gray-600 text-sm">/hr</span>
+                                </div>
+
+                                <a href="/"
+                                    class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
+                                    Check Availability
+                                </a>
                             </div>
                         </div>
-                        <div class="mt-3 font-semibold text-gray-900">$10/hr</div>
                     </div>
-                </div>
+                @endforeach
+            </div>
+
+            <!-- View All Button -->
+            <div class="text-center mt-12">
+                <a href="{{ route('explore') }}"
+                    class="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                    View All Meeting Spaces
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="py-16 bg-white">
-        <div class="container mx-auto px-6 py-12">
+    <section id="testimonials" class="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4 md:px-8">
             <!-- Section Header -->
-            <div class="mb-10">
-                <h2 class="text-3xl font-bold">What Our Users Say</h2>
-                <p class="text-gray-600 mt-2">Don't just take our word for it</p>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">What Our Users Say</h2>
+                <div class="w-24 h-1 bg-blue-500 mx-auto my-4 rounded-full"></div>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Don't just take our word for it - see what our community
+                    has to say about their experience</p>
             </div>
 
             <!-- Testimonials Grid -->
-            <div class="grid grid-rows-2 md:grid-cols-2 gap-6">
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="{{ asset('images/john-rodriguez.jpg') }}" alt="John Rodriguez"
-                            class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h3 class="font-bold">John Rodriguez</h3>
-                            <p class="text-gray-500 text-sm">Office Manager</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-800 mb-4">"We've been renting out our extra conference room through SpaceMeet, and
-                        it's generated over $2,000 in additional revenue each month. The process is hassle-free and the
-                        support team is fantastic!"</p>
-                    <div class="flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                @php
+                    $testimonials = [
+                        [
+                            'name' => 'John Rodriguez',
+                            'position' => 'Office Manager',
+                            'image' => 'john-rodriguez.jpg',
+                            'quote' =>
+                                "We've been renting out our extra conference room through SpaceMeet, and it's generated over $2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!",
+                            'rating' => 5,
+                        ],
+                        [
+                            'name' => 'Lionel Beast',
+                            'position' => 'Marketing Director',
+                            'image' => 'lionel-beast.jpg',
+                            'quote' =>
+                                'TeamRoom saved our team when we needed a last-minute meeting space for an important client presentation.',
+                            'rating' => 5,
+                        ],
+                        [
+                            'name' => 'James M',
+                            'position' => 'Freelance Consultant',
+                            'image' => 'james-m.jpg',
+                            'quote' =>
+                                'I needed a quiet, well-equipped meeting room for a client presentation, and I found the perfect one in just a few clicks.',
+                            'rating' => 5,
+                        ],
+                        [
+                            'name' => 'Michael Chen',
+                            'position' => 'Startup Founder',
+                            'image' => 'michael-chen.jpg',
+                            'quote' =>
+                                "As a small business, we can't afford permanent office space yet. TeamRoom allows us to book professional meeting rooms only when we need them, saving us thousands in overhead costs.",
+                            'rating' => 5,
+                        ],
+                    ];
+                @endphp
 
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="{{ asset('images/lionel-beast.jpg') }}" alt="Lionel Beast"
-                            class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h3 class="font-bold">Lionel Beast</h3>
-                            <p class="text-gray-500 text-sm">Marketing Director</p>
+                @foreach ($testimonials as $testimonial)
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <div class="flex items-start mb-6">
+                            <div class="relative">
+                                <img src="{{ asset('images/' . $testimonial['image']) }}"
+                                    alt="{{ $testimonial['name'] }}"
+                                    class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-400">
+                                <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white rounded-full p-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-900">{{ $testimonial['name'] }}</h3>
+                                <p class="text-blue-600 font-medium">{{ $testimonial['position'] }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <p class="text-gray-800 mb-4">"TeamRoom saved our team when we needed a last-minute meeting space for
-                        an important client presentation."</p>
-                    <div class="flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                    </div>
-                </div>
 
-                <!-- Testimonial 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="{{ asset('images/james-m.jpg') }}" alt="James M"
-                            class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h3 class="font-bold">James M</h3>
-                            <p class="text-gray-500 text-sm">Freelance Consultant</p>
+                        <div class="mb-6">
+                            <svg class="w-8 h-8 text-gray-300 mb-2" fill="currentColor" viewBox="0 0 32 32">
+                                <path
+                                    d="M10 8c-2.209 0-4 1.791-4 4v10c0 2.209 1.791 4 4 4h10c2.209 0 4-1.791 4-4v-10c0-2.209-1.791-4-4-4h-2c0-3.314-2.686-6-6-6v2c2.209 0 4 1.791 4 4h-6z">
+                                </path>
+                            </svg>
+                            <p class="text-gray-700 text-lg leading-relaxed">{{ $testimonial['quote'] }}</p>
                         </div>
-                    </div>
-                    <p class="text-gray-800 mb-4">"I needed a quiet, well-equipped meeting room for a client presentation,
-                        and I found the perfect one in just a few clicks."</p>
-                    <div class="flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                    </div>
-                </div>
 
-                <!-- Testimonial 4 -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <img src="{{ asset('images/michael-chen.jpg') }}" alt="Michael Chen"
-                            class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h3 class="font-bold">Michael Chen</h3>
-                            <p class="text-gray-500 text-sm">Startup Founder</p>
+                        <div class="flex items-center">
+                            <div class="flex mr-4">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5 {{ $i <= $testimonial['rating'] ? 'text-yellow-500' : 'text-gray-300' }}"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                @endfor
+                            </div>
+                            <p class="text-gray-500 text-sm">Verified Customer</p>
                         </div>
                     </div>
-                    <p class="text-gray-800 mb-4">"As a small business, we can't afford permanent office space yet.
-                        TeamRoom allows us to book professional meeting rooms only when we need them, saving us thousands in
-                        overhead costs."</p>
-                    <div class="flex">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                    </div>
-                </div>
+                @endforeach
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center mt-12">
+                <a href="/"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    Read More Success Stories
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-16 bg-gray-200">
+    <section class="py-20 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-black mb-6">Ready to optimize your workspace?</h2>
-            <p class="text-xl text-black mb-8 max-w-3xl mx-auto">Join thousands of companies already using MeetSpace to
+            <h2 class="text-4xl font-bold mb-6">Ready to optimize your workspace?</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Join thousands of companies already using MeetSpace to
                 streamline their meeting room bookings.</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <a href="/explore"
-                    class="bg-black text-white px-8 py-3 rounded-lg border-1 border-black font-medium hover:bg-transparent hover:text-black transition">Find
-                    a Space</a>
+                    class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg transform hover:-translate-y-1">
+                    Find a Space
+                </a>
                 <a href="{{ route('room.create') }}"
-                    class="border border-black text-black px-8 py-3 rounded-lg font-medium transition">List your space</a>
+                    class="border-2 border-white text-white px-8 py-4 rounded-full font-medium hover:bg-white hover:text-blue-600 transition-all shadow-lg transform hover:-translate-y-1">
+                    List your space
+                </a>
             </div>
         </div>
     </section>
