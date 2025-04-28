@@ -83,7 +83,7 @@
 
                 <!-- Search Button -->
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 transform hover:-translate-y-0.5 active:translate-y-0">
+                    class="cursor-pointer bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 transform hover:-translate-y-0.5 active:translate-y-0">
                     <span class="mr-2 md:hidden lg:inline">Search</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">

@@ -26,4 +26,10 @@ class ReviewController extends Controller
 
         return back();
     }
+
+    public function filter($review){
+        $reviews = Review::where('rating', 'like', '%'.$review.'%')->paginate(10);
+
+        return view('dashboard.reviews.index', compact('reviews'));
+    }
 }

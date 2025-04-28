@@ -76,11 +76,11 @@
         <div class="col-12 col-lg-6 mb-3">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Room Utilization</h5>
+                    <h5 class="card-title mb-0">Top Booking Spces</h5>
                 </div>
 
                 <div class="card-body">
-                    <div id="roomUtilizationChart" style="height: 300px;"></div>
+                    <div id="topbookingspaces" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
@@ -233,50 +233,40 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Room Utilization Chart (Donut)
-            var roomUtilizationOptions = {
-                series: [65, 35],
+            var dates = {!! json_encode($dailyRevenue->pluck('date')) !!};
+            var totals = {!! json_encode($dailyRevenue->pluck('total')) !!};
+
+            //Three Bookings sapces #topbookingspaces
+            var options = {
+                series: [44, 55, 13, 33],
                 chart: {
+                    width: 380,
                     type: 'donut',
-                    height: 300,
-                    fontFamily: 'Inter, sans-serif'
-                },
-                labels: ['Booked', 'Available'],
-                colors: ['#3B82F6', '#E5E7EB'],
-                legend: {
-                    position: 'bottom'
                 },
                 dataLabels: {
-                    enabled: true,
-                    formatter: function(val) {
-                        return val + "%";
-                    }
+                    enabled: false
                 },
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '70%',
-                            labels: {
-                                show: true,
-                                total: {
-                                    show: true,
-                                    label: 'Total Rooms',
-                                    formatter: function(w) {
-                                        return '{{ $doughnutChartSpaces ?? 0 }}';
-                                    }
-                                }
-                            }
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            show: false
                         }
                     }
+                }],
+                legend: {
+                    position: 'right',
+                    offsetY: 0,
+                    height: 230,
                 }
             };
 
-            var roomUtilizationChart = new ApexCharts(document.querySelector("#roomUtilizationChart"),
-                roomUtilizationOptions);
-            roomUtilizationChart.render();
+            var chart = new ApexCharts(document.querySelector("#topbookingspaces"), options);
+            chart.render();
 
-            var dates = {!! json_encode($dailyRevenue->pluck('date')) !!};
-            var totals = {!! json_encode($dailyRevenue->pluck('total')) !!};
 
             var bookingTrendsOptions = {
                 series: [{

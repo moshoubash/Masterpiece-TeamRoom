@@ -37,4 +37,9 @@ class ActivityController extends Controller
 
         return back();
     }
+
+    public function filter($type){
+        $activities = Activity::where('type', $type)->paginate(10);
+        return view('dashboard.activities.index', compact('activities'));
+    }
 }

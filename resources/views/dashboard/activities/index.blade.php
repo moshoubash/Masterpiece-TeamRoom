@@ -16,10 +16,10 @@
                     </nav>
                 </div>
                 <div>
-                    <button class="btn btn-primary">
+                    <a href="/dashboard/activities" class="btn btn-primary">
                         <i class="align-middle" data-feather="refresh-cw"></i> 
                         <span class="ms-1 d-none d-sm-inline">Refresh</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -33,21 +33,15 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Activities</h5>
                         <div class="d-flex gap-2">
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" class="form-control" placeholder="Search activities...">
-                                <button class="btn btn-outline-secondary" type="button">
-                                    <i class="align-middle" data-feather="search"></i>
-                                </button>
-                            </div>
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="align-middle" data-feather="filter"></i> Filter
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                    <li><a class="dropdown-item" href="#">All Types</a></li>
-                                    <li><a class="dropdown-item" href="#">User</a></li>
-                                    <li><a class="dropdown-item" href="#">System</a></li>
-                                    <li><a class="dropdown-item" href="#">Admin</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/activities">All Types</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/activities/user">User</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/activities/system">System</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/activities/admin">Admin</a></li>
                                 </ul>
                             </div>
                         </div>

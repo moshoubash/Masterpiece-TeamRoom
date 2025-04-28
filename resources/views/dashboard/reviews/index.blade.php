@@ -16,10 +16,10 @@
                     </nav>
                 </div>
                 <div>
-                    <button class="btn btn-primary">
+                    <a href="/dashboard/reviews" class="btn btn-primary">
                         <i class="align-middle" data-feather="refresh-cw"></i> 
                         <span class="ms-1 d-none d-sm-inline">Refresh</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -33,23 +33,17 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Reviews</h5>
                         <div class="d-flex gap-2">
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" class="form-control" placeholder="Search reviews...">
-                                <button class="btn btn-outline-secondary" type="button">
-                                    <i class="align-middle" data-feather="search"></i>
-                                </button>
-                            </div>
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="align-middle" data-feather="filter"></i> Filter
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                    <li><a class="dropdown-item" href="#">All Ratings</a></li>
-                                    <li><a class="dropdown-item" href="#">5 Stars</a></li>
-                                    <li><a class="dropdown-item" href="#">4 Stars</a></li>
-                                    <li><a class="dropdown-item" href="#">3 Stars</a></li>
-                                    <li><a class="dropdown-item" href="#">2 Stars</a></li>
-                                    <li><a class="dropdown-item" href="#">1 Star</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews">All Ratings</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews/5">5 Stars</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews/4">4 Stars</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews/3">3 Stars</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews/2">2 Stars</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/reviews/1">1 Star</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -82,22 +76,16 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-xs me-2 bg-primary bg-opacity-10 text-primary rounded-circle">
-                                                    <span>{{ substr($review->reviewer_id, 0, 1) }}</span>
-                                                </div>
                                                 {{ $review->reviewer_id ?? 0 }}
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-xs me-2 bg-info bg-opacity-10 text-info rounded-circle">
-                                                    <span>{{ substr($review->reviewee_id, 0, 1) }}</span>
-                                                </div>
                                                 {{ $review->reviewee_id ?? 0 }}
                                             </div>
                                         </td>
                                         <td>
-                                            <a href="/dashboard/spaces/{{ $review->space_id }}" class="text-decoration-none">
+                                            <a href="/dashboard/spaces/{{ $review->space_id }}" class="text-decoration-none text-primary">
                                                 {{ $review->space_id ?? 0 }}
                                             </a>
                                         </td>
@@ -112,15 +100,6 @@
                                                     };
                                                 @endphp
                                                 <span class="badge bg-{{ $ratingColor }}-subtle text-{{ $ratingColor }} me-2">{{ $rating }}</span>
-                                                <div class="rating-stars">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $rating)
-                                                            <i class="text-warning" data-feather="star" style="width: 14px; height: 14px;"></i>
-                                                        @else
-                                                            <i class="text-muted" data-feather="star" style="width: 14px; height: 14px;"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div>
                                             </div>
                                         </td>
                                         <td>

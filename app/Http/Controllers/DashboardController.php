@@ -32,7 +32,7 @@ class DashboardController extends Controller
             ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
             ->where('status', 'completed')
             ->groupBy(DB::raw('DATE(created_at)'))
-            ->orderByDesc('date')
+            ->orderBy('date')
             ->get();
 
         return view('dashboard', [

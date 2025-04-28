@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 use App\Models\User;
@@ -77,7 +78,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Route for the Reviews
 
     Route::resource('/dashboard/reviews', ReviewController::class);
-
+    Route::get('/dashboard/reviews/{review}', [ReviewController::class, 'filter'])->name('reviews.search');
     // Route for Transactions
 
     Route::resource('/dashboard/transactions', TransactionController::class);
@@ -87,6 +88,9 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::resource('/dashboard/notifications', NotificationController::class);
     Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
+
+    // Routes for activities
+    Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
 });
 
 // Routes for public website
@@ -134,9 +138,6 @@ Route::middleware(['auth', 'host'])->group(function () {
     Route::get('/host/verification', [VerificationController::class, 'verification'])->name('verification.page');
     Route::post('/host/verification/submit', [VerificationController::class, 'submit'])->name('verification.submit');
 });
-
-// Reports Routes
-use App\Http\Controllers\ReportController;
 
 Route::get('/export/{table}/excel', [ReportController::class, 'exportExcel'])->name('export.excel')->middleware('auth', 'admin');
 Route::get('/export/{table}/csv', [ReportController::class, 'exportCsv'])->name('export.csv')->middleware('auth', 'admin');
