@@ -16,7 +16,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->roles->first()->name !== 'admin') {
+        if(Auth::user()->roles->first()->name !== 'admin' && Auth::user()->roles->first()->name !== 'superadmin') {
             abort(403);
         }
 

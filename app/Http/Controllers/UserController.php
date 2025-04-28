@@ -265,6 +265,18 @@ class UserController extends Controller
             $users = User::orderBy('created_at', 'desc')->paginate(10);
         }
 
+        if($option == 'deleted'){
+            $users = User::where('is_deleted', true)->paginate(10);
+        }
+
         return view('dashboard.users.index', ['users' => $users]);
+    }
+
+    public function restore($id){
+        $user = User::findOrFail($id);
+        $user->is_deleted = false;
+        $user->save();
+
+        return back()->with('message', 'user restored successfully.');
     }
 }

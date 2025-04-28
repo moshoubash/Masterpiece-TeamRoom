@@ -18,7 +18,7 @@
                 <div>
                     <button class="btn btn-primary">
                         <i class="align-middle" data-feather="refresh-cw"></i> 
-                        <span class="ms-1 d-none d-sm-inline">Refresh</span>
+                        <a href="/dashboard/kyc/requests" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
                     </button>
                 </div>
             </div>
@@ -47,25 +47,6 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Pending KYC Verification Requests</h5>
-                        <div class="d-flex gap-2">
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" class="form-control" placeholder="Search users...">
-                                <button class="btn btn-outline-secondary" type="button">
-                                    <i class="align-middle" data-feather="search"></i>
-                                </button>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="align-middle" data-feather="filter"></i> Filter
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                                    <li><a class="dropdown-item" href="#">All Requests</a></li>
-                                    <li><a class="dropdown-item" href="#">Today's Requests</a></li>
-                                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 

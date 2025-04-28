@@ -27,7 +27,11 @@
                         <h5 class="card-title mb-0">All Users</h5>
                         <div>
                             <div class="btn-group ms-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="btn btn-sm btn-danger me-1 text-white" href="/dashboard/users/deleted"> 
+                                    <i class="fa-solid fa-user-minus me-1"></i> 
+                                    Deleted Users
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-filter me-1"></i> Filter
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -48,8 +52,9 @@
                                 <tr>
                                     <th width="60">ID</th>
                                     <th width="70">Avatar</th>
-                                    <th>User</th>
-                                    <th class="text-center" width="100">Status</th>
+                                    <th width="200">User</th>
+                                    <th class="text-center" width="100">Role</th>
+                                    <th class="text-center">Email Status</th>
                                     <th>Registered</th>
                                     <th width="100">Is Deleted</th>
                                     <th class="text-center" width="140">Actions</th>
@@ -70,6 +75,19 @@
                                             <div class="d-flex flex-column">
                                                 <span class="fw-medium">{{ $user->first_name }} {{ $user->last_name }}</span>
                                                 <small class="text-muted">{{ $user->email }}</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column align-items-center">
+                                                @if ($user->roles->first()->name == 'admin')
+                                                    <span class="badge bg-danger">Admin</span>
+                                                @elseif ($user->roles->first()->name == 'superadmin')
+                                                    <span class="badge bg-primary">Super Admin</span>
+                                                @elseif ($user->roles->first()->name == 'host')
+                                                    <span class="badge bg-info">Host</span>
+                                                @else
+                                                    <span class="badge bg-warning">Renter</span>
+                                                @endif
                                             </div>
                                         </td>
                                         <td class="text-center">
@@ -105,6 +123,15 @@
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}" data-bs-toggle="tooltip" title="Delete User">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
+                                                @if ($user->is_deleted == true)
+                                                <form action="{{ route('user.restore', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-success btn-sm text-white" title="Restore User">
+                                                        <i class="fa-solid fa-trash-restore me-1"></i>
+                                                    </button>
+                                                </form>
+                                                @endif
                                             </div>
 
                                             <!-- Delete Modal -->

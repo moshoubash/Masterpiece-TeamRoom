@@ -50,12 +50,6 @@
                 <div class="card-header bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Roles</h5>
-                        <div class="input-group" style="width: 200px;">
-                            <input type="text" class="form-control form-control-sm" placeholder="Search roles...">
-                            <button class="btn btn-sm btn-outline-secondary" type="button">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">

@@ -59,7 +59,8 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/dashboard/users/search', [UserController::class, 'search'])->name('users.search');
     Route::get('/dashboard/users/{option}', [UserController::class, 'filter'])->name('users.filter');
-    
+    Route::put('/dashboard/user/{id}/restore', [UserController::class, 'restore'])->name('user.restore');
+
     // Route for the Roles
     Route::resource('/dashboard/roles', RoleController::class);
 
