@@ -55,4 +55,49 @@ class TransactionController extends Controller
 
         return back();
     }
+
+    // filter function
+
+    public function filter(Request $request)
+    {
+        $query = Transaction::query();
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Search Keyword filter
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('id', 'like', '%' . $request->search . '%')
+                    ->orWhere('booking_id', 'like', '%' . $request->search . '%')
+                    ->orWhere('transaction_type', 'like', '%' . $request->search . '%')
+                    ->orWhere('amount', 'like', '%' . $request->search . '%')
+                    ->orWhere('status', 'like', '%' . $request->search . '%')
+                    ->orWhere('payment_method', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Sort filter
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'oldest':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'amount':
+                    $query->orderBy('amount', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $transactions = $query->paginate(10);
+
+        return view('dashboard.transactions.index', compact('transactions'));
+    }
 }

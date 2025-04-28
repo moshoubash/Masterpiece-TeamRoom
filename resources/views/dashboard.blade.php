@@ -89,7 +89,7 @@
         <div class="col-12 col-lg-6 mb-3">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Booking per day</h5>
+                    <h5 class="card-title mb-0">Profits per date</h5>
                 </div>
                 <div class="card-body">
                     <div id="bookingTrendsChart" style="height: 300px;"></div>
@@ -157,8 +157,7 @@
                                                     title="Edit Space">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $space->id }}"
                                                     data-bs-toggle="tooltip" title="Delete Space">
                                                     <i class="fa-solid fa-trash"></i>
@@ -181,7 +180,8 @@
                                                                     class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this space?</h5>
                                                                 <p class="text-muted mb-0">Space:
-                                                                    <strong>{{ $space->title }}</strong></p>
+                                                                    <strong>{{ $space->title }}</strong>
+                                                                </p>
                                                                 <p class="text-muted">This action cannot be undone.</p>
                                                             </div>
                                                         </div>
@@ -275,11 +275,13 @@
                 roomUtilizationOptions);
             roomUtilizationChart.render();
 
-            // Booking Trends Chart (Line)
+            var dates = {!! json_encode($dailyRevenue->pluck('date')) !!};
+            var totals = {!! json_encode($dailyRevenue->pluck('total')) !!};
+
             var bookingTrendsOptions = {
                 series: [{
-                    name: 'Bookings',
-                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 150, 135, 160]
+                    name: 'Daily Revenue',
+                    data: totals
                 }],
                 chart: {
                     type: 'line',
@@ -295,13 +297,14 @@
                 },
                 colors: ['#3B82F6'],
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-                        'Dec'
-                    ]
+                    categories: dates, // the list of dates from Laravel
+                    title: {
+                        text: 'Date'
+                    }
                 },
                 yaxis: {
                     title: {
-                        text: 'Number of Bookings'
+                        text: 'Revenue ($)'
                     }
                 },
                 grid: {
@@ -317,7 +320,7 @@
                 tooltip: {
                     y: {
                         formatter: function(val) {
-                            return val + " bookings";
+                            return "$" + val;
                         }
                     }
                 }

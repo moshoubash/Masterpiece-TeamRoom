@@ -21,17 +21,17 @@
 <!-- Search and filters -->
 <div class="card mb-4">
     <div class="card-body">
-        <form class="row g-3">
+        <form class="row g-3 align-items-center" action="{{route('transactions.filter', )}}" method="GET">
             <div class="col-lg-3 col-md-6">
                 <label for="search" class="form-label">Search</label>
                 <div class="input-group">
                     <span class="input-group-text bg-transparent"><i class="fa-solid fa-search"></i></span>
-                    <input type="text" class="form-control" id="search" placeholder="Search transactions...">
+                    <input type="text" name="search" class="form-control" id="search" placeholder="Search transactions...">
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status">
+                <select class="form-select" id="status" name="status">
                     <option value="">All Statuses</option>
                     <option value="completed">Completed</option>
                     <option value="pending">Pending</option>
@@ -39,20 +39,21 @@
                 </select>
             </div>
             <div class="col-lg-3 col-md-6">
-                <label for="dateFrom" class="form-label">Date From</label>
-                <input type="date" class="form-control" id="dateFrom">
+                <label for="sort" class="form-label">Sort</label>
+                <select class="form-select" id="sort" name="sort">
+                    <option value="">Select Sort</option>
+                    <option value="oldest">From Oldest</option>
+                    <option value="newest">From Newest</option>
+                    <option value="amount">By Amount</option>
+                </select>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <label for="dateTo" class="form-label">Date To</label>
-                <input type="date" class="form-control" id="dateTo">
-            </div>
-            <div class="col-12 text-end">
+            <div class="col-3 text-end mt-5">
                 <button type="submit" class="btn btn-primary px-4">
                     <i class="fa-solid fa-filter me-1"></i> Filter
                 </button>
-                <button type="reset" class="btn btn-outline-secondary">
+                <a title="reset filters" href="/dashboard/transactions" class="btn btn-outline-secondary">
                     <i class="fa-solid fa-rotate me-1"></i> Reset
-                </button>
+                </a>
             </div>
         </form>
     </div>
@@ -68,9 +69,9 @@
                     <i class="fa-solid fa-download me-1"></i> Export
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-excel me-2"></i>Excel</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-pdf me-2"></i>PDF</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-csv me-2"></i>CSV</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.excel', ['table' => 'transactions']) }}"><i class="fa-solid fa-file-excel me-2"></i>Excel</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.pdf', ['table' => 'transactions']) }}"><i class="fa-solid fa-file-pdf me-2"></i>PDF</a></li>
+                    <li><a class="dropdown-item" href="{{ route('export.csv', ['table' => 'transactions']) }}"><i class="fa-solid fa-file-csv me-2"></i>CSV</a></li>
                 </ul>
             </div>
         </div>
@@ -90,7 +91,7 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                @foreach ($transactions->sortByDesc('created_at') as $transaction)
+                @foreach ($transactions as $transaction)
                     <tr>
                         <td>
                             <span class="fw-medium">#{{ $transaction->booking_id ?? 0}}</span>

@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Space;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -25,15 +26,23 @@ class DashboardController extends Controller
         $totalBookings = Booking::count();
 
         $spaces = Space::paginate(10);
-        $doughnutChartSpaces = Space::all()->count(); 
-        
+        $doughnutChartSpaces = Space::all()->count();
+
+        $dailyRevenue = DB::table('transactions')
+            ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
+            ->where('status', 'completed')
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderByDesc('date')
+            ->get();
+
         return view('dashboard', [
             'totalRevenue' => $totalRevenue,
             'totalUsers' => $totalUsers,
             'totalSpaces' => $totalSpaces,
             'totalBookings' => $totalBookings,
             'spaces' => $spaces,
-            'doughnutChartSpaces' => $doughnutChartSpaces
+            'doughnutChartSpaces' => $doughnutChartSpaces,
+            'dailyRevenue' => $dailyRevenue
         ]);
     }
 

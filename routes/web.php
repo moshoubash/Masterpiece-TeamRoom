@@ -78,6 +78,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Route for Transactions
 
     Route::resource('/dashboard/transactions', TransactionController::class);
+    Route::get('/transactions/search', [TransactionController::class, 'filter'])->name('transactions.filter');
 
     // Route for the Notifications
 
@@ -130,5 +131,12 @@ Route::middleware(['auth', 'host'])->group(function () {
     Route::get('/host/verification', [VerificationController::class, 'verification'])->name('verification.page');
     Route::post('/host/verification/submit', [VerificationController::class, 'submit'])->name('verification.submit');
 });
+
+// Reports Routes
+use App\Http\Controllers\ReportController;
+
+Route::get('/export/{table}/excel', [ReportController::class, 'exportExcel'])->name('export.excel')->middleware('auth', 'admin');
+Route::get('/export/{table}/csv', [ReportController::class, 'exportCsv'])->name('export.csv')->middleware('auth', 'admin');
+Route::get('/export/{table}/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf')->middleware('auth', 'admin');
 
 require __DIR__.'/auth.php';
