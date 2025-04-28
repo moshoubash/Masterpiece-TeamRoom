@@ -15,6 +15,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
+use App\Models\User;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -53,13 +54,12 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
 Route::middleware('auth', 'admin')->group(function () {
     // Route for the Users
     Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
-
     Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit']);
-
     Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])->name('users.update');
-
     Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
-
+    Route::get('/dashboard/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('/dashboard/users/{option}', [UserController::class, 'filter'])->name('users.filter');
+    
     // Route for the Roles
     Route::resource('/dashboard/roles', RoleController::class);
 

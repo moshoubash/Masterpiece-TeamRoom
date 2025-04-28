@@ -234,4 +234,37 @@ class UserController extends Controller
 
         return redirect('/login')->with('message', 'password updated successfully.');
     }
+
+    public function search(Request $request){
+        $query = User::query();
+        
+        $searchTerm = $request->input('query');
+
+        $query->where(function ($q) use ($searchTerm) {
+            $q->where('first_name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                ->orWhere('phone_number', 'like', '%' . $searchTerm . '%');
+        });
+
+        $users = $query->paginate(10);
+
+        return view('dashboard.users.index', ['users' => $users]);
+    }
+
+    public function filter($option){
+        if($option == 'verified'){
+            $users = User::where('is_verified', true)->paginate(10);
+        }
+
+        if($option == 'unverified'){
+            $users = User::where('is_verified', false)->paginate(10);
+        }
+
+        if($option == 'recent'){
+            $users = User::orderBy('created_at', 'desc')->paginate(10);
+        }
+
+        return view('dashboard.users.index', ['users' => $users]);
+    }
 }

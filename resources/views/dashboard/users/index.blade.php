@@ -7,10 +7,12 @@
                 <h1 class="h3 mb-0"><strong>Users</strong> Management</h1>
                 <div>
                     <div class="input-group" style="width: 250px;">
-                        <input type="text" class="form-control" id="search-users" placeholder="Search users...">
-                        <button class="btn btn-outline-primary" type="button">
-                            <i class="fa-solid fa-search"></i>
-                        </button>
+                        <form action="{{route('users.search')}}" method="GET" class="d-flex">
+                            <input type="text" class="form-control" name="query" placeholder="Search users...">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="fa-solid fa-search"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -24,19 +26,16 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Users</h5>
                         <div>
-                            <button class="btn btn-sm btn-outline-primary">
-                                <i class="fa-solid fa-user-plus me-1"></i> Add User
-                            </button>
                             <div class="btn-group ms-2">
                                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-filter me-1"></i> Filter
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">All Users</a></li>
-                                    <li><a class="dropdown-item" href="#">Verified Users</a></li>
-                                    <li><a class="dropdown-item" href="#">Unverified Users</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/users">All Users</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/users/verified">Verified Users</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/users/unverified">Unverified Users</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Recently Added</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/users/recent">Recently Added</a></li>
                                 </ul>
                             </div>
                         </div>
