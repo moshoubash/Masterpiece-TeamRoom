@@ -1,30 +1,14 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Manage Bookings')
 @section('content')
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0"><strong>Manage</strong> Bookings</h1>
-                <div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-filter me-1"></i> Filter
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">All Bookings</a></li>
-                            <li><a class="dropdown-item" href="#">Confirmed</a></li>
-                            <li><a class="dropdown-item" href="#">Pending</a></li>
-                            <li><a class="dropdown-item" href="#">Cancelled</a></li>
-                            <li><a class="dropdown-item" href="#">Completed</a></li>
-                        </ul>
-                    </div>
-                    <button class="btn btn-outline-secondary ms-2">
-                        <i class="fa-solid fa-download me-1"></i> Export
-                    </button>
-                </div>
-            </div>
+    
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0"><strong>Manage</strong> Bookings</h1>
         </div>
     </div>
+</div>
 
     <!--Alert if there is a message-->
     @if (session('message'))
@@ -47,11 +31,24 @@
                 <div class="card-header bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Bookings</h5>
-                        <div class="input-group" style="width: 250px;">
-                            <input type="text" class="form-control" id="search-bookings" placeholder="Search bookings...">
-                            <button class="btn btn-outline-secondary" type="button">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa-solid fa-filter me-1"></i> Filter
+                                            </button>
+                                            <ul class="dropdown-menu" name="status">
+                                                <li><a class="dropdown-item" href="/bookings/status/confirmed">Confirmed</a></li>
+                                                <li><a class="dropdown-item" href="/bookings/status/pending">Pending</a></li>
+                                                <li><a class="dropdown-item" href="/bookings/status/cancelled">Cancelled</a></li>
+                                                <li><a class="dropdown-item" href="/bookings/status/completed">Completed</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

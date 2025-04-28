@@ -45,12 +45,6 @@
                         <span class="pc-mtext">Transactions</span>
                     </a>
                 </li>
-                <li class="pc-item">
-                    <a href="/dashboard/reports" class="pc-link {{ request()->is('dashboard/reports*') ? 'active' : '' }}">
-                        <span class="pc-micon"><i class="ti ti-file-analytics"></i></span>
-                        <span class="pc-mtext">Reports</span>
-                    </a>
-                </li>
                 
                 <!-- User Management Section -->
                 <li class="pc-item pc-caption">
@@ -62,6 +56,14 @@
                         <span class="pc-mtext">Users</span>
                     </a>
                 </li>
+                @if (Auth::user()->roles->first()->name == 'superadmin')
+                    <li class="pc-item">
+                        <a href="/dashboard/admins" class="pc-link {{ request()->is('dashboard/admins*') ? 'active' : '' }}">
+                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                            <span class="pc-mtext">Admins</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="pc-item">
                     <a href="/dashboard/roles" class="pc-link {{ request()->is('dashboard/roles*') ? 'active' : '' }}">
                         <span class="pc-micon"><i class="ti ti-shield"></i></span>

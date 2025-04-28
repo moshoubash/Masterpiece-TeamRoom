@@ -16,7 +16,7 @@ class CheckAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->roles->first()->name !== 'admin') {
+        if (Auth::check() && Auth::user()->roles->first()->name !== 'admin' && Auth::user()->roles->first()->name !== 'superadmin') {
             return back()->with('error', 'You do not have permission to access this page.');
         }
         return $next($request);

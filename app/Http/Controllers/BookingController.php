@@ -106,4 +106,10 @@ class BookingController extends Controller
 
         return view('pages.404');
     }
+
+    public function filter($status) {
+        $bookings = Booking::where('status', $status)->paginate(10);
+        
+        return view('dashboard.booking.index', compact('bookings'));
+    }
 }

@@ -71,6 +71,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Route for the Booking
 
     Route::resource('/dashboard/bookings', BookingController::class);
+    Route::get('/bookings/status/{status}', [BookingController::class, 'filter'])->name('bookings.search');
 
     // Route for the Reviews
 
