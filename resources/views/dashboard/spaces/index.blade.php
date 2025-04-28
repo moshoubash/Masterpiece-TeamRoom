@@ -16,10 +16,12 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">All Listings</h5>
                         <div class="input-group" style="width: 250px;">
-                            <input type="text" class="form-control" id="search-spaces" placeholder="Search spaces...">
-                            <button class="btn btn-outline-secondary" type="button">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
+                            <form action="{{ route('spaces.search') }}" method="GET" class="d-flex">
+                                <input type="text" name="search" class="form-control" placeholder="Search spaces...">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

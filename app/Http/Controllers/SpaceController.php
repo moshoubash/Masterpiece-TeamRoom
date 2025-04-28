@@ -15,35 +15,23 @@ use Illuminate\Support\Facades\Storage;
 
 class SpaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('dashboard.spaces.index', ['spaces' => Space::paginate(10)]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $space = Space::findOrFail($id);
         return view('dashboard.spaces.show', ['space' => $space]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $space = Space::findOrFail($id);
         return view('dashboard.spaces.edit', ['space' => $space]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $space = Space::findOrFail($id);
@@ -52,9 +40,6 @@ class SpaceController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $space = Space::findOrFail($id);
@@ -331,5 +316,29 @@ class SpaceController extends Controller
         $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
 
         return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
+    }
+
+    public function filter(Request $request) {
+        $query = Space::query();
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('city', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%')
+                    ->orWhere('street_address', 'like', '%' . $request->search . '%')
+                    ->orWhere('country', 'like', '%' . $request->search . '%')
+                    ->orWhere('postal_code', 'like', '%' . $request->search . '%')
+                    ->orWhere('capacity', 'like', '%' . $request->search . '%')
+                    ->orWhere('hourly_rate', 'like', '%' . $request->search . '%')
+                    ->orWhere('min_booking_duration', 'like', '%' . $request->search . '%')
+                    ->orWhere('max_booking_duration', 'like', '%' . $request->search . '%')
+                    ->orWhere('host_id', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $spaces = $query->paginate(10);
+
+        return view('dashboard.spaces.index', ['spaces' => $spaces]);
     }
 }

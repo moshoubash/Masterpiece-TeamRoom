@@ -66,6 +66,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Route for the Spaces
 
     Route::resource('/dashboard/spaces', SpaceController::class);
+    Route::get('/spaces/search', [SpaceController::class, 'filter'])->name('spaces.search');
 
     // Route for the Booking
 
