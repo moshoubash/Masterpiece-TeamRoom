@@ -37,17 +37,17 @@
 <!-- Search and filters -->
 <div class="card mb-4">
     <div class="card-body">
-        <form class="row g-3">
+        <form class="row g-3" action="{{ route('notifications.filter') }}">
             <div class="col-lg-4 col-md-6">
                 <label for="search" class="form-label">Search</label>
                 <div class="input-group">
                     <span class="input-group-text bg-transparent"><i class="fa-solid fa-search"></i></span>
-                    <input type="text" class="form-control" id="search" placeholder="Search notifications...">
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Search notifications...">
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <label for="type" class="form-label">Type</label>
-                <select class="form-select" id="type">
+                <select class="form-select" id="type" name="type">
                     <option value="">All Types</option>
                     <option value="alert">Alert</option>
                     <option value="booking">Booking</option>
@@ -59,7 +59,7 @@
             </div>
             <div class="col-lg-3 col-md-6">
                 <label for="read-status" class="form-label">Status</label>
-                <select class="form-select" id="read-status">
+                <select name="status" class="form-select" id="read-status">
                     <option value="">All Status</option>
                     <option value="read">Read</option>
                     <option value="unread">Unread</option>
@@ -79,17 +79,6 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">All Notifications</h5>
-            <div class="dropdown">
-                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="bulkActionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-list-check me-1"></i> Bulk Actions
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="bulkActionDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye me-2"></i>Mark Selected as Read</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye-slash me-2"></i>Mark Selected as Unread</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-trash me-2"></i>Delete Selected</a></li>
-                </ul>
-            </div>
         </div>
     </div>
     <div class="table-responsive">
@@ -171,7 +160,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <form action="/dashboard/notifications/{{$item->id}}/markAsUnread" method="post">
+                                    <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Mark as Unread">
@@ -237,7 +226,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <form action="/dashboard/notifications/{{ $item->id }}" method="post">
+                                            <form action="{{ route('notifications.destroy', $item->id) }}') }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">
@@ -285,12 +274,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="createNotificationModalLabel">Create New Notification</h5>
+                <h5 class="modal-title text-white" id="createNotificationModalLabel">Create New Notification</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form method="POST" action="{{ route('notifications.store') }}">
                     @csrf
+                    @method('POST')
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" name="title" id="title" class="form-control" placeholder="Enter notification title" required>

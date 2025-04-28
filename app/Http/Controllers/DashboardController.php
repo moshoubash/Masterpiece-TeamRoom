@@ -16,7 +16,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->roles->first()->name !== 'admin' && Auth::user()->roles->first()->name !== 'superadmin') {
+        if (Auth::user()->roles->first()->name !== 'admin' && Auth::user()->roles->first()->name !== 'superadmin') {
             abort(403);
         }
 
@@ -35,6 +35,12 @@ class DashboardController extends Controller
             ->orderBy('date')
             ->get();
 
+        $topSpaceBookings = DB::table('spaces')
+            ->select('spaces.id', 'spaces.title as SpaceName', DB::raw('COUNT(spaces.id) as SpaceBookings'))
+            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
+            ->groupBy('bookings.space_id', 'spaces.id', 'spaces.title')
+            ->get();
+        
         return view('dashboard', [
             'totalRevenue' => $totalRevenue,
             'totalUsers' => $totalUsers,
@@ -42,50 +48,52 @@ class DashboardController extends Controller
             'totalBookings' => $totalBookings,
             'spaces' => $spaces,
             'doughnutChartSpaces' => $doughnutChartSpaces,
-            'dailyRevenue' => $dailyRevenue
+            'dailyRevenue' => $dailyRevenue,
+            'topSpaceBookings' => $topSpaceBookings
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $query = $request->input('search');
-        
-        if(str_contains($query, 'space')){
+
+        if (str_contains($query, 'space')) {
             return redirect('/dashboard/spaces');
         }
 
-        if(str_contains($query, 'user')){
+        if (str_contains($query, 'user')) {
             return redirect('/dashboard/users');
         }
 
-        if(str_contains($query, 'booking')){
+        if (str_contains($query, 'booking')) {
             return redirect('/dashboard/bookings');
         }
 
-        if(str_contains($query, 'review')){
+        if (str_contains($query, 'review')) {
             return redirect('/dashboard/reviews');
         }
 
-        if(str_contains($query, 'transaction')){
+        if (str_contains($query, 'transaction')) {
             return redirect('/dashboard/transactions');
         }
 
-        if(str_contains($query, 'notification')){
+        if (str_contains($query, 'notification')) {
             return redirect('/dashboard/notifications');
         }
 
-        if(str_contains($query, 'role')){
+        if (str_contains($query, 'role')) {
             return redirect('/dashboard/roles');
         }
 
-        if(str_contains($query, 'activity')){
+        if (str_contains($query, 'activity')) {
             return redirect('/dashboard/activities');
         }
 
-        if(str_contains($query, 'kyc')){
+        if (str_contains($query, 'kyc')) {
             return redirect('/dashboard/kyc/requests');
         }
 
-        if(str_contains($query, 'setting')){
+        if (str_contains($query, 'setting')) {
             return redirect('/dashboard/settings');
         }
 

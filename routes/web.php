@@ -16,8 +16,6 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
-use App\Models\User;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -86,9 +84,11 @@ Route::middleware('auth', 'admin')->group(function () {
 
     // Route for the Notifications
 
-    Route::resource('/dashboard/notifications', NotificationController::class);
+    // Route::resource('/dashboard/notifications', NotificationController::class);
     Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
-
+    Route::get('/dashboard/notifications/filter', [NotificationController::class, 'filter'])->name('notifications.filter');
+    Route::post('/dashboard/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
+    Route::delete('/dashboard/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     // Routes for activities
     Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
 });

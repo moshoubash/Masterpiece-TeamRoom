@@ -101,7 +101,7 @@
     <!-- Bottom Row - Table + Sidebar -->
     <div class="row">
         <!-- Main Table - Meeting Rooms -->
-        <div class="col-12 col-xl-9 mb-3">
+        <div class="col-12 col-xl-12 mb-3">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Room Availability</h5>
@@ -214,18 +214,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Sidebar - Vertical Section -->
-        <div class="col-12 col-xl-3 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Peak Hours</h5>
-                </div>
-                <div class="card-body">
-                    <div id="peakHoursChart" style="height: 350px;"></div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- ApexCharts JS -->
@@ -238,11 +226,12 @@
 
             //Three Bookings sapces #topbookingspaces
             var options = {
-                series: [44, 55, 13, 33],
+                series: [{{$topSpaceBookings[0]->SpaceBookings}}, {{$topSpaceBookings[1]->SpaceBookings}}, {{$topSpaceBookings[2]->SpaceBookings}}],
                 chart: {
                     width: 380,
                     type: 'donut',
                 },
+                labels: ['{{ $topSpaceBookings[0]->SpaceName ?? 'No Space' }}', '{{ $topSpaceBookings[1]->SpaceName }}', '{{ $topSpaceBookings[2]->SpaceName }}'],
                 dataLabels: {
                     enabled: false
                 },
@@ -258,15 +247,12 @@
                     }
                 }],
                 legend: {
-                    position: 'right',
-                    offsetY: 0,
-                    height: 230,
+                    position: 'bottom',
                 }
             };
 
             var chart = new ApexCharts(document.querySelector("#topbookingspaces"), options);
             chart.render();
-
 
             var bookingTrendsOptions = {
                 series: [{
@@ -319,58 +305,6 @@
             var bookingTrendsChart = new ApexCharts(document.querySelector("#bookingTrendsChart"),
                 bookingTrendsOptions);
             bookingTrendsChart.render();
-
-            // Peak Hours Chart (Vertical Bar)
-            var peakHoursOptions = {
-                series: [{
-                    name: 'Bookings',
-                    data: [12, 19, 27, 30, 32, 29, 22, 18, 14, 9]
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    fontFamily: 'Inter, sans-serif',
-                    toolbar: {
-                        show: false
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        vertical: true,
-                        columnWidth: '65%',
-                        distributed: false,
-                        dataLabels: {
-                            position: 'top'
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    formatter: function(val) {
-                        return val;
-                    },
-                    offsetY: -20
-                },
-                colors: ['#3B82F6'],
-                xaxis: {
-                    categories: ['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'],
-                    axisBorder: {
-                        show: false
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Bookings'
-                    }
-                },
-                grid: {
-                    borderColor: '#f1f1f1',
-                    strokeDashArray: 4
-                }
-            };
-
-            var peakHoursChart = new ApexCharts(document.querySelector("#peakHoursChart"), peakHoursOptions);
-            peakHoursChart.render();
         });
     </script>
 @endsection
