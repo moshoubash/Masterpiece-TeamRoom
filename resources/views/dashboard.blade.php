@@ -226,12 +226,12 @@
 
             //Three Bookings sapces #topbookingspaces
             var options = {
-                series: [{{$topSpaceBookings[0]->SpaceBookings}}, {{$topSpaceBookings[1]->SpaceBookings}}, {{$topSpaceBookings[2]->SpaceBookings}}],
+                series: [{{$topSpaceBookings[0]->SpaceBookings ?? 0}}, {{$topSpaceBookings[1]->SpaceBookings ?? 0}}, {{$topSpaceBookings[2]->SpaceBookings ?? 0}}],
                 chart: {
                     width: 380,
                     type: 'donut',
                 },
-                labels: ['{{ $topSpaceBookings[0]->SpaceName ?? 'No Space' }}', '{{ $topSpaceBookings[1]->SpaceName }}', '{{ $topSpaceBookings[2]->SpaceName }}'],
+                labels: ['{{ $topSpaceBookings[0]->SpaceName ?? 'No Space' }}', '{{ $topSpaceBookings[1]->SpaceName ?? 'No Space' }}', '{{ $topSpaceBookings[2]->SpaceName ?? 'No Space' }}'],
                 dataLabels: {
                     enabled: false
                 },

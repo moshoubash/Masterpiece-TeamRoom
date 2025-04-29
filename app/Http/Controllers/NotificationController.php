@@ -5,23 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('dashboard.notifications.index', [
-            'notifications' => Notification::paginate(10),
+            'notifications' => Notification::where('user_id', Auth::user()->id)->paginate(10),
             'users' => User::all()
         ]);
     }
-    
-    /**
-     * Store a newly created resource in storage.
-     */
     
     public function store(Request $request)
     {
@@ -60,7 +54,6 @@ class NotificationController extends Controller
         ]);
     }
     
-    // mark as read
     public function markAsRead(Request $request){
         $notification = Notification::find($request->id);
         $notification->is_read = true;

@@ -93,7 +93,6 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Type</th>
-                    <th>Message</th>
                     <th>Created At</th>
                     <th width="100" class="text-center">Status</th>
                     <th width="100" class="text-center">Actions</th>
@@ -134,9 +133,6 @@
                                 @default
                                     <span class="badge bg-dark">{{ $item->notification_type }}</span>
                             @endswitch
-                        </td>
-                        <td>
-                            <div class="text-truncate" style="max-width: 300px;">{{ $item->message }}</div>
                         </td>
                         <td>
                             <div>{{ (new DateTime($item->created_at))->format('Y-m-d') }}</div>

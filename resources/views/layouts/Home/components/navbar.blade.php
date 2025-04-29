@@ -47,7 +47,7 @@
                         
                         <!-- Dropdown Menu -->
                         <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-focus-within:block">
-                            @if(Auth::user()->roles[0]->name == 'admin')
+                            @if(Auth::user()->roles[0]->name == 'admin' || Auth::user()->roles[0]->name == 'superadmin')
                                 <a href="/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                                     <i class="h-5 w-5 mr-2 fa-solid fa-gauge"></i>
                                     Dashboard
@@ -61,18 +61,11 @@
                                 </a>
                             @endif
                             
-                            <a href="/bookings" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                                </svg>
-                                Profile
-                            </a>
-                            
                             <div class="border-t border-gray-100 my-1"></div>
                             
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center">
+                                <button type="submit" class="cursor-pointer w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7z" clip-rule="evenodd" />
                                         <path d="M4 9a1 1 0 011-1h4a1 1 0 110 2H5a1 1 0 01-1-1z" />
