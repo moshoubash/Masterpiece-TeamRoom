@@ -44,12 +44,6 @@
         
         <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <div class="text-gray-400 mb-4 md:mb-0">© 2025 MeetSpace. All rights reserved.</div>
-            <div class="flex space-x-4">
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-            </div>
         </div>
     </div>
 </footer>

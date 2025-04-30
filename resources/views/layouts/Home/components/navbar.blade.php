@@ -40,7 +40,7 @@
                 <div class="flex items-center space-x-4">
                     <!-- Notification Button -->
                     <div class="relative inline-block">
-                        <button id="notification-button"
+                        <button id="notification-button" title="Notifications"
                             class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 text-xl relative">
                             <i class="fa-regular fa-bell text-gray-700"></i>
                             @if(Auth::user()->notifications->count() && Auth::user()->notifications->where('is_read', false)->count() > 0)

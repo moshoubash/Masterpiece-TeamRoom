@@ -41,9 +41,9 @@
                 <!-- Location Select -->
                 <div
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label
+                    <label for="location"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Location</label>
-                    <select class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="location">
+                    <select id="location" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="location">
                         <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>Amman</option>
                         <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>Irbid</option>
                     </select>
@@ -52,27 +52,27 @@
                 <!-- Date Input -->
                 <div
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label
+                    <label for="date"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Date</label>
                     <input type="date" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
-                        name="date" value="{{ request('date', now()->format('Y-m-d')) }}">
+                        id="date" name="date" value="{{ request('date', now()->format('Y-m-d')) }}">
                 </div>
 
                 <!-- Check-in Time -->
                 <div
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label
+                    <label for="start_time"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Check-in</label>
-                    <input type="time" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
+                    <input id="start_time" type="time" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
                         name="start_time" value="{{ request('start_time', '09:00') }}">
                 </div>
 
                 <!-- Capacity -->
                 <div
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label
+                    <label for="capacity"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Capacity</label>
-                    <select name="capacity" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
+                    <select id="capacity" name="capacity" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
                         <option value="">Any capacity</option>
                         @foreach ([4, 8, 12, 20, 50] as $size)
                             <option value="{{ $size }}" {{ request('capacity') == $size ? 'selected' : '' }}>
@@ -358,7 +358,7 @@
 
                 @foreach ($testimonials as $testimonial)
                     <div
-                        class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
+                        class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 transition-shadow duration-300 hover:shadow-xl">
                         <div class="flex items-start mb-6">
                             <div class="relative">
                                 <img src="{{ asset($testimonial['image']) }}" alt="{{ $testimonial['name'] }}"
