@@ -171,8 +171,8 @@
                     <span
                         class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Curated
                         Spaces</span>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Featured Meeting Spaces</h2>
-                    <p class="text-gray-600 max-w-2xl">Discover our most popular and highly-rated meeting rooms</p>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Meeting Spaces</h2>
+                    <p class="text-gray-600 max-w-2xl">Discover our hosts latest meeting rooms</p>
                 </div>
 
                 <!-- Navigation Controls with Blade Component -->
@@ -197,138 +197,103 @@
                 </div>
             </div>
 
-            <!-- Meeting Spaces Cards Grid with Blade Components -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @php
-                    $meetingRooms = [
-                        [
-                            'id' => 1,
-                            'title' => 'Executive Boardroom',
-                            'image' => 'https://images.pexels.com/photos/236730/pexels-photo-236730.jpeg',
-                            'location' => 'Amman',
-                            'rating' => 4.8,
-                            'capacity' => 20,
-                            'price' => 20,
-                            'amenities' => ['Projector', 'Catering', 'High-speed WiFi'],
-                            'isNew' => false,
-                        ],
-                        [
-                            'id' => 2,
-                            'title' => 'Modern Conference Room',
-                            'image' => 'https://images.pexels.com/photos/6899393/pexels-photo-6899393.jpeg',
-                            'location' => 'Amman',
-                            'rating' => 4.9,
-                            'capacity' => 12,
-                            'price' => 15,
-                            'amenities' => ['Smart TV', 'Whiteboard', 'Coffee'],
-                            'isNew' => true,
-                        ],
-                        [
-                            'id' => 3,
-                            'title' => 'Creative Brainstorm Space',
-                            'image' =>
-                                'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-                            'location' => 'Amman',
-                            'rating' => 4.5,
-                            'capacity' => 5,
-                            'price' => 10,
-                            'amenities' => ['Whiteboard', 'Lounge Area', 'Art Supplies'],
-                            'isNew' => false,
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($meetingRooms as $room)
-                    <div
-                        class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-100 relative">
-                        <!-- New Badge (if applicable) -->
-                        @if ($room['isNew'])
+            <!-- Meeting Spaces Cards Carousel -->
+            <div class="relative overflow-hidden">
+                <div id="spaces-carousel" class="flex transition-transform duration-500 ease-in-out">
+                    @foreach ($meetingRooms as $index => $room)
+                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
                             <div
-                                class="absolute top-4 right-4 z-10 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                New
-                            </div>
-                        @endif
-
-                        <!-- Room Image with Hover Effect -->
-                        <div class="relative overflow-hidden h-56">
-                            <img src="{{ $room['image'] }}" alt="{{ $room['title'] }}"
-                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            </div>
-
-                            <!-- Quick Actions (visible on hover) -->
-                            <div
-                                class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                <a href="{{ route('spaces.show', $room['id']) }}"
-                                    class="bg-white/90 hover:bg-white text-blue-600 px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
-                                    View Details
-                                </a>
-                                <a href="{{ route('spaces.book', $room['id']) }}"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
-                                    Book Now
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Room Info -->
-                        <div class="p-5">
-                            <div class="flex justify-between items-start">
-                                <h3 class="font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
-                                    {{ $room['title'] }}</h3>
-                                <div class="flex items-center bg-blue-50 rounded-lg px-2 py-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    <span class="ml-1 font-medium">{{ $room['rating'] }}</span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center mt-3 text-sm text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">{{ $room['location'] }}</span>
-
-                                <span class="mx-2">•</span>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1">Up to {{ $room['capacity'] }} people</span>
-                            </div>
-
-                            <!-- Amenities -->
-                            <div class="mt-3 flex flex-wrap gap-1">
-                                @foreach ($room['amenities'] as $amenity)
-                                    <span class="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs text-gray-700">
-                                        {{ $amenity }}
-                                    </span>
-                                @endforeach
-                            </div>
-
-                            <!-- Price with Book Button -->
-                            <div class="mt-4 flex justify-between items-center">
-                                <div>
-                                    <span class="font-bold text-xl text-gray-900">${{ $room['price'] }}</span>
-                                    <span class="text-gray-600 text-sm">/hr</span>
+                                class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-100 relative">
+                                <!-- New Badge (if applicable) -->
+                                <div
+                                    class="absolute top-4 right-4 z-10 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    New
                                 </div>
 
-                                <a href="/"
-                                    class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
-                                    Check Availability
-                                </a>
+                                <!-- Room Image with Hover Effect -->
+                                <div class="relative overflow-hidden h-56">
+                                    @if (asset('storage/' . $room->images->first()->image_url) != null)
+                                        <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
+                                            alt="{{ $room->title }}"
+                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+
+                                    <!-- Quick Actions (visible on hover) -->
+                                    <div
+                                        class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                        <a href="{{ route('rooms.details', $room->slug) }}"
+                                            class="bg-white/90 hover:bg-white text-blue-600 px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Room Info -->
+                                <div class="p-5">
+                                    <div class="flex justify-between items-start">
+                                        <h3
+                                            class="font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
+                                            {{ $room->title }}</h3>
+                                        <div class="flex items-center bg-blue-50 rounded-lg px-2 py-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
+                                                viewBox="0 0 20 20" fill="currentColor">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            <span class="ml-1 font-medium">{{ '0.0' }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center mt-3 text-sm text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="ml-1">{{ $room->city }}</span>
+
+                                        <span class="mx-2">•</span>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="ml-1">Up to {{ $room->capacity }} people</span>
+                                    </div>
+
+                                    <!-- Amenities -->
+                                    <div class="mt-3 flex flex-wrap gap-1">
+                                        @foreach ($room->amenities as $amenity)
+                                            <span
+                                                class="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs text-gray-700">
+                                                {{ $amenity->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+
+                                    <!-- Price with Book Button -->
+                                    <div class="mt-4 flex justify-between items-center">
+                                        <div>
+                                            <span class="font-bold text-xl text-gray-900">${{ $room->hourly_rate }}</span>
+                                            <span class="text-gray-600 text-sm">/hr</span>
+                                        </div>
+
+                                        <a href="/explore"
+                                            class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
+                                            Check Availability
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
 
             <!-- View All Button -->
@@ -357,33 +322,33 @@
                 @php
                     $testimonials = [
                         [
-                            'name' => 'John Rodriguez',
+                            'name' => 'Hanif Kazemi',
                             'position' => 'Office Manager',
-                            'image' => 'john-rodriguez.jpg',
+                            'image' => 'images/profile-pictures/1.jpg',
                             'quote' =>
                                 "We've been renting out our extra conference room through SpaceMeet, and it's generated over $2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!",
                             'rating' => 5,
                         ],
                         [
-                            'name' => 'Lionel Beast',
+                            'name' => 'Abdullahi Hatem',
                             'position' => 'Marketing Director',
-                            'image' => 'lionel-beast.jpg',
+                            'image' => 'images/profile-pictures/2.jpg',
                             'quote' =>
-                                'TeamRoom saved our team when we needed a last-minute meeting space for an important client presentation.',
+                                'TeamRoom saved us when we needed a last-minute meeting space for an important client presentation, as we got the perfect space with the perfect host.',
                             'rating' => 5,
                         ],
                         [
-                            'name' => 'James M',
+                            'name' => 'Mashal Hosein',
                             'position' => 'Freelance Consultant',
-                            'image' => 'james-m.jpg',
+                            'image' => 'images/profile-pictures/3.jpg',
                             'quote' =>
                                 'I needed a quiet, well-equipped meeting room for a client presentation, and I found the perfect one in just a few clicks.',
                             'rating' => 5,
                         ],
                         [
-                            'name' => 'Michael Chen',
+                            'name' => 'Rahim Emami',
                             'position' => 'Startup Founder',
-                            'image' => 'michael-chen.jpg',
+                            'image' => 'images/profile-pictures/4.jpg',
                             'quote' =>
                                 "As a small business, we can't afford permanent office space yet. TeamRoom allows us to book professional meeting rooms only when we need them, saving us thousands in overhead costs.",
                             'rating' => 5,
@@ -396,16 +361,8 @@
                         class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
                         <div class="flex items-start mb-6">
                             <div class="relative">
-                                <img src="{{ asset('images/' . $testimonial['image']) }}"
-                                    alt="{{ $testimonial['name'] }}"
+                                <img src="{{ asset($testimonial['image']) }}" alt="{{ $testimonial['name'] }}"
                                     class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-400">
-                                <div class="absolute -bottom-1 -right-1 bg-blue-500 text-white rounded-full p-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
                             </div>
                             <div>
                                 <h3 class="font-bold text-xl text-gray-900">{{ $testimonial['name'] }}</h3>
@@ -414,11 +371,6 @@
                         </div>
 
                         <div class="mb-6">
-                            <svg class="w-8 h-8 text-gray-300 mb-2" fill="currentColor" viewBox="0 0 32 32">
-                                <path
-                                    d="M10 8c-2.209 0-4 1.791-4 4v10c0 2.209 1.791 4 4 4h10c2.209 0 4-1.791 4-4v-10c0-2.209-1.791-4-4-4h-2c0-3.314-2.686-6-6-6v2c2.209 0 4 1.791 4 4h-6z">
-                                </path>
-                            </svg>
                             <p class="text-gray-700 text-lg leading-relaxed">{{ $testimonial['quote'] }}</p>
                         </div>
 
@@ -437,20 +389,6 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-
-            <!-- Call to Action -->
-            <div class="text-center mt-12">
-                <a href="/"
-                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
-                    Read More Success Stories
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
@@ -581,5 +519,70 @@
             const day = String(today.getDate()).padStart(2, '0');
             dateInput.value = `${year}-${month}-${day}`;
         }
+    </script>
+
+    <!-- Add JavaScript for carousel functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('spaces-carousel');
+            const prevButton = document.getElementById('prev-spaces');
+            const nextButton = document.getElementById('next-spaces');
+
+            // Get all carousel items
+            const carouselItems = carousel.children;
+            const totalItems = carouselItems.length;
+
+            // Show 3 cards per page
+            const itemsPerPage = 3;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            let currentPage = 0;
+
+            // Function to update carousel position
+            function updateCarouselPosition() {
+                // Calculate translateX value based on current page
+                const translateValue = -currentPage * (100 / itemsPerPage);
+                carousel.style.transform = `translateX(${translateValue}%)`;
+
+                // Update button states
+                prevButton.disabled = currentPage === 0;
+                nextButton.disabled = currentPage === totalPages - 1;
+
+                // Visual feedback for disabled buttons
+                if (prevButton.disabled) {
+                    prevButton.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    prevButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+
+                if (nextButton.disabled) {
+                    nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            // Initialize carousel
+            updateCarouselPosition();
+
+            // Previous button click handler
+            prevButton.addEventListener('click', function() {
+                if (currentPage > 0) {
+                    currentPage--;
+                    updateCarouselPosition();
+                }
+            });
+
+            // Next button click handler
+            nextButton.addEventListener('click', function() {
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    updateCarouselPosition();
+                }
+            });
+
+            // Update on window resize to handle responsive layout changes
+            window.addEventListener('resize', updateCarouselPosition);
+        });
     </script>
 @endsection

@@ -330,7 +330,7 @@
 
                         <!-- Modern Pagination -->
                         <div class="mt-8">
-                            {{ $rooms->appends(request()->query())->links() }}
+                            {{ $rooms->links() }}
                         </div>
                     @endif
                 </div>

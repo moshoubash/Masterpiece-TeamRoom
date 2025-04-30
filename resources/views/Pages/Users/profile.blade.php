@@ -158,7 +158,15 @@
                             <div class="flex justify-between items-center mb-3">
                                 <div class="font-semibold text-gray-900">${{ $booking->space->hourly_rate }}<span
                                         class="text-gray-600 font-normal">/hour</span></div>
-                                <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Active</div>
+                                <div class="text-xs font-medium px-2 py-1 rounded">
+                                    @if ($booking->status == 'pending')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">Pending</span>
+                                    @elseif($booking->status == 'confirmed')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-xs font-medium text-green-800">Confirmed</span>
+                                    @elseif($booking->status == 'cancelled')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-xs font-medium text-red-800">Cancelled</span>
+                                    @endif
+                                </div>
                             </div>
                             <div class="flex space-x-2">
                                 <a href="{{ route('bookings.details', $booking->id) }}"

@@ -119,6 +119,13 @@ class BookingController extends Controller
         $booking->status = 'confirmed';
         $booking->save();
 
+        Notification::create([
+            'user_id' => $booking->renter_id,
+            'title' => 'Your booking has been confirmed',
+            'notification_type' => 'Booking',
+            'message' => 'Your booking has been confirmed on ' . $booking->start_datetime
+        ]);
+
         return redirect()->back();
     }
 
@@ -127,6 +134,13 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->status = 'cancelled';
         $booking->save();
+
+        Notification::create([
+            'user_id' => $booking->renter_id,
+            'title' => 'Your booking has been rejected',
+            'notification_type' => 'Booking',
+            'message' => 'Your booking has been rejected on ' . $booking->start_datetime
+        ]);
 
         return redirect()->back();
     }

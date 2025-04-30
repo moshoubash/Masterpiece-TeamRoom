@@ -140,9 +140,9 @@
                                     class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" required>
                             </div>
                             <div class="ml-3 text-sm">
-                                <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#"
+                                <label for="terms" class="font-medium text-gray-700">I agree to the <a href="/terms"
                                         class="text-blue-600 hover:text-blue-800">Terms and Conditions</a> and <a
-                                        href="#" class="text-blue-600 hover:text-blue-800">Privacy
+                                        href="/privacy" class="text-blue-600 hover:text-blue-800">Privacy
                                         Policy</a></label>
                             </div>
                         </div>
