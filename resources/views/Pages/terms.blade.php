@@ -15,7 +15,7 @@
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Acceptance of Terms</h2>
             <p class="text-gray-600 leading-relaxed">
-                By accessing or using our Meeting Rooms Booking System ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Service. The Service is owned and operated by [Your Company Name] ("we," "us," or "our").
+                By accessing or using our Meeting Rooms Booking System ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Service. The Service is owned and operated by Team Room.
             </p>
         </section>
 
@@ -73,7 +73,7 @@
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">7. Limitation of Liability</h2>
             <p class="text-gray-600 leading-relaxed">
-                To the fullest extent permitted by law, [Your Company Name] shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Service. Our total liability to you for any claim arising from these Terms or the Service will not exceed the amount paid by you for the specific booking in question.
+                To the fullest extent permitted by law, Team Room shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Service. Our total liability to you for any claim arising from these Terms or the Service will not exceed the amount paid by you for the specific booking in question.
             </p>
         </section>
 
@@ -94,12 +94,12 @@
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">10. Contact Us</h2>
             <p class="text-gray-600 leading-relaxed">
-                If you have any questions about these Terms, please contact us at:
+                If you have any questions about these Terms, please <a href="/contact">contact us</a> at:
             </p>
             <p class="text-gray-600 mt-2">
-                [Your Company Name]<br>
-                Email: support@[yourcompany].com<br>
-                Address: [Your Company Address]
+                Team Room<br>
+                Email: support@teamroom.com<br>
+                Address: Amman, Jordan ABC street 123
             </p>
         </section>
 

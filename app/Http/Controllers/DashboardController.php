@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Space;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,7 @@ class DashboardController extends Controller
             abort(403);
         }
 
-        $totalRevenue = Booking::where('status', 'completed')->sum('total_price');
+        $totalRevenue = Booking::where('status', 'completed')->sum('service_fee');
         $totalUsers = User::count();
         $totalSpaces = Space::where('is_active', true)->count();
         $totalBookings = Booking::count();

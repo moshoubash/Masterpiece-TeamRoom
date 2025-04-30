@@ -126,6 +126,11 @@ Route::get('/about', function () { return view('pages.about'); });
 Route::get('/terms', function () { return view('pages.terms'); });
 Route::get('/privacy', function () { return view('pages.privacy'); });
 
+Route::get('/host/stats/{host}', [UserController::class, 'hostStats'])->name('host.stats')->middleware('auth', 'host');
+Route::post('/notifications/markAllAsRead/{user}', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead')->middleware('auth');
+
+Route::put('/booking/confirm/{booking}', [BookingController::class, 'approve'])->name('booking.confirm')->middleware('auth');
+Route::put('/booking/cancel/{booking}', [BookingController::class, 'reject'])->name('booking.cancel')->middleware('auth');
 // Route for the KYC
 // Admin Routes
 

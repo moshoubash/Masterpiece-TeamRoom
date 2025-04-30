@@ -53,6 +53,20 @@
                 }
             });
         });
+
+        const button = document.getElementById('notification-button');
+        const dropdown = document.getElementById('notification-dropdown');
+
+        button.addEventListener('click', () => {
+            dropdown.classList.toggle('hidden');
+        });
+
+        // Optional: Hide dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 </html>

@@ -15,7 +15,7 @@
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Introduction</h2>
             <p class="text-gray-600 leading-relaxed">
-                Welcome to the Meeting Rooms Booking System ("Service") operated by [Your Company Name] ("we," "us," or "our"). We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our Service.
+                Welcome to the Meeting Rooms Booking System ("Service") operated by Team Room. We are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our Service.
             </p>
         </section>
 
@@ -108,9 +108,9 @@
                 If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
             </p>
             <p class="text-gray-600 mt-2">
-                [Your Company Name]<br>
-                Email: privacy@[yourcompany].com<br>
-                Address: [Your Company Address]
+                Team Room<br>
+                Email: support@teamroom.com<br>
+                Address: Amman, Jordan ABC street 123
             </p>
         </section>
 

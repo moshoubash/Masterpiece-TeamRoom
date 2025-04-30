@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Space;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -309,5 +311,87 @@ class UserController extends Controller
         $user->save();
 
         return back()->with('message', 'user restored successfully.');
+    }
+
+    public function hostStats(string $slug){
+        $host = User::where('slug', $slug)->first();
+
+        if($host == null){
+            return view('pages.404');
+        }
+
+        $totalBookings = 0;
+        $hostRooms = $host->spaces()->count();
+        
+        $totalHostBookings = 0;
+
+        $hostTotalBookingsOnSpces = DB::table('spaces')
+            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
+            ->where('spaces.host_id', $host->id)
+            ->get();
+
+        foreach($hostTotalBookingsOnSpces as $booking){
+            $totalHostBookings += 1;
+        }
+
+        $hostProfits = 0;
+
+        $hostProfitsOnSpces = DB::table('spaces')
+            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
+            ->where('spaces.host_id', $host->id)
+            ->get();
+
+        foreach($hostProfitsOnSpces as $booking){
+            if($booking->status == 'completed'){
+                $hostProfits += $booking->host_payout;
+            }
+        }
+
+        $cancelledBookings = 0;
+
+        $cancelledBookingsOnSpces = DB::table('spaces')
+            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
+            ->where('spaces.host_id', $host->id)
+            ->where('bookings.status', 'cancelled')
+            ->get();
+
+        foreach($cancelledBookingsOnSpces as $booking){
+            $cancelledBookings += 1;
+        }
+
+        $pendingBookingsOnSpces = DB::table('spaces')
+            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
+            ->join('users', 'bookings.renter_id', '=', 'users.id')
+            ->where('spaces.host_id', $host->id)
+            ->where('bookings.status', 'pending')
+            ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
+            ->get();
+
+        $mostBookedSpaces = DB::table('bookings')
+            ->join('spaces', 'bookings.space_id', '=', 'spaces.id')
+            ->select('spaces.id', 'spaces.title', DB::raw('COUNT(bookings.id) as bookings_count'))
+            ->groupBy('spaces.id', 'spaces.title')
+            ->orderByDesc('bookings_count')
+            ->get()
+            ->take(3);
+
+        $recentBookings = DB::table('bookings')
+            ->join('spaces', 'bookings.space_id', '=', 'spaces.id')
+            ->join('users', 'bookings.renter_id', '=', 'users.id')
+            ->where('spaces.host_id', $host->id)
+            ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
+            ->paginate(6);
+
+        return view('pages.users.host.stats', [
+            'host' => $host,
+            'totalBookings' => $totalBookings,
+            'hostRooms' => $hostRooms,
+            'totalHostBookings' => $totalHostBookings,
+            'hostProfits' => $hostProfits,
+            'cancelledBookings' => $cancelledBookings,
+            'pendingBookingsOnSpces' => $pendingBookingsOnSpces,
+            'mostBookedSpaces' => $mostBookedSpaces,
+            'recentBookings' => $recentBookings
+        ]);
     }
 }

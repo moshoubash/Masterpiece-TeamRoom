@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -82,7 +83,7 @@ class BookingController extends Controller
             'service_fee' => $request->service_fee,
             'host_payout' => $request->host_payout
         ]);
-        
+
         return redirect()->back();
     }
 
@@ -111,5 +112,22 @@ class BookingController extends Controller
         $bookings = Booking::where('status', $status)->paginate(10);
         
         return view('dashboard.booking.index', compact('bookings'));
+    }
+
+    public function approve($id) {
+        $booking = Booking::find($id);
+        $booking->status = 'confirmed';
+        $booking->save();
+
+        return redirect()->back();
+    }
+
+
+    public function reject($id) {
+        $booking = Booking::find($id);
+        $booking->status = 'cancelled';
+        $booking->save();
+
+        return redirect()->back();
     }
 }

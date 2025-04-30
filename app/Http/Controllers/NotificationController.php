@@ -72,4 +72,26 @@ class NotificationController extends Controller
 
         return back();
     }
+
+    public function markAllAsRead(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (!$user) {
+            return back();
+        }
+
+        $notifications = Notification::where('user_id', $user->id)->get();
+
+        if (!$notifications) {
+            return back();
+        }
+
+        foreach ($notifications as $notification) {
+            $notification->is_read = true;
+            $notification->save();
+        }
+
+        return back();
+    }
 }

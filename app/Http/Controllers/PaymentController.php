@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Notification;
 
 class PaymentController extends Controller
 {
@@ -67,7 +68,7 @@ class PaymentController extends Controller
                 'total_price' => $request->total_price,
                 'host_payout' => $request->host_payout,
                 'service_fee' => $request->service_fee,
-                'status' => 'confirmed'
+                'status' => 'pending'
             ]);
 
             Transaction::create([
@@ -76,6 +77,15 @@ class PaymentController extends Controller
                 'amount' => $request->total_price,
                 'payment_method' => 'stripe',
                 'status' => 'paid',
+            ]);
+
+            $space = Space::find($request->space_id);
+
+            Notification::create([
+                'notification_type' => 'booking',
+                'user_id' => $space->host_id,
+                'title' => 'New Booking',
+                'message' => 'New booking from ' . Auth::user()->first_name . ' ' . Auth::user()->last_name
             ]);
 
             return redirect()->route('bookings.confirmation', $booking->id);
