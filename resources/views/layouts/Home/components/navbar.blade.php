@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="bg-white shadow-lg shadow-blue-500/10 sticky top-0 left-0 w-full z-50 transition-all duration-300">
+<header class="bg-white shadow-lg shadow-blue-500/10 sticky top-0 left-0 w-full z-100000 transition-all duration-300">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <!-- Logo -->
         <div class="flex items-center">

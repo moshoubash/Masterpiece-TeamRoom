@@ -7,15 +7,11 @@
             <div class="flex flex-wrap items-center">
                 <div class="mr-6">
                     <img src="
-                            @if ($profile_image)
-                                {{ asset($profile_image) }}
+                            @if ($profile_image) {{ asset($profile_image) }}
                             @else
-                                {{ asset('images/profile-pictures/default-avatar.svg') }}
-                            @endif
-                        " 
-                        alt="Profile Picture"
-                        class="w-24 h-24 rounded-full object-cover shadow-md"
-                    >
+                                {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
+                        "
+                        alt="Profile Picture" class="w-24 h-24 rounded-full object-cover shadow-md">
                 </div>
                 <div class="flex-grow">
                     <h1 class="text-2xl font-bold text-gray-900">{{ $name }}</h1>
@@ -30,11 +26,11 @@
 
                             <span>Verified</span>
                         </div>
-                        
-                        @if($role == "HOST")
+
+                        @if ($role == 'HOST')
                             <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-1"
+                                    viewBox="0 0 20 20" fill="currentColor">
                                     <path
                                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
@@ -62,7 +58,7 @@
                                     class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-5 rounded-md transition">
                                     Edit Profile
                                 </button>
-                            <form>
+                                <form>
                         </div>
                     @endif
                 @endauth
@@ -100,14 +96,15 @@
                                     {{-- enable this section for the owner or host --}}
                                     @if (Auth::check() && $role == 'HOST' && $user->id == Auth::user()->id)
                                         <div class="absolute top-3 right-3 space-x-2">
-                                        <a href="{{ route('space.edit', $space->slug) }}" class="cursor-pointer bg-white p-2 w-9 h-9 flex items-center justify-center rounded-md shadow hover:bg-gray-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path
-                                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                            </svg>
-                                        </a>
-                                    </div>
+                                            <a href="{{ route('space.edit', $space->slug) }}"
+                                                class="cursor-pointer bg-white p-2 w-9 h-9 flex items-center justify-center rounded-md shadow hover:bg-gray-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path
+                                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                </svg>
+                                            </a>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="p-4">
@@ -119,7 +116,7 @@
                                                 <path
                                                     d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                             </svg>
-                                            <span class="ml-1">{{  $space->reviews->avg('rating') ?? 0 }}</span>
+                                            <span class="ml-1">{{ $space->reviews->avg('rating') ?? 0 }}</span>
                                         </div>
                                     </div>
                                     <p class="text-gray-600 mb-2">Jordan, {{ $space->city }}</p>
@@ -140,8 +137,6 @@
                     @endif
                 </div>
             </div>
-
-            
         @else
             <!-- Renter Bookings -->
             <div>
@@ -160,11 +155,17 @@
                                         class="text-gray-600 font-normal">/hour</span></div>
                                 <div class="text-xs font-medium px-2 py-1 rounded">
                                     @if ($booking->status == 'pending')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">Pending</span>
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">Pending</span>
                                     @elseif($booking->status == 'confirmed')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-xs font-medium text-green-800">Confirmed</span>
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-xs font-medium text-green-800">Confirmed</span>
                                     @elseif($booking->status == 'cancelled')
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-xs font-medium text-red-800">Cancelled</span>
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-xs font-medium text-red-800">Cancelled</span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-800">Completed</span>
                                     @endif
                                 </div>
                             </div>

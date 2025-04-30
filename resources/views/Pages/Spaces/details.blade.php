@@ -18,7 +18,7 @@
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
                 {{ session('success') }}
-            </div>     
+            </div>
         @endif
 
         <!-- Room Title and Actions -->
@@ -31,7 +31,8 @@
                             <path
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span class="ml-1 text-gray-700">{{ $avgReview }} ({{ $reviewsCount }} reviews)</span>
+                        <span class="ml-1 text-gray-700">{{ number_format($avgReview, 1) }} ({{ $reviewsCount }}
+                            reviews)</span>
                     </div>
                     <div class="flex items-center ml-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20"
@@ -105,7 +106,6 @@
                     </div>
                 </div>
 
-
                 <!-- Location -->
                 <div class="mb-8">
                     <h2 class="text-xl font-bold text-gray-900 mb-4">Location</h2>
@@ -123,9 +123,167 @@
                             The building offers secure access and is surrounded by restaurants, cafes, and hotels.</p>
                     </div>
                 </div>
+
+                <!-- Reviews -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Reviews</h2>
+                        @if ($space->reviews->count() > 0)
+                            <div class="flex items-center">
+                                <div class="flex items-center mr-2">
+                                    <i class="fas fa-star text-yellow-500"></i>
+                                    <span
+                                        class="ml-1 font-semibold">{{ number_format($space->reviews->avg('rating'), 1) }}</span>
+                                </div>
+                                <span class="text-gray-600">({{ $space->reviews->count() }}
+                                    {{ Str::plural('review', $space->reviews->count()) }})</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    @forelse ($space->reviews as $review)
+                        <div class="border-b border-gray-200 pb-4 mb-4 last:border-0 last:pb-0 last:mb-0">
+                            <div class="flex items-start mb-3">
+                                <div class="mr-3">
+                                    @if ($review->user && $review->reviewee->profile_photo_url)
+                                        <img src="{{ Storage::url($review->reviewee->profile_photo_url) }}"
+                                            alt="{{ $review->reviewee->first_name }} {{ $review->reviewee->last_name }}"
+                                            class="w-10 h-10 rounded-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900">{{ $review->reviewee->first_name }}
+                                                {{ $review->reviewee->last_name }}
+                                            </h4>
+                                            <p class="text-xs text-gray-500">{{ $review->created_at->format('M d, Y') }}
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $review->rating)
+                                                    <i class="fas fa-star text-yellow-500 text-sm"></i>
+                                                @else
+                                                    <i class="far fa-star text-gray-300 text-sm"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    @if ($review->review_text)
+                                        <p class="text-gray-700 mt-2">{{ $review->review_text }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-8">
+                            <i class="far fa-comment-dots text-gray-300 text-4xl mb-2"></i>
+                            <p class="text-gray-500">No reviews yet.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- About the Host -->
+                <div class="w-full lg:w-3/3 ">
+                    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">About the Host</h2>
+                        <div class="flex items-center mb-4">
+                            <img src="
+                            @if ($space->host->profile_picture_url) {{ asset($space->host->profile_picture_url) }}
+                            @else
+                                {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
+                        "
+                                alt="Profile Picture" class="w-12 h-12 rounded-full object-cover shadow-md mr-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">
+                                    <a href="{{ route('user.profile', $space->host->slug) }}">{{ $space->host->first_name }}
+                                        {{ $space->host->last_name }}
+                                </h3>
+                                </a>
+                                <p class="text-gray-600">Host</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700">{{ $space->host->bio }}</p>
+
+                        <div class="mt-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Contact Information</h3>
+                            <p class="text-gray-700">Email: {{ $space->host->email }}</p>
+                            <p class="text-gray-700">Phone: {{ $space->host->phone_number ?? 0 }}</p>
+                        </div>
+
+                        <!-- Host Spaces -->
+                        <div class="mt-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Hosted Spaces</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
+                                @foreach ($hostSpaces->sortByDesc('created_at')->take(3) as $hostedSpace)
+                                    <div
+                                        class="bg-white rounded-lg shadow overflow-hidden flex flex-col md:flex-row border border-gray-200">
+                                        <!-- Left side - Image -->
+                                        <div class="relative w-full md:w-1/3">
+                                            <img src="{{ asset('storage/' . $hostedSpace->images->first()->image_url) }}"
+                                                alt="{{ $hostedSpace->title }}"
+                                                class="object-cover w-full h-full min-h-48 md:h-full">
+                                        </div>
+
+                                        <!-- Right side - Details -->
+                                        <div class="w-full md:w-2/3 p-6">
+                                            <h4 class="text-lg font-semibold text-gray-800">{{ $hostedSpace->title }}</h4>
+                                            <p class="text-gray-600 mt-2">${{ $hostedSpace->hourly_rate }} per hour</p>
+                                            <p class="text-gray-600 mt-1 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+
+                                                </svg>{{ $hostedSpace->capacity }} People
+                                            </p>
+
+                                            @if (isset($hostedSpace->city))
+                                                <p class="text-gray-600 mt-1">
+                                                    <span class="flex items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                        {{ $hostedSpace->city }}
+                                                    </span>
+                                                </p>
+                                            @endif
+
+                                            @if (isset($hostedSpace->amenities) && count($hostedSpace->amenities) > 0)
+                                                <div class="mt-3 flex flex-wrap gap-2">
+                                                    @foreach ($hostedSpace->amenities as $amenity)
+                                                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
+                                                            {{ ucfirst($amenity->name) }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                            <div class="mt-4">
+                                                <a href="{{ route('rooms.details', $hostedSpace->slug) }}"
+                                                    class="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-150 ease-in-out">
+                                                    View Details
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
 
             <!-- Right Column: Booking Widget -->
             <div class="w-full lg:w-1/3 px-4">
@@ -134,11 +292,12 @@
                         <div class="text-2xl font-bold">${{ $space->hourly_rate }}<span
                                 class="text-gray-500 text-base font-normal">/hour</span></div>
                         <div class="flex items-center text-yellow-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                fill="currentColor">
                                 <path
                                     d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
-                            <span class="ml-1">{{ $avgReview }} ({{ $reviewsCount }})</span>
+                            <span class="ml-1">{{ number_format($avgReview, 1) }} ({{ $reviewsCount }})</span>
                         </div>
                     </div>
 
@@ -217,112 +376,11 @@
                         <input type="hidden" name="host_payout" id="host_payout">
 
                         <!-- Book Now Button -->
-                        <button type="submit"
-                            @if(Auth::check() && Auth::user()->roles->first()->name == 'host') 
-                                disabled 
-                            @endif
+                        <button type="submit" @if (Auth::check() && Auth::user()->roles->first()->name == 'host') disabled @endif
                             class="cursor-pointer w-full bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
                             Book Now
                         </button>
                     </form>
-                </div>
-            </div>
-            <!-- About the Host -->
-            <div class="w-full lg:w-2/3 px-4">
-                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">About the Host</h2>
-                    <div class="flex items-center mb-4">
-                        <img src="
-                            @if ($space->host->profile_picture_url)
-                                {{ asset($space->host->profile_picture_url) }}
-                            @else
-                                {{ asset('images/profile-pictures/default-avatar.svg') }}
-                            @endif
-                        " 
-                        alt="Profile Picture"
-                        class="w-12 h-12 rounded-full object-cover shadow-md mr-4"
-                    >
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">
-                                <a href="{{ route('user.profile', $space->host->slug) }}">{{ $space->host->first_name }}
-                                    {{ $space->host->last_name }}
-                            </h3>
-                            </a>
-                            <p class="text-gray-600">Host</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-700">{{ $space->host->bio }}</p>
-
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Contact Information</h3>
-                        <p class="text-gray-700">Email: {{ $space->host->email }}</p>
-                        <p class="text-gray-700">Phone: {{ $space->host->phone_number ?? 0 }}</p>
-                    </div>
-
-                    <!-- Host Spaces -->
-                    <div class="mt-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Hosted Spaces</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
-                            @foreach ($hostSpaces as $hostedSpace)
-                                <div
-                                    class="bg-white rounded-lg shadow overflow-hidden flex flex-col md:flex-row border border-gray-200">
-                                    <!-- Left side - Image -->
-                                    <div class="relative w-full md:w-1/3">
-                                        <img src="{{ asset('storage/' . $hostedSpace->images->first()->image_url) }}"
-                                            alt="{{ $hostedSpace->title }}"
-                                            class="object-cover w-full h-full min-h-48 md:h-full">
-                                    </div>
-
-                                    <!-- Right side - Details -->
-                                    <div class="w-full md:w-2/3 p-6">
-                                        <h4 class="text-lg font-semibold text-gray-800">{{ $hostedSpace->title }}</h4>
-                                        <p class="text-gray-600 mt-2">${{ $hostedSpace->hourly_price }} per hour</p>
-                                        <p class="text-gray-600 mt-1 flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-
-                                            </svg>{{ $hostedSpace->capacity }} People
-                                        </p>
-
-                                        @if (isset($hostedSpace->city))
-                                            <p class="text-gray-600 mt-1">
-                                                <span class="flex items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    </svg>
-                                                    {{ $hostedSpace->city }}
-                                                </span>
-                                            </p>
-                                        @endif
-
-                                        @if (isset($hostedSpace->amenities) && count($hostedSpace->amenities) > 0)
-                                            <div class="mt-3 flex flex-wrap gap-2">
-                                                @foreach ($hostedSpace->amenities as $amenity)
-                                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-                                                        {{ ucfirst($amenity->name) }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @endif
-
-                                        <div class="mt-4">
-                                            <a href="{{ route('rooms.details', $hostedSpace->slug) }}"
-                                                class="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-150 ease-in-out">
-                                                View Details
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -354,8 +412,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             const startTimeSelect = document.getElementById('start_time');
             const endTimeSelect = document.getElementById('end_time');
-            const hourlyRateElement = document.querySelector('.text-2xl.font-bold');
             const numAttendeesInput = document.getElementById('num_attendees');
+            
+            // Get hourly rate directly from PHP variable
+            const hourlyRate = @json($space->hourly_rate);
 
             const totalPriceInput = document.getElementById('total_price');
             const serviceFeeInput = document.getElementById('service_fee');
@@ -368,9 +428,6 @@
             updateCalculations();
 
             function updateCalculations() {
-                const hourlyRateText = hourlyRateElement.textContent.trim();
-                const hourlyRate = parseFloat(hourlyRateText.replace('$', ''));
-
                 const startTime = startTimeSelect.value;
                 const endTime = endTimeSelect.value;
 

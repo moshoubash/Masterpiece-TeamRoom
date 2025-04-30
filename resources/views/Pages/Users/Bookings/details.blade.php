@@ -16,7 +16,7 @@
     <div class="container mx-auto px-4 py-8 max-w-5xl">
         <!-- Header Section -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
-            <div class="bg-gray-50 px-6 py-4 border-b">
+            <div class="bg-gray-50 px-6 py-4">
                 <div class="flex justify-between items-center">
                     <h1 class="text-2xl font-bold text-gray-800">Booking #{{ $booking->id }}</h1>
                     <span
@@ -30,6 +30,11 @@
                     </span>
                 </div>
             </div>
+            @if (session('alert'))
+                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+                    <i class="fa-solid fa-check mx-2"></i>
+                    {{ session('alert') }}
+            @endif
 
             <!-- Status Notification -->
             @if ($booking->status == 'confirmed')
@@ -152,7 +157,7 @@
                         <h2 class="text-lg font-semibold text-gray-800">Space Details</h2>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $booking->space->title }}</h3>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2"><a href="{{route('rooms.details', $booking->space->slug)}}">{{ $booking->space->title }}</a></h3>
                         <p class="text-gray-600 mb-4">{{ $booking->space->description }}</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -313,11 +318,98 @@
                                 </button>
                             </form>
                         @endif
+                        
+                        {{-- Button to trigger the modal --}}
+                        @if ($booking->status == 'completed')
+                            @if($booking->space->reviews->where('booking_id', $booking->id)->where('reviewee_id', Auth::user()->id)->count() == 0)
+                                <button id="reviewModalButton" class="flex cursor-pointer items-center w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
+                                    <i class="fa-solid fa-star mr-2"></i>
+                                    Add Review
+                                </button>
+                            @else
+                                <p class="text-xs text-gray-500 text-center mt-1">
+                                    You have already reviewed this space
+                                </p>
+                            @endif
+                        @endif
 
                         <a href="/"
                             class="block w-full bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 text-gray-700 font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out text-center">
                             Back to Bookings
                         </a>
+
+                        {{-- Review Modal --}}
+                        <div id="reviewModal" class="fixed inset-0 z-10000 hidden overflow-y-auto">
+                            <div class="flex items-center justify-center min-h-screen px-4">
+                                {{-- Dark Background Overlay --}}
+                                <div class="fixed inset-0 bg-black opacity-50" id="reviewModalOverlay"></div>
+
+                                {{-- Modal Content --}}
+                                <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md mx-auto z-10">
+                                    {{-- Modal Header --}}
+                                    <div class="flex items-center justify-between p-4 border-b rounded-t">
+                                        <h3 class="text-xl font-semibold text-gray-900">
+                                            Add Your Review
+                                        </h3>
+                                        <button type="button"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                            id="closeReviewModal"
+                                            >
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    {{-- Modal Body with Review Form --}}
+                                    <div class="p-6">
+                                        <form id="reviewForm" action="{{ route('reviews.store', $booking->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+
+                                            {{-- Star Rating --}}
+                                            <div class="mb-5">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2">
+                                                    Your Rating
+                                                </label>
+                                                <div class="flex items-center space-x-1" id="starRating">
+                                                    <input type="hidden" name="rating" id="ratingInput"
+                                                        value="0">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <button type="button" data-rating="{{ $i }}"
+                                                            class="star-btn text-2xl text-gray-300 hover:text-yellow-400 focus:outline-none transition-colors">
+                                                            <i class="fa-solid fa-star"></i>
+                                                        </button>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            {{-- Review Comment --}}
+                                            <div class="mb-5">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="review_text">
+                                                    Your Review
+                                                </label>
+                                                <textarea id="review_text" name="review_text" rows="4"
+                                                    class="shadow-lg appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    placeholder="Share your experience..." required></textarea>
+                                            </div>
+
+                                            {{-- Submit Button --}}
+                                            <div class="flex justify-end">
+                                                <button type="submit"
+                                                    class="bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2 px-6 rounded transition duration-150 ease-in-out">
+                                                    Submit Review
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -346,4 +438,93 @@
                 .openPopup();
         });
     </script>
+
+{{-- JavaScript for Modal Functionality --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get DOM elements
+        const modal = document.getElementById('reviewModal');
+        const modalButton = document.getElementById('reviewModalButton');
+        const closeButton = document.getElementById('closeReviewModal');
+        const overlay = document.getElementById('reviewModalOverlay');
+        const starButtons = document.querySelectorAll('.star-btn');
+        const ratingInput = document.getElementById('ratingInput');
+        
+        // Open modal
+        if (modalButton) {
+            modalButton.addEventListener('click', function() {
+                modal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden'); // Prevent scrolling
+            });
+        }
+        
+        // Close modal functions
+        const closeModal = function() {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        };
+        
+        // Close on button click
+        if (closeButton) {
+            closeButton.addEventListener('click', closeModal);
+        }
+        
+        // Close on overlay click
+        if (overlay) {
+            overlay.addEventListener('click', closeModal);
+        }
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+        
+        // Star rating functionality
+        starButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                ratingInput.value = rating;
+                
+                // Update star colors
+                starButtons.forEach(function(star, index) {
+                    if (index < rating) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    } else {
+                        star.classList.add('text-gray-300');
+                        star.classList.remove('text-yellow-400');
+                    }
+                });
+            });
+            
+            // Hover effect
+            btn.addEventListener('mouseenter', function() {
+                const hoverRating = parseInt(this.getAttribute('data-rating'));
+                
+                starButtons.forEach(function(star, index) {
+                    if (index < hoverRating) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    }
+                });
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                const currentRating = parseInt(ratingInput.value);
+                
+                starButtons.forEach(function(star, index) {
+                    if (index < currentRating) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    } else {
+                        star.classList.add('text-gray-300');
+                        star.classList.remove('text-yellow-400');
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endsection

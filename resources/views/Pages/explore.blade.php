@@ -32,7 +32,7 @@
                             </div>
 
                             <button type="submit"
-                                class="absolute inset-y-0 right-0 flex items-center px-5 text-blue-600 hover:text-blue-800">
+                                class="cursor-pointer absolute inset-y-0 right-0 flex items-center px-5 text-blue-600 hover:text-blue-800">
                                 <span class="text-sm font-medium">Search</span>
                             </button>
                         </div>

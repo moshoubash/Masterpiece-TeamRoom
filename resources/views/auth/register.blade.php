@@ -64,10 +64,10 @@
                     <input id="terms" name="terms" type="checkbox" required
                         class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
                     <label for="terms" class="ml-2 block text-sm text-gray-700">
-                        {{ __('I agree to the') }} <a href="#"
+                        {{ __('I agree to the') }} <a href="/terms"
                             class="text-blue-600 hover:text-blue-500">{{ __('Terms of Service') }}</a>
                         {{ __('and') }}
-                        <a href="#" class="text-blue-600 hover:text-blue-500">{{ __('Privacy Policy') }}</a>
+                        <a href="/privacy" class="text-blue-600 hover:text-blue-500">{{ __('Privacy Policy') }}</a>
                     </label>
                 </div>
 
