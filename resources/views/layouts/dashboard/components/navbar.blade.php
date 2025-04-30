@@ -106,9 +106,11 @@
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
                         <img src="
-                            @if (Auth::user()->profile_picture_url) {{ asset($profile_picture_url) }}
-                            @else
-                                {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
+                                @if(Auth::user()->profile_picture_url) 
+                                    {{ asset(Auth::user()->profile_picture_url) }}
+                                @else 
+                                    {{ asset('images/profile-pictures/default-avatar.svg') }} 
+                                @endif
                         "
                             alt="user-image" class="user-avtar">
                         <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
@@ -118,9 +120,11 @@
                             <div class="d-flex mb-1">
                                 <div class="flex-shrink-0">
                                     <img src="
-                                    @if (Auth::user()->profile_picture_url) {{ asset($profile_picture_url) }}
-                                    @else
-                                        {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
+                                        @if(Auth::user()->profile_picture_url) 
+                                            {{ asset(Auth::user()->profile_picture_url) }}
+                                        @else 
+                                            {{ asset('images/profile-pictures/default-avatar.svg') }} 
+                                        @endif 
                                     "
                                         alt="user-image" class="user-avtar wid-35 hgt-35">
                                 </div>

@@ -110,6 +110,37 @@ class UserController extends Controller
         ]);
     }
 
+    public function updateAdminSettings(Request $request, string $id){
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:15',
+        ]);
+
+        if($request->hasFile('profile_picture_url')){
+            $request->validate([
+                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $image = $request->file('profile_picture_url');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile-pictures');
+            $image->move($destinationPath, $name);
+            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+        }
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'updated_at' => now()
+        ]);
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
     public function profile(string $slug){
         $user = User::where('slug', $slug)->first();
         

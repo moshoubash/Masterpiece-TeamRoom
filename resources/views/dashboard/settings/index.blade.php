@@ -3,21 +3,29 @@
 @section('content')
 	<h1 class="h3 mb-3"><strong>Settings</strong></h1>
 
+	@if(session('success'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<div class="d-flex">
+				<div class="flex-shrink-0">
+					<i class="align-middle" data-feather="check-circle"></i>
+				</div>
+				<div class="flex-grow-1 ms-3">
+					<strong>Success!</strong> {{ session('success') }}
+				</div>
+			</div>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	@endsession
+
 	<div class="row">
 		<div class="col-12">
-			<form action="{{ route('settings.update', $user) }}" method="POST" enctype="multipart/form-data">
+			<form action="{{ route('admin.settings.update', $user) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				@method('PUT')
 
 				<div class="mb-3">
 					<label for="email" class="form-label">Email</label>
-					<input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
-				</div>
-
-				<div class="mb-3">
-					<label for="password" class="form-label">Password</label>
-					<input type="password" class="form-control" id="password" name="password">
-					<small class="text-muted">Leave blank to keep current password</small>
+					<input type="email" class="form-control" id="email" value="{{ old('email', $user->email) }}" disabled required>
 				</div>
 
 				<div class="mb-3">
@@ -40,27 +48,29 @@
 					<input type="file" class="form-control" id="profile_picture_url" name="profile_picture_url">
 				</div>
 
-				<div class="mb-3">
-					<label for="bio" class="form-label">Bio</label>
-					<textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio', $user->bio) }}</textarea>
-				</div>
-
-				<div class="mb-3">
-					<label for="company_name" class="form-label">Company Name</label>
-					<input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name', $user->company_name) }}">
-				</div>
-
-				<div class="mb-3 form-check">
-					<input type="checkbox" class="form-check-input" id="is_verified" name="is_verified" {{ old('is_verified', $user->is_verified) ? 'checked' : '' }}>
-					<label class="form-check-label" for="is_verified">Verified</label>
-				</div>
-
-				<div class="mb-3 form-check">
-					<input type="checkbox" class="form-check-input" id="is_deleted" name="is_deleted" {{ old('is_deleted', $user->is_deleted) ? 'checked' : '' }}>
-					<label class="form-check-label" for="is_deleted">Deleted</label>
-				</div>
-
 				<button type="submit" class="btn btn-primary">Save Changes</button>
+			</form>
+
+			<hr>
+
+			<!-- update password -->
+			<h1 class="h3 my-3">Update Password</h1>
+
+			<form action="{{ route('user.password.update', $user->id) }}" method="POST" class="mt-4">
+				@csrf
+				@method('PUT')
+
+				<div class="mb-3">
+					<label for="password" class="form-label">Password</label>
+					<input type="password" class="form-control" id="password" name="password" required>
+				</div>
+
+				<div class="mb-3">
+					<label for="password_confirmation" class="form-label">Confirm Password</label>
+					<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Update Password</button>
 			</form>
 		</div>
 	</div>	

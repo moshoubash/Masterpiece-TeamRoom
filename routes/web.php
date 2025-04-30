@@ -89,8 +89,12 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/dashboard/notifications/filter', [NotificationController::class, 'filter'])->name('notifications.filter');
     Route::post('/dashboard/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
     Route::delete('/dashboard/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    
     // Routes for activities
     Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
+
+    // Routes for settings
+    Route::put('/dashboard/admin/settings/{user}', [UserController::class, 'updateAdminSettings'])->name('admin.settings.update');
 });
 
 // Routes for public website
