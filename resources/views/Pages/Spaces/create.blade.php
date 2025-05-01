@@ -1,6 +1,7 @@
 @extends('layouts.home.layout')
 @section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/css/ol.css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
 @endsection
 @section('content')
     <div class="max-w-5xl mx-auto px-4 py-8">
@@ -44,24 +45,29 @@
                 <div class="mb-6">
                     <label for="capacity" class="block text-sm font-medium mb-2">Capacity<span
                             class="text-red-500">*</span></label>
-                    <input type="number" id="capacity" name="capacity" placeholder="e.g., 5" class="w-full px-3 py-2 border border-gray-300 rounded-md" min="1" max="100" required>
+                    <input type="number" id="capacity" name="capacity" placeholder="e.g., 5"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md" min="1" max="100" required>
                 </div>
 
                 <div class="mb-6">
                     <label for="hourly_rate" class="block text-sm font-medium mb-2">$ Hourly Rate<span
                             class="text-red-500">*</span></label>
-                    <input type="number" id="hourly_rate" name="hourly_rate" placeholder="e.g., 50" class="w-full px-3 py-2 border border-gray-300 rounded-md" min="0" max="100" required>
+                    <input type="number" id="hourly_rate" name="hourly_rate" placeholder="e.g., 50"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md" min="0" max="100" required>
                 </div>
 
                 <div class="mb-6">
                     <label for="min_booking_duration" class="block text-sm font-medium mb-2">Minimum Booking Duration<span
                             class="text-red-500">*</span></label>
-                    <input type="number" id="min_booking_duration" name="min_booking_duration" placeholder="e.g., 1 hour" class="w-full px-3 py-2 border border-gray-300 rounded-md"> 
+                    <input type="number" id="min_booking_duration" name="min_booking_duration" placeholder="e.g., 1 hour"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
 
                 <div class="mb-6">
-                    <label for="max_booking_duration" class="block text-sm font-medium mb-2">Maximum Booking Duration</label>
-                    <input type="number" id="max_booking_duration" name="max_booking_duration" placeholder="e.g., 2 hours" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <label for="max_booking_duration" class="block text-sm font-medium mb-2">Maximum Booking
+                        Duration</label>
+                    <input type="number" id="max_booking_duration" name="max_booking_duration" placeholder="e.g., 2 hours"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
 
                 <div class="flex justify-end">
@@ -74,14 +80,17 @@
             <div id="step-2" class="step-content bg-white rounded-lg shadow-sm p-8 mb-8 hidden">
                 <h2 class="text-xl font-bold mb-6">Availability</h2>
                 <!-- Add Step 2 form fields here -->
-                @foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $day)
+                @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
                     <div class="mb-4">
                         <label class="block font-semibold">{{ $day }}</label>
                         <div class="flex items-center space-x-2 mt-2">
-                            <input type="time" name="availability[{{ $day }}][start_time]" class="border rounded p-1" placeholder="Start Time">
-                            <input type="time" name="availability[{{ $day }}][end_time]" class="border rounded p-1" placeholder="End Time">
+                            <input type="time" name="availability[{{ $day }}][start_time]"
+                                class="border rounded p-1" placeholder="Start Time">
+                            <input type="time" name="availability[{{ $day }}][end_time]"
+                                class="border rounded p-1" placeholder="End Time">
                             <label class="flex items-center">
-                                <input type="checkbox" name="availability[{{ $day }}][is_available]" class="mr-2">
+                                <input type="checkbox" name="availability[{{ $day }}][is_available]"
+                                    class="mr-2">
                                 Available
                             </label>
                         </div>
@@ -103,12 +112,12 @@
                 <div class="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
                     @foreach ($amenities as $amenity)
                         <div class="flex items-center">
-                            <input type="checkbox" id="{{$amenity->name}}" name="amenities[]" value="{{$amenity->id}}"
-                            class="h-4 w-4 text-blue-600">
-                            
-                            <label for="{{$amenity->name}}" class="ml-2 flex items-center">
-                                <i class="h-5 w-5 mr-2 {{$amenity->icon}}"></i>
-                                {{$amenity->name}}
+                            <input type="checkbox" id="{{ $amenity->name }}" name="amenities[]"
+                                value="{{ $amenity->id }}" class="h-4 w-4 text-blue-600">
+
+                            <label for="{{ $amenity->name }}" class="ml-2 flex items-center">
+                                <i class="h-5 w-5 mr-2 {{ $amenity->icon }}"></i>
+                                {{ $amenity->name }}
                             </label>
                         </div>
                     @endforeach
@@ -176,7 +185,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
                 <label class="block text-sm font-medium mb-2">Pick Location on Map</label>
-                <div id="map" class="w-full h-64 mb-4 rounded shadow"></div>
+                <div id="map" class="w-full h-64 rounded-lg shadow-md mt-6"></div>
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
 
@@ -191,80 +200,139 @@
     </div>
 @endsection
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let currentStep = 1;
-        const totalSteps = 5;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentStep = 1;
+            const totalSteps = 5;
 
-        const stepElements = document.querySelectorAll('.step-content');
-        const nextButtons = document.querySelectorAll('.next-step');
-        const prevButtons = document.querySelectorAll('.prev-step');
-        const submitButton = document.getElementById('submit-listing');
-        const progressBar = document.getElementById('progress-bar');
-        const currentStepElement = document.getElementById('current-step');
-        const completionPercentageElement = document.getElementById('completion-percentage');
+            const stepElements = document.querySelectorAll('.step-content');
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const submitButton = document.getElementById('submit-listing');
+            const progressBar = document.getElementById('progress-bar');
+            const currentStepElement = document.getElementById('current-step');
+            const completionPercentageElement = document.getElementById('completion-percentage');
 
-        nextButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                currentStep++;
-                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                updateProgress();
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                    currentStep++;
+                    document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                    updateProgress();
+                });
             });
-        });
 
-        prevButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                document.getElementById(`step-${currentStep}`).classList.add('hidden');
-                currentStep--;
-                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
-                updateProgress();
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                    currentStep--;
+                    document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                    updateProgress();
+                });
             });
-        });
 
-        if (submitButton) {
-            submitButton.addEventListener('click', () => {
-                document.getElementById('listing-form').submit();
-            });
-        }
-
-        function updateProgress() {
-            const completionPercentage = (currentStep / totalSteps) * 100;
-            currentStepElement.textContent = currentStep;
-            completionPercentageElement.textContent = completionPercentage;
-            progressBar.style.width = `${completionPercentage}%`;
-        }
-    });
-</script>
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const map = L.map('map').setView([30.5852, 36.2384], 7); // Default: Jordan
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        let marker;
-
-        map.on('click', function(e) {
-            const {
-                lat,
-                lng
-            } = e.latlng;
-
-            if (marker) {
-                marker.setLatLng([lat, lng]);
-            } else {
-                marker = L.marker([lat, lng]).addTo(map);
+            if (submitButton) {
+                submitButton.addEventListener('click', () => {
+                    document.getElementById('listing-form').submit();
+                });
             }
 
-            // Fill hidden fields
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longitude').value = lng;
+            function updateProgress() {
+                const completionPercentage = (currentStep / totalSteps) * 100;
+                currentStepElement.textContent = currentStep;
+                completionPercentageElement.textContent = completionPercentage;
+                progressBar.style.width = `${completionPercentage}%`;
+            }
         });
-    });
-</script>
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const jordanCenter = ol.proj.fromLonLat([35.9106, 31.9539]);
+
+            const map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: jordanCenter,
+                    zoom: 8
+                }),
+                controls: ol.control.defaults().extend([
+                    new ol.control.FullScreen(),
+                    new ol.control.ScaleLine(),
+                    new ol.control.ZoomSlider()
+                ])
+            });
+
+            const markerLayer = new ol.layer.Vector({
+                source: new ol.source.Vector()
+            });
+            map.addLayer(markerLayer);
+
+            let marker;
+            map.on('click', function(e) {
+                const coords = e.coordinate;
+                const lonLat = ol.proj.toLonLat(coords);
+
+                markerLayer.getSource().clear();
+
+                marker = new ol.Feature({
+                    geometry: new ol.geom.Point(coords)
+                });
+
+                marker.setStyle(new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: '#3b82f6'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#ffffff',
+                            width: 2
+                        })
+                    })
+                }));
+
+                markerLayer.getSource().addFeature(marker);
+
+                document.getElementById('latitude').value = lonLat[1].toFixed(6);
+                document.getElementById('longitude').value = lonLat[0].toFixed(6);
+
+                if (document.getElementById('selected-lat')) {
+                    document.getElementById('selected-lat').textContent =
+                        `Latitude: ${lonLat[1].toFixed(6)}`;
+                    document.getElementById('selected-lng').textContent =
+                        `Longitude: ${lonLat[0].toFixed(6)}`;
+                }
+            });
+
+            const updateMapSize = () => {
+                setTimeout(() => {
+                    map.updateSize();
+                }, 100);
+            };
+
+            const steps = document.querySelectorAll('.step-content');
+            if (steps) {
+                steps.forEach(step => {
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.attributeName === 'class' &&
+                                !step.classList.contains('hidden') &&
+                                step.id === 'step-5') {
+                                updateMapSize();
+                            }
+                        });
+                    });
+
+                    observer.observe(step, {
+                        attributes: true
+                    });
+                });
+            }
+        });
+    </script>
 @endsection

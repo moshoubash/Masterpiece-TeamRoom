@@ -1,6 +1,7 @@
 @extends('layouts.home.layout')
 @section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/css/ol.css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
 @endsection
 @section('content')
     <div class="max-w-5xl mx-auto px-4 py-8">
@@ -18,7 +19,8 @@
             </div>
         </div>
 
-        <form id="listing-form" action="{{ route('space.update', $space->slug) }}" method="post" enctype="multipart/form-data">
+        <form id="listing-form" action="{{ route('space.update', $space->slug) }}" method="post"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -312,40 +314,96 @@
             }
         });
     </script>
-    <!-- Leaflet JS -->
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const map = L.map('map').setView([30.5852, 36.2384], 7); // Default: Jordan
+            const jordanCenter = ol.proj.fromLonLat([ 31.9539 , 31.9539]);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
+            const map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: jordanCenter,
+                    zoom: 8
+                }),
+                controls: ol.control.defaults().extend([
+                    new ol.control.FullScreen(),
+                    new ol.control.ScaleLine(),
+                    new ol.control.ZoomSlider()
+                ])
+            });
+
+            const markerLayer = new ol.layer.Vector({
+                source: new ol.source.Vector()
+            });
+            map.addLayer(markerLayer);
 
             let marker;
-
             map.on('click', function(e) {
-                const {
-                    lat,
-                    lng
-                } = e.latlng;
+                const coords = e.coordinate;
+                const lonLat = ol.proj.toLonLat(coords);
 
-                if (marker) {
-                    marker.setLatLng([lat, lng]);
-                } else {
-                    marker = L.marker([lat, lng]).addTo(map);
+                markerLayer.getSource().clear();
+
+                marker = new ol.Feature({
+                    geometry: new ol.geom.Point(coords)
+                });
+
+                marker.setStyle(new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: '#3b82f6'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#ffffff',
+                            width: 2
+                        })
+                    })
+                }));
+
+                markerLayer.getSource().addFeature(marker);
+
+                document.getElementById('latitude').value = lonLat[1].toFixed(6);
+                document.getElementById('longitude').value = lonLat[0].toFixed(6);
+
+                if (document.getElementById('selected-lat')) {
+                    document.getElementById('selected-lat').textContent =
+                        `Latitude: ${lonLat[1].toFixed(6)}`;
+                    document.getElementById('selected-lng').textContent =
+                        `Longitude: ${lonLat[0].toFixed(6)}`;
                 }
-
-                // Fill hidden fields
-                document.getElementById('latitude').value = lat;
-                document.getElementById('longitude').value = lng;
             });
+
+            const updateMapSize = () => {
+                setTimeout(() => {
+                    map.updateSize();
+                }, 100);
+            };
+
+            const steps = document.querySelectorAll('.step-content');
+            if (steps) {
+                steps.forEach(step => {
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.attributeName === 'class' &&
+                                !step.classList.contains('hidden') &&
+                                step.id === 'step-5') {
+                                updateMapSize();
+                            }
+                        });
+                    });
+
+                    observer.observe(step, {
+                        attributes: true
+                    });
+                });
+            }
         });
     </script>
-
     <script>
         function removeImage(id) {
             const checkbox = document.getElementById('checkbox-' + id);

@@ -76,7 +76,7 @@ class PaymentController extends Controller
                 'booking_id' => $booking->id,
                 'amount' => $request->total_price,
                 'payment_method' => 'stripe',
-                'status' => 'paid',
+                'status' => 'completed',
             ]);
 
             $space = Space::find($request->space_id);

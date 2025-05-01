@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center">
+            {{-- <div class="flex items-center">
                 <button class="flex items-center text-gray-600 mr-4 hover:text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
@@ -61,7 +61,7 @@
                     </svg>
                     Share
                 </button>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Room Images Grid -->

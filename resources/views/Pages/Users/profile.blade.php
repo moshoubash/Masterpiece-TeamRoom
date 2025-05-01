@@ -34,7 +34,7 @@
                                     <path
                                         d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
-                                <span>{{ $average_rating }} ({{ $total_reviews }} reviews)</span>
+                                <span>{{ number_format($average_rating, 1) }} ({{ $total_reviews }} reviews)</span>
                             </div>
                         @endif
 
@@ -139,44 +139,89 @@
             </div>
         @else
             <!-- Renter Bookings -->
-            <div>
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Renter Bookings</h2>
-
-                <div class="grid grid-cols-2 xm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-6">
-                    @foreach ($bookings as $booking)
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Booking ID: {{ $booking->id }}</h2>
-                            <h3 class="text-gray-600 mb-2">{{ $booking->space->name }}</h3>
-                            <p class="text-gray-600 mb-2">{{ $booking->space->city }}</p>
-                            <p class="text-gray-600 mb-2">{{ $booking->start_datetime }} - {{ $booking->end_datetime }}
-                            </p>
-                            <div class="flex justify-between items-center mb-3">
-                                <div class="font-semibold text-gray-900">${{ $booking->space->hourly_rate }}<span
-                                        class="text-gray-600 font-normal">/hour</span></div>
-                                <div class="text-xs font-medium px-2 py-1 rounded">
-                                    @if ($booking->status == 'pending')
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">Pending</span>
-                                    @elseif($booking->status == 'confirmed')
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-xs font-medium text-green-800">Confirmed</span>
-                                    @elseif($booking->status == 'cancelled')
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-xs font-medium text-red-800">Cancelled</span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-800">Completed</span>
-                                    @endif
+            @if ($renterId != Auth::id())
+                @foreach ($userReviews as $review)
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-4">
+                        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                            <h2 class="text-lg font-semibold text-gray-800">User Reviews</h2>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-2">"{{ $review->review_text }}"</p>
+                            <!-- Star Rating Display -->
+                            <div class="flex items-center mb-3">
+                                <div class="flex text-yellow-400">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $review->rating)
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        @else
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-5 w-5 text-gray-300 fill-current" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        @endif
+                                    @endfor
                                 </div>
+                                <span class="ml-2 text-sm text-gray-600">{{ $review->rating }}/5</span>
                             </div>
-                            <div class="flex space-x-2">
-                                <a href="{{ route('bookings.details', $booking->id) }}"
-                                    class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="font-semibold text-gray-900">${{ $review->space->hourly_rate }}<span
+                                        class="text-gray-600 font-normal">/hour</span></div>
+                                <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
+                                    Active</div>
+                            </div>
+                            <!-- Space Information -->
+                            <div class="text-sm text-gray-600">
+                                <p>Space: {{ $review->space->title }}</p>
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
+            @else
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Renter Bookings</h2>
+
+                    <div class="grid grid-cols-2 xm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-6">
+                        @foreach ($bookings as $booking)
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-2">Booking ID: {{ $booking->id }}</h2>
+                                <h3 class="text-gray-600 mb-2">{{ $booking->space->name }}</h3>
+                                <p class="text-gray-600 mb-2">{{ $booking->space->city }}</p>
+                                <p class="text-gray-600 mb-2">{{ $booking->start_datetime }} -
+                                    {{ $booking->end_datetime }}
+                                </p>
+                                <div class="flex justify-between items-center mb-3">
+                                    <div class="font-semibold text-gray-900">${{ $booking->space->hourly_rate }}<span
+                                            class="text-gray-600 font-normal">/hour</span></div>
+                                    <div class="text-xs font-medium px-2 py-1 rounded">
+                                        @if ($booking->status == 'pending')
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-yellow-100 text-xs font-medium text-yellow-800">Pending</span>
+                                        @elseif($booking->status == 'confirmed')
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-xs font-medium text-green-800">Confirmed</span>
+                                        @elseif($booking->status == 'cancelled')
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-xs font-medium text-red-800">Cancelled</span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-800">Completed</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('bookings.details', $booking->id) }}"
+                                        class="text-blue-500 hover:text-blue-600 text-sm font-medium">View details</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @endif
         @endif
     </div>
 @endsection

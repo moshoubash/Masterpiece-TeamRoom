@@ -10,6 +10,7 @@ use App\Models\Space;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Models\Review;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -187,6 +188,8 @@ class UserController extends Controller
         }
 
         $bookings = $user->bookingsAsRenter()->with('space')->get();
+        $renterId = $bookings[0]->renter_id;
+        $userReviews = Review::where('reviewee_id', $renterId)->get();
 
         return view('pages.users.profile', [
             'user' => $user,
@@ -195,7 +198,9 @@ class UserController extends Controller
             'created_at' => $created_at,
             'profile_image' => $profile_image,
             'is_verified' => $user->is_verified,
-            'bookings' => $bookings
+            'bookings' => $bookings,
+            'renterId' => $renterId,
+            'userReviews' => $userReviews
         ]);
     }
 

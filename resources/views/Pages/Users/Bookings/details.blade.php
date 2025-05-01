@@ -219,7 +219,7 @@
                                 hours</span>
                         </div>
                         <div class="flex justify-between py-3 text-sm border-t border-gray-200">
-                            <span class="text-gray-600">Subtotal</span>
+                            <span class="text-gray-600">Host Payout</span>
                             <span
                                 class="text-gray-900">${{ number_format($booking->total_price - $booking->service_fee, 2) }}</span>
                         </div>
@@ -261,62 +261,20 @@
                     </div>
                     <div class="p-6 space-y-4">
                         @if ($booking->status == 'confirmed')
-                            @php
-                                $bookingStart = \Carbon\Carbon::parse($booking->start_datetime);
-                                $now = \Carbon\Carbon::now();
-                                $hoursUntilBooking = $now->diffInHours($bookingStart, false);
-                            @endphp
-
-                            @if ($hoursUntilBooking > 24)
+                            @if ($hoursUntilBooking < 24 && $hoursUntilBooking > 0)
                                 <form action="/" method="POST">
                                     @csrf
                                     <button type="submit"
-                                        class="w-full bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
+                                        class="cursor-pointer w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
                                         <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
+                                                d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                                         </svg>
-                                        Cancel Booking
+                                        Request Refund
                                     </button>
                                 </form>
-                                <p class="text-xs text-gray-500 text-center mt-1">
-                                    Cancellation is available until
-                                    {{ $bookingStart->subHours(24)->format('M d, Y h:i A') }}
-                                </p>
-                            @else
-                                <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-                                    <div class="flex">
-                                        <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <div class="ml-3">
-                                            <p class="text-sm text-yellow-700">
-                                                Cancellation is no longer available as your booking starts in less than 24
-                                                hours.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
                             @endif
-
-                            <form action="/" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="cursor-pointer w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
-                                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                                    </svg>
-                                    Request Refund
-                                </button>
-                            </form>
                         @endif
                         
                         {{-- Button to trigger the modal --}}

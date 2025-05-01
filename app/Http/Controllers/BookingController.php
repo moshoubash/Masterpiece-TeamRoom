@@ -102,7 +102,8 @@ class BookingController extends Controller
         }
 
         if($booking->renter_id == Auth::user()->id){
-            return view('pages.users.bookings.details', compact('booking'));
+            $hoursUntilBooking = \Carbon\Carbon::parse($booking->created_at)->diffInHours(\Carbon\Carbon::now(), false);
+            return view('pages.users.bookings.details', compact('booking', 'hoursUntilBooking'));
         }
 
         return view('pages.404');
@@ -128,7 +129,6 @@ class BookingController extends Controller
 
         return redirect()->back();
     }
-
 
     public function reject($id) {
         $booking = Booking::find($id);

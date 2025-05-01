@@ -211,7 +211,7 @@ class SpaceController extends Controller
 
         $space->save();
 
-        return view('welcome');
+        return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
     }
 
     public function editSpace($slug)
@@ -233,7 +233,6 @@ class SpaceController extends Controller
         if ($space == null) {
             return view('pages.404');
         }
-        dd('space not null');
         $space->update([
             'host_id' => Auth::id(),
             'title' => $request->title,
@@ -288,7 +287,7 @@ class SpaceController extends Controller
 
         // Handle Availabilities
         if ($request->has('availability')) {
-            if($space->availability()->count() > 0) {
+            if ($space->availability()->count() > 0) {
                 $spaceAvailabilities = SpaceAvailability::where('space_id', $space->id)->get();
                 foreach ($spaceAvailabilities as $spaceAvailability) {
                     $spaceAvailability->delete();
@@ -318,7 +317,8 @@ class SpaceController extends Controller
         return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
     }
 
-    public function filter(Request $request) {
+    public function filter(Request $request)
+    {
         $query = Space::query();
 
         if ($request->filled('search')) {

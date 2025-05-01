@@ -191,15 +191,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Most Booked Spaces Chart
+            const labels = {!! json_encode($mostBookedSpaces->pluck('title')) !!};
+            const data = {!! json_encode($mostBookedSpaces->pluck('bookings_count')) !!};
+    
             const spaceCtx = document.getElementById('mostBookedSpacesChart').getContext('2d');
             const spaceChart = new Chart(spaceCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: [ '{{ $mostBookedSpaces[0]->title }}' , '{{ $mostBookedSpaces[1]->title }}',  '{{ $mostBookedSpaces[2]->title }}' ],
+                    labels: labels,
                     datasets: [{
-                        data: [ {{ $mostBookedSpaces[0]->bookings_count }}, {{ $mostBookedSpaces[1]->bookings_count }}, {{ $mostBookedSpaces[2]->bookings_count }}],
-                        backgroundColor: ['#3b82f6', '#2563eb', '#1d4ed8'],
+                        data: data,
+                        backgroundColor: ['#3b82f6', '#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
                         borderWidth: 1
                     }]
                 },
@@ -215,5 +217,5 @@
                 }
             });
         });
-    </script>
+    </script>    
 @endsection

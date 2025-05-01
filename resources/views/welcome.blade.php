@@ -215,6 +215,7 @@
                                     @if (asset('storage/' . $room->images->first()->image_url) != null)
                                         <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
                                             alt="{{ $room->title }}"
+                                            loading="lazy"
                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                                     @endif
                                     <div
