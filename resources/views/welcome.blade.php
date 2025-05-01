@@ -402,11 +402,11 @@
                 streamline their meeting room bookings.</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <a href="/explore"
-                    class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg transform hover:-translate-y-1">
+                    class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg">
                     Find a Space
                 </a>
                 <a href="{{ route('room.create') }}"
-                    class="border-2 border-white text-white px-8 py-4 rounded-full font-medium hover:bg-white hover:text-blue-600 transition-all shadow-lg transform hover:-translate-y-1">
+                    class="border-2 border-white text-white px-8 py-4 rounded-full font-medium hover:bg-white hover:text-blue-600 transition-all shadow-lg">
                     List your space
                 </a>
             </div>
