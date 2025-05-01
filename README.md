@@ -30,20 +30,8 @@ Team Room is a peer-to-peer platform designed to simplify the process of booking
 - **Booking a Room**: Search for rooms by location and filters, select a time slot, and confirm the booking.
 - **Admin Access**: Log in with admin credentials to manage users, rooms, and bookings via `/admin`.
 
-## Contributing
-We welcome contributions! To contribute:
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m 'Add your feature'`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Open a Pull Request.
-
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contact
-For support or inquiries, reach out to [your-email@example.com](mailto:your-email@example.com) or open an issue on GitHub.
-
----
 
 Happy booking with Team Room! 🚀
