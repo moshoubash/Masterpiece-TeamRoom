@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Stripe\Refund;
 use Stripe\Exception\ApiErrorException;
 use Carbon\Carbon;
 use App\Models\Space;
@@ -40,7 +41,6 @@ class PaymentController extends Controller
         try {
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-            // Create and confirm PaymentIntent
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'amount' => intval($request->total_price * 100),
                 'currency' => 'usd',
@@ -49,6 +49,7 @@ class PaymentController extends Controller
                     'enabled' => true,
                     'allow_redirects' => 'never',
                 ],
+                'confirm' => true
             ]);
 
             if ($paymentIntent->status === 'requires_action' && $paymentIntent->next_action->type === 'use_stripe_sdk') {
@@ -71,12 +72,13 @@ class PaymentController extends Controller
                 'status' => 'pending'
             ]);
 
-            Transaction::create([
+            $transaction = Transaction::create([
                 'transaction_type' => 'payment',
                 'booking_id' => $booking->id,
                 'amount' => $request->total_price,
                 'payment_method' => 'stripe',
                 'status' => 'completed',
+                'payment_intent_id' => $paymentIntent->id
             ]);
 
             $space = Space::find($request->space_id);
@@ -101,5 +103,51 @@ class PaymentController extends Controller
     {
         $booking = Booking::findOrFail($bookingId);
         return view('pages.payment.confirmation', compact('booking'));
+    }
+
+    public function refund(Request $request, Booking $booking)
+    {
+        try {
+            // Find related transaction
+            $transaction = Transaction::where('booking_id', $booking->id)->first();
+            
+            if (!$transaction) {
+                return back()->withErrors(['refund' => 'Transaction not found.']);
+            }
+
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+            // Find the payment intent ID
+            $paymentIntentId = $transaction->payment_intent_id;
+
+            $refund = \Stripe\Refund::create([
+                'payment_intent' => $paymentIntentId,
+            ]);
+
+            $booking->status = 'cancelled';
+            $booking->cancellation_reason = $request->input('cancellation_reason');
+            $booking->cancelled_by = $request->input('cancelled_by');
+            $booking->save();
+
+            Transaction::create([
+                'transaction_type' => 'refund',
+                'booking_id' => $booking->id,
+                'amount' => $transaction->amount,
+                'payment_method' => 'stripe',
+                'status' => 'failed',
+                'payment_intent_id' => $transaction->payment_intent_id
+            ]);
+
+            Notification::create([
+                'notification_type' => 'refund',
+                'user_id' => $booking->renter_id,
+                'title' => 'Refund',
+                'message' => 'Your refund request has been processed.'
+            ]);
+
+            return back()->with('success', 'Refund successful.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['refund' => 'Refund failed: ' . $e->getMessage()]);
+        }
     }
 }

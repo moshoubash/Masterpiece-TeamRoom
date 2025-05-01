@@ -8,7 +8,7 @@ class Transaction extends Model
 {
     protected $fillable = [
         'booking_id', 'payment_method', 'transaction_type', 'amount',
-        'status'
+        'status', 'payment_intent_id'
     ];
 
     public function booking()

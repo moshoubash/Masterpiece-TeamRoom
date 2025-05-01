@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -60,6 +61,19 @@ class VerificationController extends Controller
         $user->kyc_status = 'pending';
         
         $user->save();
+
+        $admins = User::whereHas('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'superadmin']);
+        })->get();
+
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'title' => 'New KYC Request',
+                'notification_type' => 'kyc',
+                'message' => 'New KYC request from ' . $user->email,
+            ]);
+        }
 
         return redirect()->route('home')->with('message', 'Document submitted! Within 24 hours, your KYC will be approved.');
     }

@@ -115,6 +115,7 @@ Route::post('/booking/checkout', [PaymentController::class, 'checkout'])->name('
 Route::post('/booking/process', [PaymentController::class, 'process'])->name('payment.process')->middleware('auth');
 Route::get('/bookings/confirmation/{booking}', [PaymentController::class, 'confirmation'])->name('bookings.confirmation')->middleware('auth');
 Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
+Route::post('/refund/{booking}', [PaymentController::class, 'refund'])->name('refund');
 
 Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
 Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');

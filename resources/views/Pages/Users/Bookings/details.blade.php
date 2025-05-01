@@ -31,7 +31,8 @@
                 </div>
             </div>
             @if (session('alert'))
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-yellow-300"
+                    role="alert">
                     <i class="fa-solid fa-check mx-2"></i>
                     {{ session('alert') }}
             @endif
@@ -67,7 +68,7 @@
                             <p class="mt-1 text-sm text-red-700">Reason: {{ $booking->cancellation_reason }}</p>
                         @endif
                         @if ($booking->cancelled_by)
-                            <p class="mt-1 text-sm text-red-700">Cancelled by: {{ $booking->cancelled_by }}</p>
+                            <p class="mt-1 text-sm text-red-700">Cancelled by: {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
                         @endif
                     </div>
                 </div>
@@ -157,7 +158,9 @@
                         <h2 class="text-lg font-semibold text-gray-800">Space Details</h2>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2"><a href="{{route('rooms.details', $booking->space->slug)}}">{{ $booking->space->title }}</a></h3>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2"><a
+                                href="{{ route('rooms.details', $booking->space->slug) }}">{{ $booking->space->title }}</a>
+                        </h3>
                         <p class="text-gray-600 mb-4">{{ $booking->space->description }}</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -261,26 +264,53 @@
                     </div>
                     <div class="p-6 space-y-4">
                         @if ($booking->status == 'confirmed')
-                            @if ($hoursUntilBooking < 24 && $hoursUntilBooking > 0)
-                                <form action="/" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                        class="cursor-pointer w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
-                                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                                        </svg>
-                                        Request Refund
-                                    </button>
-                                </form>
+                            @if ($canRefund)
+                                <button
+                                    onclick="document.getElementById('refundModal').classList.remove('hidden')"
+                                    class="cursor-pointer w-full bg-red-600 hover:bg-red-600 focus:ring-4 focus:ring-red-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                    </svg>
+                                    Request Refund
+                                </button>
+
+                                <!-- Refund Modal -->
+                                <div class="fixed inset-0 z-100000 flex items-center justify-center bg-black/30 backdrop-blur-sm hidden h-screen" id="refundModal">
+                                    <div class="bg-white rounded-lg w-full max-w-md p-6 shadow-lg relative">
+                                        <!-- Close Button -->
+                                        <button type="button"
+                                            class="cursor-pointer absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                                            onclick="document.getElementById('refundModal').classList.add('hidden')">&times;</button>
+
+                                        <h2 class="text-xl font-bold mb-4">Refund Request</h2>
+
+                                        <form method="POST" action="{{ route('refund', $booking->id) }}">
+                                            @csrf
+
+                                            <label for="cancellation_reason" class="block text-gray-700 mb-1">Cancellation
+                                                Reason</label>
+                                            <textarea id="cancellation_reason" name="cancellation_reason" rows="4" class="w-full border rounded p-2 mb-4"
+                                                required></textarea>
+
+                                            <input type="hidden" name="cancelled_by" value="{{ Auth::user()->id }}">
+
+                                            <button type="submit"
+                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-full">
+                                                Submit Refund
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             @endif
                         @endif
-                        
+
                         {{-- Button to trigger the modal --}}
                         @if ($booking->status == 'completed')
-                            @if($booking->space->reviews->where('booking_id', $booking->id)->where('reviewee_id', Auth::user()->id)->count() == 0)
-                                <button id="reviewModalButton" class="flex cursor-pointer items-center w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
+                            @if ($booking->space->reviews->where('booking_id', $booking->id)->where('reviewee_id', Auth::user()->id)->count() == 0)
+                                <button id="reviewModalButton"
+                                    class="flex cursor-pointer items-center w-full bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 text-white font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out flex items-center justify-center">
                                     <i class="fa-solid fa-star mr-2"></i>
                                     Add Review
                                 </button>
@@ -311,8 +341,7 @@
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                            id="closeReviewModal"
-                                            >
+                                            id="closeReviewModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd"
@@ -348,7 +377,8 @@
 
                                             {{-- Review Comment --}}
                                             <div class="mb-5">
-                                                <label class="block text-gray-700 text-sm font-bold mb-2" for="review_text">
+                                                <label class="block text-gray-700 text-sm font-bold mb-2"
+                                                    for="review_text">
                                                     Your Review
                                                 </label>
                                                 <textarea id="review_text" name="review_text" rows="4"
@@ -397,92 +427,84 @@
         });
     </script>
 
-{{-- JavaScript for Modal Functionality --}}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get DOM elements
-        const modal = document.getElementById('reviewModal');
-        const modalButton = document.getElementById('reviewModalButton');
-        const closeButton = document.getElementById('closeReviewModal');
-        const overlay = document.getElementById('reviewModalOverlay');
-        const starButtons = document.querySelectorAll('.star-btn');
-        const ratingInput = document.getElementById('ratingInput');
-        
-        // Open modal
-        if (modalButton) {
-            modalButton.addEventListener('click', function() {
-                modal.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden'); // Prevent scrolling
-            });
-        }
-        
-        // Close modal functions
-        const closeModal = function() {
-            modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        };
-        
-        // Close on button click
-        if (closeButton) {
-            closeButton.addEventListener('click', closeModal);
-        }
-        
-        // Close on overlay click
-        if (overlay) {
-            overlay.addEventListener('click', closeModal);
-        }
-        
-        // Close on ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                closeModal();
+    {{-- JavaScript for Modal Functionality --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const modal = document.getElementById('reviewModal');
+            const modalButton = document.getElementById('reviewModalButton');
+            const closeButton = document.getElementById('closeReviewModal');
+            const overlay = document.getElementById('reviewModalOverlay');
+            const starButtons = document.querySelectorAll('.star-btn');
+            const ratingInput = document.getElementById('ratingInput');
+
+            if (modalButton) {
+                modalButton.addEventListener('click', function() {
+                    modal.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden'); // Prevent scrolling
+                });
             }
+
+            const closeModal = function() {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            };
+
+            if (closeButton) {
+                closeButton.addEventListener('click', closeModal);
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', closeModal);
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            starButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    ratingInput.value = rating;
+
+                    starButtons.forEach(function(star, index) {
+                        if (index < rating) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        } else {
+                            star.classList.add('text-gray-300');
+                            star.classList.remove('text-yellow-400');
+                        }
+                    });
+                });
+
+                btn.addEventListener('mouseenter', function() {
+                    const hoverRating = parseInt(this.getAttribute('data-rating'));
+
+                    starButtons.forEach(function(star, index) {
+                        if (index < hoverRating) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        }
+                    });
+                });
+
+                btn.addEventListener('mouseleave', function() {
+                    const currentRating = parseInt(ratingInput.value);
+
+                    starButtons.forEach(function(star, index) {
+                        if (index < currentRating) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        } else {
+                            star.classList.add('text-gray-300');
+                            star.classList.remove('text-yellow-400');
+                        }
+                    });
+                });
+            });
         });
-        
-        // Star rating functionality
-        starButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const rating = parseInt(this.getAttribute('data-rating'));
-                ratingInput.value = rating;
-                
-                // Update star colors
-                starButtons.forEach(function(star, index) {
-                    if (index < rating) {
-                        star.classList.add('text-yellow-400');
-                        star.classList.remove('text-gray-300');
-                    } else {
-                        star.classList.add('text-gray-300');
-                        star.classList.remove('text-yellow-400');
-                    }
-                });
-            });
-            
-            // Hover effect
-            btn.addEventListener('mouseenter', function() {
-                const hoverRating = parseInt(this.getAttribute('data-rating'));
-                
-                starButtons.forEach(function(star, index) {
-                    if (index < hoverRating) {
-                        star.classList.add('text-yellow-400');
-                        star.classList.remove('text-gray-300');
-                    }
-                });
-            });
-            
-            btn.addEventListener('mouseleave', function() {
-                const currentRating = parseInt(ratingInput.value);
-                
-                starButtons.forEach(function(star, index) {
-                    if (index < currentRating) {
-                        star.classList.add('text-yellow-400');
-                        star.classList.remove('text-gray-300');
-                    } else {
-                        star.classList.add('text-gray-300');
-                        star.classList.remove('text-yellow-400');
-                    }
-                });
-            });
-        });
-    });
-</script>
+    </script>
 @endsection

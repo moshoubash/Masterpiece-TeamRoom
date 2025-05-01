@@ -102,8 +102,11 @@ class BookingController extends Controller
         }
 
         if($booking->renter_id == Auth::user()->id){
-            $hoursUntilBooking = \Carbon\Carbon::parse($booking->created_at)->diffInHours(\Carbon\Carbon::now(), false);
-            return view('pages.users.bookings.details', compact('booking', 'hoursUntilBooking'));
+            $currentTime = \Carbon\Carbon::parse(date('Y-m-d H:i:s', strtotime('+3 hours')));
+            $hoursSinceBookingCreated = \Carbon\Carbon::parse($booking->created_at)->diffInHours($currentTime, true);
+            $canRefund = $hoursSinceBookingCreated <= 24 && \Carbon\Carbon::parse($booking->start_datetime)->isFuture();
+            
+            return view('pages.users.bookings.details', compact('booking', 'canRefund'));
         }
 
         return view('pages.404');
