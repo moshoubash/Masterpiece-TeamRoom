@@ -220,7 +220,7 @@
                             alt="Profile" class="h-10 w-10 rounded-full">
                     </div>
                     <div class="ml-3">
-                        <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="text-base font-medium text-gray-800">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
                         <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
                     </div>
                 </div>
@@ -233,9 +233,12 @@
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">Profile</a>
                     @endif
 
-                    <a href="/bookings"
-                        class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">My
-                        Bookings</a>
+                    @if (Auth::user()->roles[0]->name == 'host')
+                        <a href="{{ route('host.stats', Auth::user()->slug) }}"
+                            class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
+                            Stats
+                        </a>
+                    @endif
 
                     <form action="{{ route('logout') }}" method="POST" class="block">
                         @csrf
