@@ -124,13 +124,13 @@
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                                 @if ($user->is_deleted == true)
-                                                <form action="{{ route('user.restore', $user->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-success btn-sm text-white" title="Restore User">
-                                                        <i class="fa-solid fa-trash-restore me-1"></i>
-                                                    </button>
-                                                </form>
+                                                    <form action="{{ route('user.restore', $user->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-success btn-sm text-white" title="Restore User">
+                                                            <i class="fa-solid fa-trash-restore me-1"></i>
+                                                        </button>
+                                                    </form>
                                                 @endif
                                             </div>
 

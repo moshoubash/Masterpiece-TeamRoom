@@ -2,7 +2,7 @@
 @section('styles')
     <style>
         #hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{{ asset('https://www.renderhub.com/archcorners/modern-meeting-room/modern-meeting-room-01.jpg') }}");
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(28, 90, 249, 0.9)), url("{{ asset('https://www.renderhub.com/archcorners/modern-meeting-room/modern-meeting-room-01.jpg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

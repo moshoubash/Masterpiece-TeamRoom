@@ -117,7 +117,7 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal{{ $review->id }}">
+                                                <button type="button" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#viewReviewModal{{ $review->id }}">
                                                     <i class="align-middle" data-feather="eye"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteReviewModal{{ $review->id }}">
