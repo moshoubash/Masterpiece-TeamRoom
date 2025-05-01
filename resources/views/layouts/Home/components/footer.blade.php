@@ -22,17 +22,17 @@
             </div>
             
             <div>
-                <h3 class="text-lg font-bold mb-4">Resources</h3>
+                <h3 class="text-lg font-bold mb-4">Host</h3>
                 <ul class="space-y-2">
-                    <li><a href="" class="text-gray-400 hover:text-white">Blog</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Documentation</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Support</a></li>
-                    <li><a href="" class="text-gray-400 hover:text-white">Guides</a></li>
+                    <li><a href="/" class="text-gray-400 hover:text-white">List a space</a></li>
+                    <li><a href="/" class="text-gray-400 hover:text-white">Edit profile</a></li>
+                    <li><a href="/" class="text-gray-400 hover:text-white">Profile</a></li>
+                    <li><a href="/" class="text-gray-400 hover:text-white">Stats</a></li>
                 </ul>
             </div>
             
             <div>
-                <h3 class="text-lg font-bold mb-4">Company</h3>
+                <h3 class="text-lg font-bold mb-4">Public</h3>
                 <ul class="space-y-2">
                     <li><a href="/about" class="text-gray-400 hover:text-white">About us</a></li>
                     <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
