@@ -263,7 +263,7 @@
                         <h2 class="text-lg font-semibold text-gray-800">Actions</h2>
                     </div>
                     <div class="p-6 space-y-4">
-                        @if ($booking->status == 'confirmed')
+                        @if ($booking->status == 'confirmed' || $booking->status == 'pending')
                             @if ($canRefund)
                                 <button
                                     onclick="document.getElementById('refundModal').classList.remove('hidden')"

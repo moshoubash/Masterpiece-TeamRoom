@@ -28,6 +28,13 @@ class VerificationController extends Controller
         $user->kyc_status = 'approved';
         $user->save();
 
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => 'KYC Approved',
+            'notification_type' => 'kyc',
+            'message' => 'Your KYC has been approved.',
+        ]);
+
         return back()->with('success', 'User KYC Approved.');
     }
 
@@ -35,6 +42,13 @@ class VerificationController extends Controller
     {
         $user->kyc_status = 'rejected';
         $user->save();
+
+        Notification::create([
+            'user_id' => $user->id,
+            'title' => 'KYC Rejected',
+            'notification_type' => 'kyc',
+           'message' => 'Your KYC has been rejected.',
+        ]);
 
         return back()->with('success', 'User KYC Rejected.');
     }

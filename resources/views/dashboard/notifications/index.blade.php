@@ -85,11 +85,6 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th width="40">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="selectAll">
-                        </div>
-                    </th>
                     <th>ID</th>
                     <th>Title</th>
                     <th>Type</th>
@@ -99,13 +94,8 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                @foreach($notifications as $item)
+                @foreach($notifications->sortByDesc('created_at') as $item)
                     <tr class="{{ $item->is_read == 0 ? 'bg-light' : ''}}">
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $item->id }}">
-                            </div>
-                        </td>
                         <td><span class="fw-medium">#{{ $item->id }}</span></td>
                         <td>
                             <div class="fw-semibold">{{ $item->title }}</div>
@@ -320,8 +310,9 @@
         </div>
     </div>
 </div>
+@endsection
 
-@push('scripts')
+@section('scripts')
 <script>
     // Initialize tooltips
     document.addEventListener('DOMContentLoaded', function() {
@@ -339,5 +330,4 @@
         });
     });
 </script>
-@endpush
 @endsection

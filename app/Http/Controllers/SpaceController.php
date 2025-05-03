@@ -211,6 +211,13 @@ class SpaceController extends Controller
 
         $space->save();
 
+        Activity::create([
+            'user_id' => Auth::user()->id,
+            'type' =>'System',
+            'name' => 'Space Created',
+            'description' => 'Space created successfully',
+        ]);
+
         return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
     }
 

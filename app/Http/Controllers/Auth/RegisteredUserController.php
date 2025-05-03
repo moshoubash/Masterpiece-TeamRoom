@@ -67,6 +67,13 @@ class RegisteredUserController extends Controller
             $user->roles()->attach($role);
         }
 
+        Activity::create([
+            'user_id' => $user->id,
+            'type' => 'System',
+            'name' => 'User Registered',
+            'description' => 'User registered successfully',
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);

@@ -311,7 +311,7 @@
                         <div class="mb-4">
                             <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                             <div class="relative">
-                                <input type="date" id="date" name="date" value="2025-04-22"
+                                <input type="date" id="date" name="date" value="{{ \Carbon\Carbon::now()->format('Y-m-d')  }}"
                                     class="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             </div>
                         </div>
@@ -319,29 +319,38 @@
                         <!-- Time Range -->
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Start
-                                    Time</label>
-                                <select id="start_time" name="start_time"
+                                <label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                                <select id="start_time" name="start_time" 
                                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-2 py-2">
-                                    @foreach (['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'] as $time)
-                                        <option value="{{ $time }}"
-                                            {{ isset($availability) && $availability->start_time == $time ? 'selected' : '' }}>
-                                            {{ $time }}
+                                    @php
+                                        $start = strtotime('08:00');
+                                        $end = strtotime('20:00');
+                                        $interval = 60 * 60; // 30 minutes in seconds
+                                    @endphp
+                                    
+                                    @for($time = $start; $time <= $end; $time += $interval)
+                                        <option value="{{ date('H:i', $time) }}" 
+                                            {{ isset($availability) && $availability->start_time == date('H:i', $time) ? 'selected' : '' }}>
+                                            {{ date('g:i A', $time) }}
                                         </option>
-                                    @endforeach
+                                    @endfor
                                 </select>
                             </div>
                             <div>
-                                <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">End
-                                    Time</label>
-                                <select id="end_time" name="end_time"
+                                <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                                <select id="end_time" name="end_time" 
                                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-2 py-2">
-                                    @foreach (['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'] as $time)
-                                        <option value="{{ $time }}"
-                                            {{ isset($availability) && $availability->end_time == $time ? 'selected' : '' }}>
-                                            {{ $time }}
+                                    @php
+                                        $start = strtotime('9:00');
+                                        $end = strtotime('21:00');
+                                    @endphp
+                                    
+                                    @for($time = $start; $time <= $end; $time += $interval)
+                                        <option value="{{ date('H:i', $time) }}" 
+                                            {{ isset($availability) && $availability->end_time == date('H:i', $time) ? 'selected' : '' }}>
+                                            {{ date('g:i A', $time) }}
                                         </option>
-                                    @endforeach
+                                    @endfor
                                 </select>
                             </div>
                         </div>

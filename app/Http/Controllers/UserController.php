@@ -181,7 +181,7 @@ class UserController extends Controller
                 'created_at' => $created_at,
                 'profile_image' => $profile_image,
                 'spaces' => $spaces,
-                'is_verified' => $user->is_verified,
+                'is_verified' => $user->kyc_status == 'approved' ? true : false,
                 'average_rating' => $average_rating,
                 'total_reviews' => $total_reviews
             ]);
