@@ -66,12 +66,16 @@
                                     <select id="sort" name="sort"
                                         class="w-full pl-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white appearance-none">
                                         <option value="">Default</option>
-                                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-                                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>
+                                            Price: Low to High</option>
+                                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>
+                                            Price: High to Low</option>
                                     </select>
                                     <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                                        <svg class="h-4 w-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        <svg class="h-4 w-4 text-black" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </div>
                                 </div>
@@ -243,9 +247,15 @@
                                     class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row transition">
                                     <!-- Left side - Image -->
                                     <div class="relative w-full md:w-1/3">
-                                        <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
-                                            alt="{{ $room->name }}"
-                                            class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                        @if ($room->images->isEmpty())
+                                            <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                                                alt="{{ $room->title }}"
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                        @else
+                                            <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
+                                                alt="{{ $room->title }}"
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                        @endif
 
                                         @if ($room->is_active)
                                             <div class="absolute top-3 right-3">

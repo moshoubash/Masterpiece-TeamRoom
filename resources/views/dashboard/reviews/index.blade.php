@@ -236,16 +236,13 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Initialize Feather icons
         if (typeof feather !== 'undefined') {
             feather.replace();
         }
         
-        // Add any custom JavaScript functionality here
         const searchInput = document.querySelector('input[placeholder="Search reviews..."]');
         if (searchInput) {
             searchInput.addEventListener('keyup', function(e) {
-                // Implement search functionality if needed
                 console.log('Searching for:', this.value);
             });
         }

@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class BookingController extends Controller
 {
@@ -128,13 +129,6 @@ class BookingController extends Controller
             'title' => 'Your booking has been confirmed',
             'notification_type' => 'Booking',
             'message' => 'Your booking has been confirmed on ' . $booking->start_datetime
-        ]);
-
-        Activity::create([
-            'user_id' => $booking->renter_id,
-            'type' => 'System',
-            'name' => 'Booking Confirmed',
-            'description' => 'Your booking has been confirmed on '. $booking->start_datetime,
         ]);
 
         return redirect()->back();

@@ -106,9 +106,9 @@
                     </a>
                 </li>
                 
-                <!-- System Section -->
+                <!-- Account Section -->
                 <li class="pc-item pc-caption">
-                    <label>System</label>
+                    <label>Account</label>
                 </li>
                 <li class="pc-item">
                     <a href="/dashboard/settings" class="pc-link {{ request()->is('dashboard/settings*') ? 'active' : '' }}">

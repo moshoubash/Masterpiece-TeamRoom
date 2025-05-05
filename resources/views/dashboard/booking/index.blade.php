@@ -81,7 +81,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="/dashboard/users/{{ $booking->renter_id }}" class="text-decoration-none" data-bs-toggle="tooltip" title="View User">
+                                            <a href="/dashboard/users/{{ $booking->renter_id }}/show" class="text-decoration-none" data-bs-toggle="tooltip" title="View User">
                                                 #{{ $booking->renter_id }}
                                             </a>
                                         </td>

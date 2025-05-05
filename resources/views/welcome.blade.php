@@ -176,7 +176,7 @@
                 </div>
 
                 <!-- Navigation Controls with Blade Component -->
-                <div class="flex space-x-3">
+                <div class="hidden md:flex space-x-3 xxl:hidden">
                     @php
                         $buttonClasses =
                             'flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
@@ -205,15 +205,20 @@
                             <div
                                 class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-100 relative">
                                 <!-- New Badge (if applicable) -->
-                                <div
-                                    class="absolute top-4 right-4 z-10 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                    New
-                                </div>
+                                @if ($room->created_at->diffInDays() <= 7)
+                                    <span
+                                        class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-999999">New</span>
+                                @endif
 
                                 <!-- Room Image with Hover Effect -->
                                 <div class="relative overflow-hidden h-56">
-                                    @if (asset('storage/' . $room->images->first()->image_url) != null)
+                                    @if (!$room->images->isEmpty())
                                         <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
+                                            alt="{{ $room->title }}"
+                                            loading="lazy"
+                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                    @else
+                                        <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
                                             alt="{{ $room->title }}"
                                             loading="lazy"
                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -522,34 +527,27 @@
         }
     </script>
 
-    <!-- Add JavaScript for carousel functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const carousel = document.getElementById('spaces-carousel');
             const prevButton = document.getElementById('prev-spaces');
             const nextButton = document.getElementById('next-spaces');
 
-            // Get all carousel items
             const carouselItems = carousel.children;
             const totalItems = carouselItems.length;
 
-            // Show 3 cards per page
             const itemsPerPage = 3;
             const totalPages = Math.ceil(totalItems / itemsPerPage);
 
             let currentPage = 0;
 
-            // Function to update carousel position
             function updateCarouselPosition() {
-                // Calculate translateX value based on current page
                 const translateValue = -currentPage * (100 / itemsPerPage);
                 carousel.style.transform = `translateX(${translateValue}%)`;
 
-                // Update button states
                 prevButton.disabled = currentPage === 0;
                 nextButton.disabled = currentPage === totalPages - 1;
 
-                // Visual feedback for disabled buttons
                 if (prevButton.disabled) {
                     prevButton.classList.add('opacity-50', 'cursor-not-allowed');
                 } else {
@@ -563,10 +561,8 @@
                 }
             }
 
-            // Initialize carousel
             updateCarouselPosition();
 
-            // Previous button click handler
             prevButton.addEventListener('click', function() {
                 if (currentPage > 0) {
                     currentPage--;
@@ -574,7 +570,6 @@
                 }
             });
 
-            // Next button click handler
             nextButton.addEventListener('click', function() {
                 if (currentPage < totalPages - 1) {
                     currentPage++;
@@ -582,7 +577,6 @@
                 }
             });
 
-            // Update on window resize to handle responsive layout changes
             window.addEventListener('resize', updateCarouselPosition);
         });
     </script>

@@ -106,4 +106,8 @@ class User extends Authenticatable
     {
         return $this->kyc_status === 'approved';
     }
+
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class, 'user_id', 'id');
+    }
 }
