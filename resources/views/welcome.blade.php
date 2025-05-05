@@ -83,7 +83,7 @@
 
                 <!-- Search Button -->
                 <button type="submit"
-                    class="cursor-pointer bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 transform hover:-translate-y-0.5 active:translate-y-0">
+                    class="cursor-pointer bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 ">
                     <span class="mr-2 md:hidden lg:inline">Search</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -203,7 +203,7 @@
                     @foreach ($meetingRooms as $index => $room)
                         <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
                             <div
-                                class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-100 relative">
+                                class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl hover:shadow-blue-100 relative">
                                 <!-- New Badge (if applicable) -->
                                 @if ($room->created_at->diffInDays() <= 7)
                                     <span
@@ -417,102 +417,6 @@
             </div>
         </div>
     </section>
-
-    {{-- <section class="bg-gradient-to-b from-gray-50 to-gray-100 py-24 px-4 sm:px-6 text-center">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">List Your First Room for Free</h2>
-            <p class="text-gray-600 mb-12 max-w-2xl mx-auto text-lg">
-                Start earning by listing your first room at no cost. Want to add more listings? Upgrade for unlimited space
-                visibility and better exposure.
-            </p>
-    
-            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <!-- Free Tier -->
-                <div class="border border-gray-200 rounded-2xl p-8 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
-                    <div class="mb-6">
-                        <span class="inline-block px-4 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-4">CURRENT PLAN</span>
-                        <h3 class="text-2xl font-bold mb-2 text-gray-800">Free Plan</h3>
-                        <p class="text-gray-600 mb-2">Perfect for first-time hosts</p>
-                        <div class="border-t border-gray-100 w-full my-6"></div>
-                    </div>
-                    
-                    <ul class="text-left space-y-4 mb-8 flex-grow">
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>1 free listing</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>Basic support</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>Host dashboard access</span>
-                        </li>
-                    </ul>
-                    
-                    <button class="w-full bg-gray-200 text-gray-600 font-semibold py-3 px-6 rounded-lg cursor-not-allowed" disabled>
-                        You're on this plan
-                    </button>
-                </div>
-    
-                <!-- Paid Tier -->
-                <div class="border-2 border-blue-500 rounded-2xl p-8 bg-white shadow-lg relative flex flex-col h-full transform hover:-translate-y-1 transition-all duration-300">
-                    <div class="absolute -top-4 right-6">
-                        <span class="bg-blue-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase">Recommended</span>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <span class="inline-block px-4 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-4">PREMIUM</span>
-                        <h3 class="text-2xl font-bold mb-2 text-gray-800">Premium Plan</h3>
-                        <p class="text-gray-600 mb-2">For serious hosts with multiple spaces</p>
-                        <div class="border-t border-gray-100 w-full my-6"></div>
-                    </div>
-                    
-                    <ul class="text-left space-y-4 mb-8 flex-grow">
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span><strong>Unlimited</strong> listings</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span><strong>Priority</strong> support</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>Advanced analytics & insights</span>
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>Featured listings</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="#pricing"
-                        class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center">
-                        Upgrade Now
-                        <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 @endsection
 @section('scripts')
     <script>

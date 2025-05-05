@@ -5,8 +5,8 @@
         <div class="flex items-center">
             <a href="/" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
                 aria-label="Team Room Home">
-                <img src="{{ asset('assets/dashboard/images/team-room-dashboard.svg') }}" alt="Team Room" width="150"
-                    class="h-10 w-auto">
+                <img src="{{ asset('assets/dashboard/images/team-room-dashboard.svg') }}" alt="Team Room"
+                    class="h-10 w-auto" width="200" height="40">
             </a>
         </div>
 
@@ -38,12 +38,7 @@
         <div class="hidden md:flex items-center space-x-5">
             @auth
                 <div class="flex items-center space-x-4">
-                    @if (Auth::user()->roles[0]->name == 'host')
-                        <a href="{{ route('room.create') }}"
-                            class="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200 px-3 py-2 rounded-md hover:bg-blue-50">
-                            List a Space
-                        </a>    
-                    @endif
+                    
 
                     <!-- Notification Button -->
                     <div class="relative inline-block">
@@ -147,6 +142,11 @@
                             @endif
 
                             @if (Auth::user()->roles[0]->name == 'host')
+                                <a href="{{ route('room.create') }}"
+                                    class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="h-5 w-5 mr-2 fa-solid fa-plus"></i>
+                                    List a Space
+                                </a>
                                 <a href="{{ route('host.stats', Auth::user()->slug) }}"
                                     class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                                     <i class="h-5 w-5 mr-2 fa-solid fa-chart-simple"></i>
@@ -244,6 +244,10 @@
                         <a href="{{ route('host.stats', Auth::user()->slug) }}"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
                             Stats
+                        </a>
+                        <a href="{{ route('room.create') }}"
+                            class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
+                            List a Space
                         </a>
                     @endif
 

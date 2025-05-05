@@ -164,8 +164,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/wishlist/remove/{space}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
-// Route::fallback(function () {
-//     return view('pages.404');
-// });
+Route::fallback(function () {
+    return view('pages.404');
+});
 
 require __DIR__.'/auth.php';

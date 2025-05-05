@@ -41,8 +41,21 @@
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Mobile Filter Toggle Button -->
+                <div class="lg:hidden w-full mb-4">
+                    <button id="filter-toggle"
+                        class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-150 ease-in-out flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Show Filters
+                    </button>
+                </div>
+
                 <!-- Enhanced Filters Sidebar -->
-                <div class="w-full lg:w-1/4">
+                <div id="filters-container" class="w-full lg:w-1/4 hidden lg:block">
                     <div class="bg-white p-6 rounded-xl shadow-md">
                         <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none"
@@ -123,23 +136,34 @@
                                 </div>
                             </div>
 
-                            <!-- Time Range Filter with Slider -->
+                            <!-- Time Range Filter -->
                             <div class="mb-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Time Range
-                                </label>
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-1/2">
-                                        <input type="time" id="start_time" name="start_time"
-                                            class="w-30 pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                            value="{{ request('start_time') }}">
+                                <fieldset>
+                                    <legend class="block text-sm font-medium text-gray-700 mb-4">
+                                        Time Range
+                                    </legend>
+                                    <div class="flex flex-col space-y-3">
+                                        <div class="relative">
+                                            <input type="time" id="start_time" name="start_time"
+                                                class="w-full pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                                value="{{ request('start_time') }}" aria-label="Start time"
+                                                placeholder="Start Time">
+                                            <label for="start_time"
+                                                class="absolute -top-2 left-2 bg-white px-1 text-xs text-gray-600">Start
+                                                Time</label>
+                                        </div>
+
+                                        <div class="relative">
+                                            <input type="time" id="end_time" name="end_time"
+                                                class="w-full pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                                value="{{ request('end_time') }}" aria-label="End time"
+                                                placeholder="End Time">
+                                            <label for="end_time"
+                                                class="absolute -top-2 left-2 bg-white px-1 text-xs text-gray-600">End
+                                                Time</label>
+                                        </div>
                                     </div>
-                                    <div class="w-1/2">
-                                        <input type="time" id="end_time" name="end_time"
-                                            class="w-30 pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                            value="{{ request('end_time') }}">
-                                    </div>
-                                </div>
+                                </fieldset>
                             </div>
 
                             <!-- Amenities Filter with Icons -->
@@ -206,7 +230,7 @@
                             <!-- Filter Actions -->
                             <div class="flex flex-col space-y-3">
                                 <button type="submit"
-                                    class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-150 ease-in-out">
                                     Apply Filters
                                 </button>
 
@@ -329,7 +353,7 @@
 
                                         <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 mt-auto">
                                             <a href="{{ route('rooms.details', $room->slug) }}"
-                                                class="block w-full text-center bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                                                class="block w-full text-center bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition duration-150 ease-in-out">
                                                 View Details
                                             </a>
                                         </div>
@@ -347,7 +371,8 @@
             </div>
         </div>
     </div>
-
+@endsection
+@section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Auto-submit the form when select filters change
@@ -363,6 +388,41 @@
                     element.addEventListener('change', function() {
                         document.getElementById('filter-form').submit();
                     });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterToggle = document.getElementById('filter-toggle');
+            const filtersContainer = document.getElementById('filters-container');
+
+            filterToggle.addEventListener('click', function() {
+                if (filtersContainer.classList.contains('hidden')) {
+                    filtersContainer.classList.remove('hidden');
+                    filterToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Hide Filters
+                    `;
+                } else {
+                    filtersContainer.classList.add('hidden');
+                    filterToggle.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        Show Filters
+                    `;
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    filtersContainer.classList.remove('hidden');
+                } else if (!filterToggle.innerHTML.includes('Hide')) {
+                    filtersContainer.classList.add('hidden');
                 }
             });
         });
