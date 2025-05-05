@@ -39,7 +39,6 @@
             @auth
                 <div class="flex items-center space-x-4">
                     @if (Auth::user()->roles[0]->name == 'host')
-                        {{-- list a sapce --}}
                         <a href="{{ route('room.create') }}"
                             class="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200 px-3 py-2 rounded-md hover:bg-blue-50">
                             List a Space
@@ -81,13 +80,7 @@
                                                 <i class="fa-solid fa-comment-dots"></i>
                                             </div>
                                             <div>
-                                                <h4 class="font-medium text-gray-800">
-                                                    @if($notification->notification_type == 'booking')
-                                                        <a href="{{ route('host.stats', Auth::user()->slug) }}">{{ $notification->title }}</a>
-                                                    @else
-                                                        <a href="/">{{ $notification->title }}</a>
-                                                    @endif
-                                                </h4>
+                                                <h4 class="font-medium text-gray-800">{{ $notification->title }}</h4>
                                                 <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
                                                 <span class="text-xs text-gray-500 mt-1 block">
                                                     {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
@@ -150,14 +143,6 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                     Profile
-                                </a>
-                            @endif
-
-                            @if (Auth::user()->roles[0]->name == 'renter')
-                                <a href="/wishlist"
-                                    class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                    <i class="h-5 w-5 mr-2 fa-solid fa-list"></i>
-                                    Wishlist
                                 </a>
                             @endif
 
@@ -259,16 +244,6 @@
                         <a href="{{ route('host.stats', Auth::user()->slug) }}"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
                             Stats
-                        </a>
-                        <a href="{{ route('room.create') }}" class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
-                            List a Space
-                        </a>
-                    @endif
-
-                    @if (Auth::user()->roles[0]->name == 'renter')
-                        <a href="/wishlist"
-                            class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
-                            Wishlist
                         </a>
                     @endif
 

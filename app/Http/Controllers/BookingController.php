@@ -74,7 +74,7 @@ class BookingController extends Controller
             'end_datetime' => $end_datetime,
         ]);
 
-        Booking::create([
+        $booking = Booking::create([
             'space_id' => $request->space_id,
             'renter_id' => Auth::user()->id,
             'start_datetime' => $start_datetime,

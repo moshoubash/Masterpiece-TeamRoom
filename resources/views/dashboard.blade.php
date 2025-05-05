@@ -132,8 +132,13 @@
                                     <tr>
                                         <td class="text-center fw-bold">{{ $space->id }}</td>
                                         <td>
-                                            <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
-                                                alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @if ($space->images->isEmpty())
+                                                <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @else
+                                                <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
+                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
