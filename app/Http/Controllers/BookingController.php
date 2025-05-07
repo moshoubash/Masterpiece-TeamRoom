@@ -130,13 +130,6 @@ class BookingController extends Controller
             'message' => 'Your booking has been confirmed on ' . $booking->start_datetime
         ]);
 
-        Activity::create([
-            'user_id' => $booking->renter_id,
-            'type' => 'System',
-            'name' => 'Booking Confirmed',
-            'description' => 'Your booking has been confirmed on '. $booking->start_datetime,
-        ]);
-
         return redirect()->back();
     }
 

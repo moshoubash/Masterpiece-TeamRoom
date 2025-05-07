@@ -57,7 +57,6 @@ class TransactionController extends Controller
     }
 
     // filter function
-
     public function filter(Request $request)
     {
         $query = Transaction::query();
