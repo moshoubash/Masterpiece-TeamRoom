@@ -145,79 +145,60 @@
             <div id="step-4" class="step-content bg-white rounded-lg shadow-sm p-8 mb-8 hidden">
                 <h2 class="text-xl font-bold mb-6">Photos</h2>
                 <p class="text-gray-600 mb-6">Add photos of your space. The first photo will be used as the main image.</p>
-
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-2">Upload Photos</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-                        <div class="flex justify-center mb-4">
-                            <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
+                    <div id="dropzone"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-all hover:border-blue-400 hover:bg-blue-50 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <svg class="h-16 w-16 text-blue-400 mb-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
+                            <p class="text-lg font-medium text-blue-600 mb-1">Drag photos here or click to upload</p>
+                            <p class="text-sm text-gray-500 mb-4">Upload high-quality images to showcase your space</p>
+                            <span
+                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors inline-block mb-2">
+                                Select Photos
+                            </span>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Max 10 photos)</p>
+                            <input type="file" id="image-upload" name="images[]" multiple class="hidden"
+                                accept="image/png,image/jpeg,image/gif">
                         </div>
-                        <p class="text-sm font-medium">Click to upload or drag and drop</p>
-                        <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                    </div>
 
-                        <input type="file" name="images[]" multiple>
+                    <!-- Preview Area -->
+                    <div id="image-preview" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                        <div class="col-span-full mb-2">
+                            <h3 class="font-medium text-gray-700">Selected Photos (<span id="image-count">0</span>)</h3>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card mb-4">
-                    <div class="card-header bg-light">
-                        <h5 class="mb-0">Existing Images</h5>
-                    </div>
-                    <div class="card-body mt-5">
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Current Images Section -->
+                @if ($space->images && $space->images->count() > 0)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Current Photos</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             @foreach ($space->images as $image)
                                 <div class="relative group">
                                     <img src="{{ asset('storage/' . $image->image_url) }}" alt="Space image"
-                                        class="w-full h-48 object-cover rounded shadow cursor-pointer"
-                                        onclick="removeImage({{ $image->id }})">
-
-                                    <!-- Hidden Checkbox -->
-                                    <input type="checkbox" name="remove_images[]" value="{{ $image->id }}"
-                                        id="checkbox-{{ $image->id }}" class="hidden">
-
-                                    <!-- Trash Icon Overlay -->
+                                        class="w-full h-32 object-cover rounded-lg border border-gray-200">
                                     <div
-                                        class="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-trash-2">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path
-                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                            </path>
-                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                        </svg>
+                                        class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                                        <button type="button" class="text-white bg-red-500 p-1 rounded-full"
+                                            onclick="removeImage({{ $image->id }})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
                                     </div>
-
-                                    <!-- View Button (optional) -->
-                                    <a href="{{ asset('storage/' . $image->image_url) }}" target="_blank"
-                                        class="absolute bottom-2 right-2 bg-white border p-1 rounded shadow hover:bg-gray-100 z-10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </a>
                                 </div>
                             @endforeach
                         </div>
-
-
-                        @if ($space->images->isEmpty())
-                            <div class="text-center text-muted py-4">
-                                <i class="bi bi-images fs-2 d-block mb-2"></i>
-                                <p>No images uploaded yet</p>
-                            </div>
-                        @endif
                     </div>
-                </div>
+                @endif
 
                 <div class="flex justify-between">
                     <button type="button"
@@ -314,9 +295,10 @@
             }
         });
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const jordanCenter = ol.proj.fromLonLat([ 31.9539 , 31.9539]);
+            const jordanCenter = ol.proj.fromLonLat([31.9539, 31.9539]);
 
             const map = new ol.Map({
                 target: 'map',
@@ -404,17 +386,16 @@
             }
         });
     </script>
-    <script>
-        function removeImage(id) {
-            const checkbox = document.getElementById('checkbox-' + id);
-            checkbox.checked = !checkbox.checked;
 
-            const img = checkbox.previousElementSibling;
-            if (checkbox.checked) {
-                img.classList.add('opacity-30', 'grayscale');
-            } else {
-                img.classList.remove('opacity-30', 'grayscale');
-            }
+    <script>
+        function removeImage(imageId) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'deleted_images[]';
+            input.value = imageId;
+            document.getElementById('listing-form').appendChild(input);
+
+            event.target.closest('.relative').style.display = 'none';
         }
     </script>
 @endsection

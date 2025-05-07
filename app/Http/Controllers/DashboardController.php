@@ -98,6 +98,8 @@ class DashboardController extends Controller
             return redirect('/dashboard/settings');
         }
 
-        return view('/dashboard');
+        return redirect()->action(
+            [DashboardController::class, 'index']
+        )->with('warning', 'Search for ' . $query .' not found');
     }
 }

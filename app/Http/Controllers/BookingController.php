@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class BookingController extends Controller
 {
@@ -73,7 +74,7 @@ class BookingController extends Controller
             'end_datetime' => $end_datetime,
         ]);
 
-        Booking::create([
+        $booking = Booking::create([
             'space_id' => $request->space_id,
             'renter_id' => Auth::user()->id,
             'start_datetime' => $start_datetime,

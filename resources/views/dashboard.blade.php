@@ -2,7 +2,13 @@
 @section('title', 'Meeting Room Booking Dashboard')
 @section('content')
     <h1 class="h3 mb-3"><strong>Meeting Room</strong> Dashboard</h1>
-
+    <!-- Warning Message -->
+    @if(session('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ session('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <!-- Top Row - 4 Small Cards -->
     <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -122,12 +128,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($spaces->sortByDesc('created_at') as $space)
+                                @foreach ($spaces->sortByDesc('created_at')->take(5) as $space)
                                     <tr>
                                         <td class="text-center fw-bold">{{ $space->id }}</td>
                                         <td>
-                                            <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
-                                                alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @if ($space->images->isEmpty())
+                                                <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @else
+                                                <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
+                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -207,9 +218,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-end mt-3">
-                            {{ $spaces->links() }}
-                        </div>
                     </div>
                 </div>
             </div>

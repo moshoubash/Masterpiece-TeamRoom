@@ -38,6 +38,13 @@
         <div class="hidden md:flex items-center space-x-5">
             @auth
                 <div class="flex items-center space-x-4">
+                    @if (Auth::user()->roles[0]->name == 'host')
+                        <a href="{{ route('room.create') }}"
+                            class="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200 px-3 py-2 rounded-md hover:bg-blue-50">
+                            List a Space
+                        </a>    
+                    @endif
+
                     <!-- Notification Button -->
                     <div class="relative inline-block">
                         <button id="notification-button" title="Notifications"

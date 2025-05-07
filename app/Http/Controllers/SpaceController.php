@@ -267,8 +267,8 @@ class SpaceController extends Controller
         }
 
         // Handle deleted images
-        if ($request->has('remove_images')) {
-            foreach ($request->remove_images as $imageId) {
+        if ($request->has('deleted_images')) {
+            foreach ($request->deleted_images as $imageId) {
                 $image = SpaceImage::find($imageId);
                 if ($image) {
                     Storage::delete($image->image_url); // delete from disk

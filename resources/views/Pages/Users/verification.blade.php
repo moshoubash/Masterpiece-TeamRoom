@@ -54,19 +54,28 @@
                     <div class="mt-1 flex items-center">
                         <label class="w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:bg-gray-50 @error('id_document') border-red-500 @enderror">
                             <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="flex text-sm text-gray-600">
-                                    <span class="relative bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                        Upload a file
-                                    </span>
-                                    <input id="id_document" name="id_document" type="file" class="sr-only" accept="image/jpeg,image/png,image/jpg,application/pdf" @if(Auth::user()->id_document_path) disabled @endif required>
-                                    <p class="pl-1">or drag and drop</p>
+                                <div class="flex flex-col items-center justify-center">
+                                    <svg class="mx-auto h-12 w-12 text-blue-400 transition-all duration-300 group-hover:text-blue-500" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="mt-4 flex flex-col items-center text-sm text-gray-600">
+                                        <span class="mb-2 font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                                            Select a document to upload
+                                        </span>
+                                        <input id="id_document" name="id_document" type="file" class="hidden" accept="image/jpeg,image/png,image/jpg,application/pdf" @if(Auth::user()->id_document_path) disabled @endif required>
+                                        <p class="text-xs text-gray-500">
+                                            JPG, PNG, PDF up to 5MB
+                                        </p>
+                                    </div>
+                                    <div id="file-selected" class="mt-3 hidden">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <svg class="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span id="file-name">No file selected</span>
+                                        </span>
+                                    </div>
                                 </div>
-                                <p class="text-xs text-gray-500">
-                                    JPG, PNG, PDF up to 5MB
-                                </p>
                             </div>
                         </label>
                     </div>
@@ -105,4 +114,31 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_document');
+        const fileSelected = document.getElementById('file-selected');
+        const fileName = document.getElementById('file-name');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileSelected.classList.remove('hidden');
+                fileName.textContent = this.files[0].name;
+            } else {
+                fileSelected.classList.add('hidden');
+                fileName.textContent = 'No file selected';
+            }
+        });
+        
+        // Make the entire upload area clickable
+        document.querySelector('label[for="id_document"]').addEventListener('click', function() {
+            if (!fileInput.disabled) {
+                fileInput.click();
+            }
+        });
+    });
+    </script>
 @endsection

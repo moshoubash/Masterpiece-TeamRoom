@@ -91,8 +91,13 @@
                         @foreach ($spaces as $space)
                             <div class="bg-white rounded-lg shadow overflow-hidden">
                                 <div class="relative">
-                                    <img src="{{ asset('storage/' . $space->images->first()->image_url) }}"
-                                        alt="Executive Meeting Room" class="w-full h-48 object-cover">
+                                    @if ($space->images->isEmpty())
+                                        <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                                            alt="Executive Meeting Room" class="w-full h-48 object-cover">
+                                    @else
+                                        <img src="{{ asset('storage/' . $space->images->first()->image_url) }}"
+                                            alt="Executive Meeting Room" class="w-full h-48 object-cover">
+                                    @endif
                                     {{-- enable this section for the owner or host --}}
                                     @if (Auth::check() && $role == 'HOST' && $user->id == Auth::user()->id)
                                         <div class="absolute top-3 right-3 space-x-2">

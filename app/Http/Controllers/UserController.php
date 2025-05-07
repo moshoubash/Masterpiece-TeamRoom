@@ -150,20 +150,20 @@ class UserController extends Controller
         if($user == null){
             return view('pages.404');
         }
-
+        
         $role = strtoupper($user->roles()->first()->name);
         
         if($role == 'ADMIN' || $role == 'SUPERADMIN' || $user->is_deleted == true){
             return view('pages.404');
         }
-
+        
         $name = $user->first_name . ' ' . $user->last_name;
         $created_at = $user->created_at->format('M d, Y');
         $profile_image = $user->profile_picture_url;
-
+        
         if($role == 'HOST'){
             $spaces = Space::where('host_id', $user->id)->get();
-
+            
             $average_rating = 0;
             $total_reviews = 0;
             if($spaces->count() > 0){
@@ -173,7 +173,7 @@ class UserController extends Controller
                 }
                 $average_rating = $average_rating / $spaces->count();
             }
-
+            
             return view('pages.users.profile', [
                 'user' => $user,
                 'role' => $role,
@@ -188,9 +188,9 @@ class UserController extends Controller
         }
 
         $bookings = $user->bookingsAsRenter()->with('space')->get();
-        $renterId = $bookings[0]->renter_id;
+        $renterId = $bookings[0]->renter_id ?? $user->id;
         $userReviews = Review::where('reviewee_id', $renterId)->get();
-
+        
         return view('pages.users.profile', [
             'user' => $user,
             'role' => $role,

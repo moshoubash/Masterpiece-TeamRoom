@@ -138,25 +138,32 @@
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-2">Upload Photos</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-                        <div class="flex justify-center mb-4">
-                            <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    <div id="dropzone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-all hover:border-blue-400 hover:bg-blue-50 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <svg class="h-16 w-16 text-blue-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
+                            <p class="text-lg font-medium text-blue-600 mb-1">Drag photos here or click to upload</p>
+                            <p class="text-sm text-gray-500 mb-4">Upload high-quality images to showcase your space</p>
+                            <span class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors inline-block mb-2">
+                                Select Photos
+                            </span>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Max 10 photos)</p>
+                            <input type="file" id="image-upload" name="images[]" multiple class="hidden" accept="image/png,image/jpeg,image/gif">
                         </div>
-                        <p class="text-sm font-medium">Click to upload or drag and drop</p>
-                        <p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
-
-                        <input type="file" name="images[]" multiple>
+                    </div>
+                    
+                    <!-- Preview Area -->
+                    <div id="image-preview" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                        <div class="col-span-full mb-2">
+                            <h3 class="font-medium text-gray-700">Selected Photos (<span id="image-count">0</span>)</h3>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="flex justify-between">
-                    <button type="button"
-                        class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
-                    <button type="button"
-                        class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
+                    <button type="button" class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
+                    <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
                 </div>
             </div>
 
@@ -334,5 +341,99 @@
                 });
             }
         });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Image upload functionality
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('image-upload');
+    const previewArea = document.getElementById('image-preview');
+    const imageCount = document.getElementById('image-count');
+    
+    if (dropzone && fileInput) {
+        // Handle click on dropzone
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        // Handle drag and drop
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-blue-500', 'bg-blue-50');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+        });
+        
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+        
+        // Handle file selection
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        function handleFileSelect() {
+            if (fileInput.files.length > 0) {
+                previewArea.classList.remove('hidden');
+                
+                // Clear existing previews except the heading
+                const heading = previewArea.querySelector('.col-span-full');
+                previewArea.innerHTML = '';
+                previewArea.appendChild(heading);
+                
+                // Update count
+                imageCount.textContent = fileInput.files.length;
+                
+                // Create previews
+                Array.from(fileInput.files).forEach((file, index) => {
+                    if (!file.type.match('image.*')) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (function(file, index) {
+                        return function(e) {
+                            const preview = document.createElement('div');
+                            preview.className = 'relative group';
+                            preview.innerHTML = `
+                                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                                    <img src="${e.target.result}" alt="Preview" class="h-full w-full object-cover object-center">
+                                </div>
+                                <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <button type="button" class="text-white bg-red-500 rounded-full p-1" data-index="${index}">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                ${index === 0 ? '<div class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">Main Photo</div>' : ''}
+                            `;
+                            
+                            const removeBtn = preview.querySelector('button');
+                            removeBtn.addEventListener('click', function() {
+                                preview.remove();
+                                // Note: Can't directly modify FileList, would need a workaround in production
+                                const remaining = document.querySelectorAll('#image-preview .relative').length - 1;
+                                imageCount.textContent = remaining;
+                                if (remaining === 0) {
+                                    previewArea.classList.add('hidden');
+                                }
+                            });
+                            
+                            previewArea.appendChild(preview);
+                        };
+                    })(file, index);
+                    
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+    }
+});
     </script>
 @endsection

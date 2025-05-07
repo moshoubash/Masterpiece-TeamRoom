@@ -71,7 +71,13 @@ class PaymentController extends Controller
                 'service_fee' => $request->service_fee,
                 'status' => 'pending'
             ]);
-
+            
+            // Get the space and host information
+            $space = \App\Models\Space::find($request->space_id);
+            $host = \App\Models\User::find($space->host->id);
+            // Send email notification to host
+            \Mail::to($host->email)->send(new \App\Mail\NewBookingNotification($booking, $space, $host));
+            
             $transaction = Transaction::create([
                 'transaction_type' => 'payment',
                 'booking_id' => $booking->id,

@@ -45,4 +45,8 @@ class Space extends Model
     {
         return $this->hasMany(Review::class, 'space_id', 'id');
     }
+
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class,'space_id', 'id');
+    }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WishlistController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -156,8 +157,15 @@ Route::get('/export/{table}/excel', [ReportController::class, 'exportExcel'])->n
 Route::get('/export/{table}/csv', [ReportController::class, 'exportCsv'])->name('export.csv')->middleware('auth', 'admin');
 Route::get('/export/{table}/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf')->middleware('auth', 'admin');
 
-Route::fallback(function () {
-    return view('pages.404');
+// Wishlist
+Route::middleware('auth')->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/add/{space}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{space}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
+
+// Route::fallback(function () {
+//     return view('pages.404');
+// });
 
 require __DIR__.'/auth.php';

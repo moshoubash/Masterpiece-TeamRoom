@@ -31,6 +31,11 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
+        if ($user->is_deleted == 1) {
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Your account is not active.');
+        }
+
         return $user->roles->first()->name == 'admin' || $user->roles->first()->name == 'superadmin'  ? redirect()->intended('/dashboard') : redirect()->intended('/');
     }
 
