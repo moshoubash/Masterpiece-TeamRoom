@@ -115,6 +115,8 @@
                                 <span class="badge bg-success">Completed</span>
                             @elseif($transaction->status == 'failed')
                                 <span class="badge bg-danger">Failed</span>
+                            @else
+                                <span class="badge bg-secondary">{{ $transaction->status ?? 'No Data'}}</span>
                             @endif
                         </td>
                         <td>
