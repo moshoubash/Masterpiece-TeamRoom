@@ -31,7 +31,7 @@
                 </div>
             </div>
             @if (session('alert'))
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-yellow-300"
+                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-green-200 dark:text-green-800"
                     role="alert">
                     <i class="fa-solid fa-check mx-2"></i>
                     {{ session('alert') }}
@@ -321,7 +321,7 @@
                             @endif
                         @endif
 
-                        <a href="/"
+                        <a href="{{ route('user.profile', Auth::user()->slug) }}"
                             class="block w-full bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 text-gray-700 font-medium py-2.5 px-4 rounded transition duration-150 ease-in-out text-center">
                             Back to Bookings
                         </a>

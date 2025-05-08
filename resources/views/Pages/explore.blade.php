@@ -193,10 +193,11 @@
                                     <select id="location" name="location"
                                         class="w-full pl-3 pr-10 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 appearance-none">
                                         <option value="">All Locations</option>
-                                        <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>
-                                            Amman</option>
-                                        <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>
-                                            Irbid</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city }}"
+                                                {{ request('location') == $city ? 'selected' : '' }}>
+                                                {{ $city }}</option>
+                                        @endforeach
                                     </select>
                                     <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                         <svg class="h-4 w-4 text-black" fill="none" stroke="currentColor"
@@ -230,7 +231,7 @@
                             <!-- Filter Actions -->
                             <div class="flex flex-col space-y-3">
                                 <button type="submit"
-                                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-150 ease-in-out">
+                                    class="cursor-pointer w-full bg-blue-600 text-white py-3 px-4 rounded-lg text-base font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-150 ease-in-out">
                                     Apply Filters
                                 </button>
 
@@ -263,6 +264,7 @@
                                 to <span class="font-medium">{{ $rooms->lastItem() }}</span> of <span
                                     class="font-medium">{{ $rooms->total() }}</span> spaces</p>
                         </div>
+
 
                         <!-- Horizontal Card Layout -->
                         <div class="space-y-6">

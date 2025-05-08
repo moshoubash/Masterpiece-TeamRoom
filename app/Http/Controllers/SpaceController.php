@@ -123,9 +123,12 @@ class SpaceController extends Controller
         // Assuming $amenities for sidebar
         $amenities = Amenity::all();
 
+        $cities = Space::distinct()->pluck('city');
+
         return view('pages.explore', [
             'rooms' => $spaces,
-            'amenities' => $amenities
+            'amenities' => $amenities,
+            'cities' => $cities
         ]);
     }
 

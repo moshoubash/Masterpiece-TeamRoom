@@ -63,10 +63,10 @@
                     </button>
                     
                     <!-- Share Dropdown Menu -->
-                    <div id="share-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
-                        <div class="p-3">
+                    <div id="share-dropdown" class="hidden absolute right-0 md:right-10 left-0 md:left-auto mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                        <div class="p-3 text-center">
                             <p class="text-sm font-medium text-gray-700 mb-2">Share this space</p>
-                            <div class="flex space-x-3 mb-3">
+                            <div class="flex flex-wrap gap-3 mb-3 justify-center">
                                 <!-- Facebook -->
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" class="text-blue-600 hover:text-blue-800">
                                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -100,7 +100,7 @@
 
         <!-- Handle error and success messages -->
         @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <strong class="font-bold">Success!</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
@@ -178,8 +178,6 @@
                     <div class="mb-4">
                         <h3 class="font-semibold text-gray-800 mb-2">{{ $space->city }}, {{ $space->street_address }}
                         </h3>
-                        <p class="text-gray-700">Located in a convenient area, easily accessible by public transportation.
-                            The building offers secure access and is surrounded by restaurants, cafes, and hotels.</p>
                     </div>
                 </div>
 

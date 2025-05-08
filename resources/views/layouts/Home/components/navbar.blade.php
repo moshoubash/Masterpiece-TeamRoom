@@ -139,6 +139,10 @@
                                     </svg>
                                     Profile
                                 </a>
+                                <a href="/wishlist" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="h-5 w-5 mr-2 fa-solid fa-list"></i>
+                                    Wishlist
+                                </a>
                             @endif
 
                             @if (Auth::user()->roles[0]->name == 'host')
@@ -232,7 +236,7 @@
                     </div>
                 </div>
                 <div class="space-y-1 px-2">
-                    @if (Auth::user()->roles[0]->name == 'admin')
+                    @if (Auth::user()->roles[0]->name == 'admin' || Auth::user()->roles[0]->name == 'superadmin')
                         <a href="/dashboard"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">Dashboard</a>
                     @else
@@ -248,6 +252,13 @@
                         <a href="{{ route('room.create') }}"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
                             List a Space
+                        </a>
+                    @endif
+                    
+                    @if (Auth::user()->roles[0]->name == 'renter' || Auth::user()->roles[0]->name =='host')
+                        <a href="/wishlist"
+                            class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
+                            Wishlist
                         </a>
                     @endif
 

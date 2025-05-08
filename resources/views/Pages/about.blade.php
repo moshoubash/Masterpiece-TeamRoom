@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="container mx-auto px-4 py-16">
+    <div class="container mx-auto px-8 py-16">
         <div class="max-w-3xl mx-auto">
             <div class="mb-12">
                 <h2 class="text-3xl font-bold text-gray-800 mb-6">Welcome to <span class="text-blue-600">Team Room</span></h2>
