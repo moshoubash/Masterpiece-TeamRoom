@@ -56,38 +56,6 @@ With an intuitive interface and powerful features, TeamRoom streamlines the enti
 - MySQL or any Laravel-supported database
 - Git
 
-## 🔧 Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/TeamRoom.git
-
-# Navigate to the project directory
-cd TeamRoom
-
-# Install PHP dependencies
-composer install
-
-# Install NPM dependencies
-npm install
-
-# Copy environment file
-cp .env.example .env
-
-# Generate application key
-php artisan key:generate
-
-# Configure your database in .env file
-# Then run migrations and seeders
-php artisan migrate --seed
-
-# Compile assets
-npm run dev
-
-# Start the server
-php artisan serve
-```
-
 ## 🚦 Getting Started
 
 ### As a Host
@@ -127,18 +95,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 <p align="center">
   <strong>TeamRoom</strong> - Where great meetings begin
 </p>
-```
-
-This enhanced README provides a more professional and comprehensive overview of your TeamRoom project. It includes:
-
-1. A centered logo and tagline
-2. A detailed overview section
-3. Expanded feature lists organized by user type
-4. A more detailed technology stack section
-5. Clear installation instructions with code blocks
-6. Getting started guides for different user roles
-7. Responsive design information
-8. Professional formatting with emojis for section headers
-9. A branded footer
-
-The structure is more visually appealing and provides better information organization, making it easier for users to understand what your project offers and how to use it.
