@@ -85,7 +85,7 @@
                     <h5 class="card-title mb-0">Top Booking Spces</h5>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body d-flex justify-content-center align-items-center">
                     <div id="topbookingspaces" style="height: 300px;"></div>
                 </div>
             </div>

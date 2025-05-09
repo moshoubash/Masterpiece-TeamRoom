@@ -59,7 +59,7 @@
                                 <tr>
                                     <th width="70">ID</th>
                                     <th width="80">Space</th>
-                                    <th width="80">Renter</th>
+                                    <th width="80">Date</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
                                     <th class="text-center" width="50">Guests</th>
@@ -81,9 +81,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="/dashboard/users/{{ $booking->renter_id }}/show" class="text-decoration-none" data-bs-toggle="tooltip" title="View User">
-                                                #{{ $booking->renter_id }}
-                                            </a>
+                                            {{ \Carbon\Carbon::parse($booking->start_datetime)->format('Y/m/d') }}
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">

@@ -96,6 +96,14 @@ class PaymentController extends Controller
                 'message' => 'New booking from ' . Auth::user()->first_name . ' ' . Auth::user()->last_name
             ]);
 
+            
+            (new \App\Services\CreateNewActivity(
+                Auth::id(),
+                'booking',
+                'Booking Created',
+                "Booking for '{$booking->space->title}' was created from {$booking->start_date} to {$booking->end_date}"
+            ))->execute();
+
             return redirect()->route('bookings.confirmation', $booking->id);
         } catch (\Stripe\Exception\CardException $e) {
             return back()->withErrors(['card' => $e->getMessage()]);

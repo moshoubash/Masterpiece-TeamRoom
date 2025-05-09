@@ -15,6 +15,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 use App\Models\Role;
+use App\Services\CreateNewActivity;
 
 class RegisteredUserController extends Controller
 {
@@ -56,6 +57,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'slug' => Str::slug($request->first_name . '-' . $request->last_name . '-' . time()),
         ]);
+
+        (new CreateNewActivity(
+            $user->id,
+            'user',
+            'User Registration',
+            "User {$user->first_name} {$user->last_name} registered with email {$user->email}"
+        ))->execute();
 
         if($request->role == 'renter'){
             $role = Role::where('name', 'renter')->first();

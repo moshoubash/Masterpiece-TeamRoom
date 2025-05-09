@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Services\CreateNewActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Notification;

@@ -12,6 +12,7 @@ use App\Models\SpaceAvailability;
 use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CreateNewActivity;
 
 class SpaceController extends Controller
 {
@@ -213,6 +214,13 @@ class SpaceController extends Controller
         }
 
         $space->save();
+
+        (new CreateNewActivity(
+            Auth::id(),
+            'space',
+            'Space Created',
+            "Space '{$space->title}' was created"
+        ))->execute();
 
         return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
     }

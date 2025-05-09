@@ -29,6 +29,5 @@ class RolesSeeder extends Seeder
         Role::create([
             'name' => 'host',
         ]);
-
     }
 }

@@ -2,7 +2,7 @@
 @section('title', 'Edit Transaction')
 @section('content')
     <div class="row">
-        <h1>Edit Space #{{$transaction->id}}</h1>
+        <h1>Edit Transaction #{{$transaction->id}}</h1>
         
         <form action="/dashboard/transactions/{{ $transaction->id }}" method="POST">
             @csrf

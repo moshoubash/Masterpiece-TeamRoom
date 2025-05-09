@@ -54,7 +54,7 @@
                             @endif
                         </button>
 
-                        <!-- Enhanced Notifications Dropdown -->
+                        <!-- Notifications Dropdown -->
                         <div id="notification-dropdown"
                             class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl py-2 hidden z-50 max-h-96 overflow-y-auto">
                             <div class="flex justify-between items-center px-4 py-2 border-b border-gray-200">
