@@ -1,14 +1,14 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Manage Bookings')
 @section('content')
-    
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="h3 mb-0"><strong>Manage</strong> Bookings</h1>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0"><strong>Manage</strong> Bookings</h1>
+            </div>
         </div>
     </div>
-</div>
 
     <!--Alert if there is a message-->
     @if (session('message'))
@@ -36,14 +36,19 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="fa-solid fa-filter me-1"></i> Filter
                                             </button>
                                             <ul class="dropdown-menu" name="status">
-                                                <li><a class="dropdown-item" href="/bookings/status/confirmed">Confirmed</a></li>
-                                                <li><a class="dropdown-item" href="/bookings/status/pending">Pending</a></li>
-                                                <li><a class="dropdown-item" href="/bookings/status/cancelled">Cancelled</a></li>
-                                                <li><a class="dropdown-item" href="/bookings/status/completed">Completed</a></li>
+                                                <li><a class="dropdown-item" href="/bookings/status/confirmed">Confirmed</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="/bookings/status/pending">Pending</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="/bookings/status/cancelled">Cancelled</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="/bookings/status/completed">Completed</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -76,7 +81,8 @@
                                     <tr>
                                         <td class="fw-medium">{{ $booking->id }}</td>
                                         <td>
-                                            <a href="/dashboard/spaces/{{ $booking->space_id }}" class="text-decoration-none" data-bs-toggle="tooltip" title="View Space">
+                                            <a href="/dashboard/spaces/{{ $booking->space_id }}"
+                                                class="text-decoration-none" data-bs-toggle="tooltip" title="View Space">
                                                 #{{ $booking->space_id }}
                                             </a>
                                         </td>
@@ -110,12 +116,13 @@
                                         </td>
                                         <td class="text-center">
                                             @php
-                                                $statusClass = [
-                                                    'confirmed' => 'bg-success',
-                                                    'pending' => 'bg-warning text-dark',
-                                                    'cancelled' => 'bg-danger',
-                                                    'completed' => 'bg-info',
-                                                ][$booking->status] ?? 'bg-secondary';
+                                                $statusClass =
+                                                    [
+                                                        'confirmed' => 'bg-success',
+                                                        'pending' => 'bg-warning text-dark',
+                                                        'cancelled' => 'bg-danger',
+                                                        'completed' => 'bg-info',
+                                                    ][$booking->status] ?? 'bg-secondary';
                                             @endphp
                                             <span class="badge {{ $statusClass }}">
                                                 {{ ucfirst($booking->status) }}
@@ -123,42 +130,56 @@
                                         </td>
                                         <td class="text-end fw-bold">${{ number_format($booking->total_price, 2) }}</td>
                                         <td class="text-end text-muted">${{ number_format($booking->service_fee, 2) }}</td>
-                                        <td class="text-end text-success">${{ number_format($booking->host_payout, 2) }}</td>
+                                        <td class="text-end text-success">${{ number_format($booking->host_payout, 2) }}
+                                        </td>
                                         <td>{{ (new DateTime($booking->created_at))->format('M d, Y') }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
-                                                <a href="/dashboard/bookings/{{ $booking->id }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="View Details">
+                                                <a href="/dashboard/bookings/{{ $booking->id }}"
+                                                    class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                    title="View Details">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <a href="/dashboard/bookings/{{ $booking->id }}/edit" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Edit Booking">
+                                                <a href="/dashboard/bookings/{{ $booking->id }}/edit"
+                                                    class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                    title="Edit Booking">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $booking->id }}" title="Delete Booking">
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $booking->id }}"
+                                                    title="Delete Booking">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
 
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="deleteModal{{ $booking->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal{{ $booking->id }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger text-white">
                                                             <h5 class="modal-title">Delete Booking</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="text-center mb-3">
-                                                                <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
+                                                                <i
+                                                                    class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this booking?</h5>
-                                                                <p class="text-muted">Booking ID: <strong>#{{ $booking->id }}</strong></p>
-                                                                <p class="text-muted">This action cannot be undone and may affect related records.</p>
+                                                                <p class="text-muted">Booking ID:
+                                                                    <strong>#{{ $booking->id }}</strong></p>
+                                                                <p class="text-muted">This action cannot be undone and may
+                                                                    affect related records.</p>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer justify-content-center">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
+                                                            <form action="/dashboard/bookings/{{ $booking->id }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">
@@ -179,7 +200,8 @@
                 <div class="card-footer bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $bookings->count() }}</span> of <span class="fw-medium">{{ $bookings->total() }}</span> bookings</p>
+                            <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $bookings->count() }}</span> of
+                                <span class="fw-medium">{{ $bookings->total() }}</span> bookings</p>
                         </div>
                         <div>
                             {{ $bookings->links() }}
@@ -194,7 +216,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
         });

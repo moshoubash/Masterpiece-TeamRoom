@@ -39,7 +39,22 @@ class ReportController extends Controller
             abort(404, "Table not found.");
         }
 
-        $data = DB::table($table)->get();
+        if($table == 'companies'){
+            $data = DB::table($table)
+            ->select([
+                'id',
+                'name', 
+                'phone',
+                'email',
+                'city',
+                'street',
+                'created_at'
+            ])
+        ->get();
+        }
+        else{
+            $data = DB::table($table)->get();
+        }
 
         $pdf = Pdf::loadView('pdf.dynamic', [
             'data' => $data,

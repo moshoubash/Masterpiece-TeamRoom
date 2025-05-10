@@ -17,6 +17,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CompanyController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -49,6 +50,8 @@ Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/settings', [UserController::class, 'adminSettings']);
     Route::put('/user/update/{user}', [UserController::class, 'updateProfile'])->name('settings.update');
+
+    Route::get('/companies', [CompanyController::class, 'index']);
 });
 
 Route::middleware('auth', 'admin')->group(function () {
@@ -96,6 +99,10 @@ Route::middleware('auth', 'admin')->group(function () {
 
     // Routes for settings
     Route::put('/dashboard/admin/settings/{user}', [UserController::class, 'updateAdminSettings'])->name('admin.settings.update');
+
+    // Routes for the Companies
+    Route::resource('/dashboard/companies', CompanyController::class);
+    Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
 });
 
 // Routes for public website

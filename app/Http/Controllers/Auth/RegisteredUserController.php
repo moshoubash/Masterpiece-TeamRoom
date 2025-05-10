@@ -75,6 +75,11 @@ class RegisteredUserController extends Controller
             $user->roles()->attach($role);
         }
 
+        if($request->role == 'company'){
+            $role = Role::where('name', 'company')->first();
+            $user->roles()->attach($role);
+        }
+
         event(new Registered($user));
 
         Auth::login($user);

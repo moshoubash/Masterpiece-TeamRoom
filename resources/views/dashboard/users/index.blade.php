@@ -85,8 +85,10 @@
                                                     <span class="badge bg-primary">Super Admin</span>
                                                 @elseif ($user->roles->first()->name == 'host')
                                                     <span class="badge bg-info">Host</span>
-                                                @else
+                                                @elseif($user->roles->first()->name == 'renter')
                                                     <span class="badge bg-warning">Renter</span>
+                                                @else
+                                                    <span class="badge bg-secondary">Company</span>
                                                 @endif
                                             </div>
                                         </td>
