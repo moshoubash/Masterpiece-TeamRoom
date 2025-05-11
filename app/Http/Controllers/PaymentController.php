@@ -72,7 +72,6 @@ class PaymentController extends Controller
                 'status' => 'pending'
             ]);
             
-            // Get the space and host information
             $space = \App\Models\Space::find($request->space_id);
             $host = \App\Models\User::find($space->host->id);
             // Send email notification to host
@@ -111,7 +110,6 @@ class PaymentController extends Controller
             return back()->withErrors(['error' => 'An unexpected error occurred. Please try again.']);
         }
     }
-
 
     public function confirmation($bookingId)
     {

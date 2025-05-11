@@ -2,10 +2,25 @@
 @section('title', 'Manage Bookings')
 @section('content')
 
-    <div class="row mb-4">
-        <div class="col-12">
+    <!-- Page Header -->
+    <div class="card mb-4">
+        <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0"><strong>Manage</strong> Bookings</h1>
+                <div>
+                    <h1 class="h3 mb-0 fw-bold">Bookings</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 small">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Bookings</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <button class="btn btn-primary">
+                        <i class="align-middle" data-feather="refresh-cw"></i> 
+                        <a href="/dashboard/bookings" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
