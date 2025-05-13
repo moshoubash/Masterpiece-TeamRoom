@@ -33,6 +33,9 @@
                         </div>
                     </a>
                 </li>
+
+
+                
                 
                 <!-- Booking Management Section -->
                 <li class="pc-item pc-caption">
@@ -121,7 +124,45 @@
                         @endif
                     </a>
                 </li>
-                
+
+                <!-- System Section -->
+                <li class="pc-item pc-caption">
+                    <label>System</label>
+                </li>
+
+                <li class="pc-item opacity-50">
+                    <a class="pc-link {{ request()->is('backups') ? 'active' : '' }}" aria-disabled="true">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div class="d-flex align-items-center">
+                                <span class="pc-micon"><i class="ti ti-report"></i></span>
+                                <span class="pc-mtext">Backup</span>
+                            </div>
+                            <span class="badge bg-primary">soon</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="pc-item opacity-50">
+                    <a class="pc-link {{ request()->is('imports') ? 'active' : '' }}" aria-disabled="true">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div class="d-flex align-items-center">
+                                <span class="pc-micon"><i class="ti ti-file"></i></span>
+                                <span class="pc-mtext">Import / Export</span>
+                            </div>
+                            <span class="badge bg-primary">soon</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="pc-item opacity-50">
+                    <a class="pc-link {{ request()->is('imports') ? 'active' : '' }}" aria-disabled="true">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div class="d-flex align-items-center">
+                                <span class="pc-micon"><i class="ti ti-search"></i></span>
+                                <span class="pc-mtext">SEO</span>
+                            </div>
+                            <span class="badge bg-primary">soon</span>
+                        </div>
+                    </a>
+                </li>
                 <!-- Account Section -->
                 <li class="pc-item pc-caption">
                     <label>Account</label>

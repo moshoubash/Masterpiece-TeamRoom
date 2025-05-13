@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\BackupController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
