@@ -77,9 +77,12 @@
                 </li>
                 @if (Auth::user()->roles->first()->name == 'superadmin')
                     <li class="pc-item">
-                        <a href="/dashboard/admins" class="pc-link {{ request()->is('dashboard/admins*') ? 'active' : '' }}">
-                            <span class="pc-micon"><i class="ti ti-users"></i></span>
-                            <span class="pc-mtext">Admins</span>
+                        <a class="pc-link d-flex justify-content-between align-items-center opacity-50 {{ request()->is('dashboard/admins*') ? 'active' : '' }}">
+                            <div class="">
+                                <span class="pc-micon"><i class="ti ti-crown"></i></span>
+                                <span class="pc-mtext">Admins</span>
+                            </div>
+                            <span class="badge bg-primary">soon</span>
                         </a>
                     </li>
                 @endif
@@ -176,7 +179,7 @@
                 <li class="pc-item">
                     <form action="{{route('logout')}}" method="POST" id="logout-form">
                         @csrf
-                        <button type="submit" class="pc-link w-100 text-start" style="border: none; background: none">
+                        <button type="submit" class="pc-link w-100 text-start" style="border: none; background: none;">
                             <span class="pc-micon text-danger"><i class="ti ti-logout"></i></span>
                             <span class="pc-mtext text-danger">Logout</span>
                         </button>

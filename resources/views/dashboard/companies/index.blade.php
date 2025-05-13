@@ -1,20 +1,28 @@
 @extends('layouts.dashboard.layout')
 @section('content')
-    <div class="row mb-4">
-        <div class="col-12">
+    <!-- Page Header -->
+    <div class="card mb-4">
+        <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0"><strong>Manage</strong> Companies</h1>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ route('companies.create') }}" class="btn btn-primary">
-                    <i class="fa-solid fa-plus me-2"></i>
-                    Register New Company
-                </a>
+                <div>
+                    <h1 class="h3 mb-0 fw-bold">Manage Companies</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 small">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">companies</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{{ route('companies.create') }}" class="btn btn-primary">
+                                <i class="fa-solid fa-plus me-2"></i>
+                                Register New Company
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

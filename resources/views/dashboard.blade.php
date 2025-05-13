@@ -1,7 +1,7 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Meeting Room Booking Dashboard')
 @section('content')
-    <h1 class="h3 mb-3"><strong>Meeting Room</strong> Dashboard</h1>
+    <h1 class="h3 mb-3">Admin Dashboard</h1>
     <!-- Warning Message -->
     @if(session('warning'))
         <div class="alert alert-warning alert-dismissible fade show" role="alert">

@@ -3,23 +3,23 @@
 @section('content')
 <div class="container-fluid p-0">
     <!-- Page Header -->
-    <div class="row mb-4">
-        <div class="col-12">
+    <div class="card mb-4">
+        <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="h3 mb-0"><strong>Activities</strong></h1>
+                    <h1 class="h3 mb-0 fw-bold">Activities</h1>
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <ol class="breadcrumb mb-0 small">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Activities</li>
                         </ol>
                     </nav>
                 </div>
                 <div>
-                    <a href="/dashboard/activities" class="btn btn-primary">
+                    <button class="btn btn-primary">
                         <i class="align-middle" data-feather="refresh-cw"></i> 
-                        <span class="ms-1 d-none d-sm-inline">Refresh</span>
-                    </a>
+                        <a href="/dashboard/activities" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
+                    </button>
                 </div>
             </div>
         </div>

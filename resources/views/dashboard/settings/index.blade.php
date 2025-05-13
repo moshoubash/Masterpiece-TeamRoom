@@ -1,7 +1,22 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Settings')
 @section('content')
-	<h1 class="h3 mb-3"><strong>Settings</strong></h1>
+	<!-- Page Header -->
+    <div class="mb-4">
+        <div class="py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0 fw-bold">Settings</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 small">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Settings</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	@if(session('success'))
 		<div class="alert alert-success alert-dismissible fade show" role="alert">

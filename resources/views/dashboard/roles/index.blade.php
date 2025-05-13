@@ -1,13 +1,24 @@
 @extends('layouts.dashboard.layout')
 @section('title', 'Roles Management')
 @section('content')
-    <div class="row mb-4">
-        <div class="col-12">
+    <!-- Page Header -->
+    <div class="card mb-4">
+        <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0"><strong>Roles</strong> Management</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
-                    <i class="fa-solid fa-plus me-1"></i> Add New Role
-                </button>
+                <div>
+                    <h1 class="h3 mb-0 fw-bold">Roles Management</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 small">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Roles</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                        <i class="fa-solid fa-plus me-1"></i> Add New Role
+                    </button>
+                </div>
             </div>
         </div>
     </div>
