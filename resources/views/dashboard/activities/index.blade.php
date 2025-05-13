@@ -15,6 +15,7 @@
                         </ol>
                     </nav>
                 </div>
+                
                 <div>
                     <button class="btn btn-primary">
                         <i class="align-middle" data-feather="refresh-cw"></i> 
@@ -24,6 +25,13 @@
             </div>
         </div>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show align-items-center" role="alert">
+            <p>{{ session('success') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <!-- Activities Table Card -->
     <div class="row">
@@ -100,18 +108,30 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="align-middle" data-feather="more-vertical"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                                    <li><a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="eye"></i> View Details</a></li>
-                                                    <li><a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="archive"></i> Archive</a></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item text-danger" href="#"><i class="align-middle me-1" data-feather="trash-2"></i> Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}"><i class="align-middle me-1" data-feather="trash-2"></i></button>
                                         </td>
+                                        {{-- delete modal --}}
+                                        <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel{{ $item->id }}">Delete Activity</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete this activity?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                        <form action="/dashboard/activities/{{ $item->id }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 @endforeach
                             </tbody>

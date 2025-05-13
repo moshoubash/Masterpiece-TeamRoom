@@ -94,12 +94,12 @@
         </div>
     @else
         <div class="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 rounded-lg border border-gray-200">
-            <svg class="h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
+            <i class="text-6xl text-gray-400 mb-4 far fa-star"></i>
+            
             <h2 class="text-xl font-semibold text-gray-700 mb-2">Your wishlist is empty</h2>
+            
             <p class="text-gray-600 text-center mb-6">Save your favorite spaces to revisit them later</p>
+            
             <a href="{{ route('explore') }}" 
                class="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
                 Explore Spaces

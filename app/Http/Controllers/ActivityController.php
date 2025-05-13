@@ -35,7 +35,7 @@ class ActivityController extends Controller
         $activity = Activity::find($id);
         $activity->delete();
 
-        return back();
+        return back()->with('success', 'Activity deleted successfully.');
     }
 
     public function filter($type){
