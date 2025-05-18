@@ -5,6 +5,19 @@
             <h1 class="text-2xl font-bold text-gray-900">Host Statistics</h1>
         </div>
 
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         <!-- Top Stats Row -->
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-4 mb-8">
             <!-- Total Credits -->
@@ -139,6 +152,9 @@
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">End</th>
                                         <th scope="col"
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -167,6 +183,21 @@
                                                     class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">Completed</span>
                                                 @endif
                                             </td>
+                                            @if(Carbon\Carbon::now()->isAfter($booking->end_datetime) && $booking->status === 'confirmed')
+                                                <td scope="col"
+                                                    class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                                    <form action="{{ route('booking.complete', $booking->booking_id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button class="cursor-pointer text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">Mark as Complete</button>
+                                                    </form>
+                                                </td>
+                                            @else
+                                                <td scope="col"
+                                                    class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                                    <button disabled class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">No Actions</button>
+                                                </td>
+                                            @endif
                                         </tr>
                                         @empty
                                         <tr>

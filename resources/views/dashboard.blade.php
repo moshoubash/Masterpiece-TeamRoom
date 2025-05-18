@@ -119,7 +119,7 @@
                                 <tr>
                                     <th class="text-center" width="60">ID</th>
                                     <th width="80">Image</th>
-                                    <th>Title</th>
+                                    <th width="200">Title</th>
                                     <th class="text-center" width="80">Capacity</th>
                                     <th class="text-end" width="100">Hourly Rate</th>
                                     <th class="text-center" width="120">Min Duration</th>

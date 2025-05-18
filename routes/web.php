@@ -140,6 +140,7 @@ Route::post('/notifications/markAllAsRead/{user}', [NotificationController::clas
 
 Route::put('/booking/confirm/{booking}', [BookingController::class, 'approve'])->name('booking.confirm')->middleware('auth');
 Route::put('/booking/cancel/{booking}', [BookingController::class, 'reject'])->name('booking.cancel')->middleware('auth');
+Route::put('/booking/complete/{booking}', [BookingController::class,'complete'])->name('booking.complete')->middleware('auth', 'host');
 
 Route::post('/reviews/store/{booking}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
 
