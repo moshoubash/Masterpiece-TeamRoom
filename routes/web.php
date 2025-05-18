@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\BackupController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -96,7 +97,7 @@ Route::middleware('auth', 'admin')->group(function () {
     
     // Routes for activities
     Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
-
+    Route::resource('/dashboard/activities', ActivityController::class);
     // Routes for settings
     Route::put('/dashboard/admin/settings/{user}', [UserController::class, 'updateAdminSettings'])->name('admin.settings.update');
 
