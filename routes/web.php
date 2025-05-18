@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
@@ -104,6 +105,10 @@ Route::middleware('auth', 'admin')->group(function () {
     // Routes for the Companies
     Route::resource('/dashboard/companies', CompanyController::class);
     Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
+
+    // Routes for the admins
+    Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index');
+    Route::put('/dashboard/admins/{user_id})/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole');
 });
 
 // Routes for public website
