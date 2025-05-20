@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Services\CreateNewActivity;
 
 class NewPasswordController extends Controller
 {
@@ -51,6 +52,13 @@ class NewPasswordController extends Controller
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),
                 ])->save();
+
+                (new CreateNewActivity(
+                    $user->id,
+                    'user', 
+                    'User change password',
+                    "User change his password successfully"
+                ))->execute();
 
                 event(new PasswordReset($user));
             }

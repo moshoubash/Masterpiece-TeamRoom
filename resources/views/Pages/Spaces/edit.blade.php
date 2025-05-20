@@ -5,8 +5,7 @@
 @endsection
 @section('content')
     <div class="max-w-5xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-2">List Your Space</h1>
-        <p class="text-gray-600 mb-8">Share your meeting room, conference space, or workspace with others.</p>
+        <h1 class="text-3xl font-bold mb-2">Edit Your Space</h1>
 
         <!-- Progress Bar -->
         <div class="mb-8">

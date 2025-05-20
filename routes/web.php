@@ -107,8 +107,8 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
 
     // Routes for the admins
-    Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index');
-    Route::put('/dashboard/admins/{user_id})/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole');
+    Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index')->middleware('auth', 'superadmin');
+    Route::put('/dashboard/admins/{user_id})/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole')->middleware('auth', 'superadmin');
 });
 
 // Routes for public website

@@ -31,11 +31,6 @@ class Space extends Model
         return $this->hasMany(SpaceAvailability::class, 'space_id', 'id');
     }
 
-    public function availabilityExceptions()
-    {
-        return $this->hasMany(AvailabilityException::class, 'space_id', 'id');
-    }
-
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'space_id', 'id');
