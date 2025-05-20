@@ -22,21 +22,17 @@
                     <label>Manage Companies</label>
                 </li>
 
-                <li class="pc-item opacity-50">
-                    <a class="pc-link {{ request()->is('companies') ? 'active' : '' }}" aria-disabled="true">
+                <li class="pc-item">
+                    <a href="/dashboard/companies" class="pc-link {{ request()->is('companies') ? 'active' : '' }}" aria-disabled="true">
                         <div class="d-flex align-items-center justify-content-between w-100">
                             <div class="d-flex align-items-center">
                                 <span class="pc-micon"><i class="ti ti-building"></i></span>
                                 <span class="pc-mtext">Companies</span>
                             </div>
-                            <span class="badge bg-primary">soon</span>
                         </div>
                     </a>
                 </li>
 
-
-                
-                
                 <!-- Booking Management Section -->
                 <li class="pc-item pc-caption">
                     <label>Booking Management</label>
