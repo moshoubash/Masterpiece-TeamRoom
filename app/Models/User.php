@@ -72,16 +72,6 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'reviewee_id', 'id');
     }
 
-    public function sentMessages()
-    {
-        return $this->hasMany(Message::class, 'sender_id', 'id');
-    }
-
-    public function receivedMessages()
-    {
-        return $this->hasMany(Message::class, 'recipient_id', 'id');
-    }
-
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'user_id', 'id');
@@ -96,12 +86,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
-
-    public function addresses()
-    {
-        return $this->hasMany(Address::class, 'user_id', 'id');
-    }
-
     public function isKycApproved()
     {
         return $this->kyc_status === 'approved';

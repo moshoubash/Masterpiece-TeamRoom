@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
@@ -104,6 +105,10 @@ Route::middleware('auth', 'admin')->group(function () {
     // Routes for the Companies
     Route::resource('/dashboard/companies', CompanyController::class);
     Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
+
+    // Routes for the admins
+    Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index')->middleware('auth', 'superadmin');
+    Route::put('/dashboard/admins/{user_id})/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole')->middleware('auth', 'superadmin');
 });
 
 // Routes for public website
@@ -141,6 +146,7 @@ Route::post('/notifications/markAllAsRead/{user}', [NotificationController::clas
 
 Route::put('/booking/confirm/{booking}', [BookingController::class, 'approve'])->name('booking.confirm')->middleware('auth');
 Route::put('/booking/cancel/{booking}', [BookingController::class, 'reject'])->name('booking.cancel')->middleware('auth');
+Route::put('/booking/complete/{booking}', [BookingController::class,'complete'])->name('booking.complete')->middleware('auth', 'host');
 
 Route::post('/reviews/store/{booking}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
 

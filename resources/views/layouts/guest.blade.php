@@ -30,7 +30,7 @@
     <body class="font-sans text-gray-900 antialiased">
         <div id="pop-container" class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" style="
             background: RGB(28 90 249);
-            background: url('https://smartway2.com/wp-content/uploads/2022/02/Smartway2-Conference-room-natural-lighting.jpeg'), linear-gradient(174deg,rgb(255, 255, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
+            background: url({{asset('assets/home/images/guest-layout-background.jpg')}}), linear-gradient(174deg,rgb(255, 255, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;

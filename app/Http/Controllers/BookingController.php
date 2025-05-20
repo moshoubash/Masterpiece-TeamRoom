@@ -148,4 +148,11 @@ class BookingController extends Controller
 
         return redirect()->back();
     }
+
+    public function complete($id) {
+        $booking = Booking::find($id);
+        $booking->status = 'completed';
+        $booking->save();
+        return back()->with('success', 'Booking completed successfully');
+    }
 }

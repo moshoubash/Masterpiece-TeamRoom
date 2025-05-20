@@ -73,12 +73,11 @@
                 </li>
                 @if (Auth::user()->roles->first()->name == 'superadmin')
                     <li class="pc-item">
-                        <a class="pc-link d-flex justify-content-between align-items-center opacity-50 {{ request()->is('dashboard/admins*') ? 'active' : '' }}">
+                        <a href="/dashboard/admins" class="pc-link d-flex justify-content-between align-items-center {{ request()->is('dashboard/admins*') ? 'active' : '' }}">
                             <div class="">
                                 <span class="pc-micon"><i class="ti ti-crown"></i></span>
                                 <span class="pc-mtext">Admins</span>
                             </div>
-                            <span class="badge bg-primary">soon</span>
                         </a>
                     </li>
                 @endif

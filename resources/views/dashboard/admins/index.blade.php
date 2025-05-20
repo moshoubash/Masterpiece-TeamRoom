@@ -1,47 +1,41 @@
 @extends('layouts.dashboard.layout')
-@section('title', 'Users Management')
+@section('title', 'Manage Admins')
 @section('content')
     <!-- Page Header -->
     <div class="card mb-4">
         <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="h3 mb-0 fw-bold">Users Management</h1>
+                    <h1 class="h3 mb-0 fw-bold">Admins</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 small">
                             <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Users</li>
+                            <li class="breadcrumb-item active" aria-current="page">Admins</li>
                         </ol>
                     </nav>
                 </div>
                 <div>
-                    <div class="input-group" style="width: 250px;">
-                        <form action="{{route('users.search')}}" method="GET" class="d-flex">
-                            <input type="text" class="form-control" name="query" placeholder="Search users...">
-                            <button class="btn btn-outline-primary" type="submit">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
-                        </form>
-                    </div>
+                    <button class="btn btn-primary">
+                        <i class="align-middle" data-feather="refresh-cw"></i>
+                        <a href="/dashboard/admins" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    @session('success')
-        <div class="alert alert-success" role="alert"> 
-            {{ $value }}
-        </div>
-    @endsession
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <!--Alert if there is a message-->
+    @if (session('message'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="d-flex">
+                <div class="me-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    {{ session('message') }}
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -50,25 +44,7 @@
             <div class="card">
                 <div class="card-header bg-light">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">All Users</h5>
-                        <div>
-                            <div class="btn-group ms-2">
-                                <a class="btn btn-sm btn-danger me-1 text-white" href="/dashboard/users/deleted"> 
-                                    <i class="fa-solid fa-user-minus me-1"></i> 
-                                    Deleted Users
-                                </a>
-                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-filter me-1"></i> Filter
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="/dashboard/users">All Users</a></li>
-                                    <li><a class="dropdown-item" href="/dashboard/users/verified">Verified Users</a></li>
-                                    <li><a class="dropdown-item" href="/dashboard/users/unverified">Unverified Users</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/dashboard/users/recent">Recently Added</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h5 class="card-title mb-0">All Admins</h5>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -87,19 +63,20 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                @foreach ($users as $user)
+                                @foreach ($admins as $user)
                                     <tr>
                                         <td class="fw-medium">{{ $user->id }}</td>
                                         <td>
                                             <div class="avatar avatar-md">
-                                                <img class="avatar-img rounded-circle" 
+                                                <img class="avatar-img rounded-circle"
                                                     src="{{ $user->profile_picture_url ?? 'http://www.placehold.co/300x300' }}"
                                                     alt="{{ $user->first_name }}" width="40" height="40">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex flex-column">
-                                                <span class="fw-medium">{{ $user->first_name }} {{ $user->last_name }}</span>
+                                                <span class="fw-medium">{{ $user->first_name }}
+                                                    {{ $user->last_name }}</span>
                                                 <small class="text-muted">{{ $user->email }}</small>
                                             </div>
                                         </td>
@@ -142,20 +119,35 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
-                                                <a href="{{ url('/dashboard/users/' . $user->id . '/show') }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="View Details">
+                                                <a href="{{ url('/dashboard/users/' . $user->id . '/show') }}"
+                                                    class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                    title="View Details">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <a href="{{ url('/dashboard/users/' . $user->id . '/edit') }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Edit User">
+                                                <a href="{{ url('/dashboard/users/' . $user->id . '/edit') }}"
+                                                    class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                    title="Edit User">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}" data-bs-toggle="tooltip" title="Delete User">
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $user->id }}"
+                                                    data-bs-toggle="tooltip" title="Delete User">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
+                                                <button type="button" class="btn btn-sm btn-warning"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#changeRoleModal{{ $user->id }}"
+                                                    data-bs-toggle="tooltip" title="Change admin role">
+                                                    <i class="fa-solid fa-exchange"></i>
+                                                </button>
+
                                                 @if ($user->is_deleted == true)
                                                     <form action="{{ route('user.restore', $user->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="submit" class="btn btn-success btn-sm text-white" title="Restore User">
+                                                        <button type="submit" class="btn btn-success btn-sm text-white"
+                                                            title="Restore User">
                                                             <i class="fa-solid fa-trash-restore me-1"></i>
                                                         </button>
                                                     </form>
@@ -163,30 +155,87 @@
                                             </div>
 
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger text-white">
                                                             <h5 class="modal-title">Delete User</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="text-center mb-3">
-                                                                <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
+                                                                <i
+                                                                    class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this user?</h5>
-                                                                <p class="text-muted">User: <strong>{{ $user->first_name }} {{ $user->last_name }}</strong></p>
-                                                                <p class="text-muted mb-0">This action cannot be undone and will remove all user data.</p>
+                                                                <p class="text-muted">User:
+                                                                    <strong>{{ $user->first_name }}
+                                                                        {{ $user->last_name }}</strong></p>
+                                                                <p class="text-muted mb-0">This action cannot be undone and
+                                                                    will remove all user data.</p>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer justify-content-center">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <form action="{{ url('/dashboard/users/' . $user->id) . '/destroy' }}" method="post">
+                                                            <form
+                                                                action="{{ url('/dashboard/users/' . $user->id) . '/destroy' }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('POST')
                                                                 <button type="submit" class="btn btn-danger">
                                                                     <i class="fa-solid fa-trash me-1"></i> Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Change Role Modal -->
+                                            <div class="modal fade" id="changeRoleModal{{ $user->id }}" tabindex="-1"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary text-white">
+                                                            <h5 class="modal-title">Change Role</h5>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="text-center mb-3">
+                                                                <i
+                                                                    class="fa-solid fa-exchange text-primary fa-3x mb-3"></i>
+                                                                <h5>Are you sure you want to change the role of this
+                                                                    user?</h5>
+                                                                <p class="text-muted">User:
+                                                                    <strong>{{ $user->first_name }}
+                                                                        {{ $user->last_name }}</strong></p>
+                                                                <p class="text-muted mb-0">This action cannot be
+                                                                    undone.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer row">
+                                                            <form
+                                                                action="{{ route('admins.changeRole', $user->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="mb-3">
+                                                                    <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                                    <label for="role" class="form-label">Role</label>
+                                                                    <select class="form-select" id="role" name="role">
+                                                                        <option value="">Select Role</option>
+                                                                        <option value="admin">Admin</option>
+                                                                        <option value="superadmin">Super Admin</option>
+                                                                    </select>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <i class="fa-solid fa-exchange me-1"></i> Change
+                                                                    Role
                                                                 </button>
                                                             </form>
                                                         </div>
@@ -203,24 +252,11 @@
                 <div class="card-footer bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $users->count() }}</span> of <span class="fw-medium">{{ $users->total() }}</span> users</p>
-                        </div>
-                        <div>
-                            {{ $users->links() }}
+                            {{ $admins->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Initialize tooltips -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-        });
-    </script>
 @endsection
