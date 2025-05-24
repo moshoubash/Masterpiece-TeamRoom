@@ -27,7 +27,7 @@
         @csrf
         <div class="row">
             <!-- Company Information -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Company Information</h5>
@@ -62,7 +62,7 @@
             </div>
 
             <!-- Address Information -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Address Information</h5>
@@ -86,7 +86,7 @@
                         </div>
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
-                        <div id="map" style="height: 300px;" class="mb-3"></div>
+                        <div id="map" style="height: 200px;" class="mb-3"></div>
                     </div>
                 </div>
             </div>
