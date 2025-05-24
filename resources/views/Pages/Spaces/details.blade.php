@@ -62,7 +62,6 @@
                         Share
                     </button>
                     
-                    <!-- Share Dropdown Menu -->
                     <div id="share-dropdown" class="hidden absolute right-0 md:right-10 left-0 md:left-auto mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                         <div class="p-3 text-center">
                             <p class="text-sm font-medium text-gray-700 mb-2">Share this space</p>
@@ -246,6 +245,36 @@
                     @endforelse
                 </div>
 
+                <!-- Room Availability -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Availability</h2>
+                    <p class="text-gray-700 mb-4">This space is available for booking on the following days and times:</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-200 rounded-lg">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-2 px-4 text-left font-semibold text-gray-700">Day</th>
+                                    <th class="py-2 px-4 text-left font-semibold text-gray-700">Start Time</th>
+                                    <th class="py-2 px-4 text-left font-semibold text-gray-700">End Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($space_availability as $availability)
+                                    <tr class="@if($loop->odd) bg-white @else bg-gray-50 @endif">
+                                        <td class="py-2 px-4">{{ $availability->day_of_week }}</td>
+                                        <td class="py-2 px-4">{{ \Carbon\Carbon::createFromFormat('H:i:s', $availability->start_time)->format('g:i A') }}</td>
+                                        <td class="py-2 px-4">{{ \Carbon\Carbon::createFromFormat('H:i:s', $availability->end_time)->format('g:i A') }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="py-4 px-4 text-center text-gray-500">No availability set for this space.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- About the Host -->
                 <div class="w-full lg:w-3/3 ">
                     <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
@@ -390,7 +419,7 @@
                                     @php
                                         $start = strtotime('08:00');
                                         $end = strtotime('20:00');
-                                        $interval = 60 * 60; // 30 minutes in seconds
+                                        $interval = 60 * 60;
                                     @endphp
 
                                     @for ($time = $start; $time <= $end; $time += $interval)
@@ -511,11 +540,19 @@
 
                 if (endHour <= startHour) {
                     alert('End time must be after start time');
-                    const newEndHour = startHour + 1;
-                    if (newEndHour <= 16) {
-                        endTimeSelect.value = newEndHour.toString().padStart(2, '0') + ':00';
+                    let nextEndHour = startHour + 1;
+                    let found = false;
+                    for (let i = 0; i < endTimeSelect.options.length; i++) {
+                        const optionHour = parseInt(endTimeSelect.options[i].value.split(':')[0]);
+                        if (optionHour > startHour) {
+                            endTimeSelect.selectedIndex = i;
+                            found = true;
+                            break;
+                        }
                     }
-                    updateCalculations();
+                    if (!found) {
+                        endTimeSelect.selectedIndex = 0;
+                    }
                     return;
                 }
 

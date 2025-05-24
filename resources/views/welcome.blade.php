@@ -12,7 +12,7 @@
 @section('content')
     <!-- Alert if there is an message -->
     @if (session('message'))
-        <div class="z-999999 fixed top-20 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+        <div class="z-999999 fixed top-25 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
             role="alert">
             {{ session('message') }}
         </div>
@@ -117,14 +117,14 @@
                         ],
                         [
                             'number' => 2,
-                            'title' => 'Invite your team',
-                            'description' => 'Add team members to start collaborating on room bookings.',
+                            'title' => 'Choose your meeting room',
+                            'description' => 'Search and select the meeting rooms that suit your needs.',
                             'icon' => 'users',
                         ],
                         [
                             'number' => 3,
                             'title' => 'Start booking',
-                            'description' => 'Reserve rooms, manage resources, and optimize your workspace.',
+                            'description' => 'Select a date and time, and book your meeting room.',
                             'icon' => 'calendar',
                         ],
                     ];
@@ -403,8 +403,7 @@
     <section class="py-20 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-bold mb-6">Ready to optimize your workspace?</h2>
-            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Join thousands of companies already using MeetSpace to
-                streamline their meeting room bookings.</p>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Discover the perfect meeting room for your next event</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <a href="/explore"
                     class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg">

@@ -88,12 +88,19 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{route('requests.page')}}" class="pc-link {{ request()->routeIs('requests.page') ? 'active' : '' }}">
-                        <span class="pc-micon"><i class="ti ti-id"></i></span>
-                        <span class="pc-mtext">KYC Verification</span>
-                        @if($pendingKyc ?? 0)
-                            <span class="badge bg-danger rounded-pill ms-auto">{{ $pendingKyc }}</span>
-                        @endif
+                    <a href="{{route('requests.page')}}" class="pc-link d-flex justify-content-between align-items-center {{ request()->routeIs('requests.page') ? 'active' : '' }}">
+                        <div>
+                            <span class="pc-micon"><i class="ti ti-id"></i></span>
+                            <span class="pc-mtext">KYC Verification</span>
+                        </div>
+                        <div>
+                            @php
+                                $pendingRequests = \App\Models\User::where('id_document_path', 'IS NOT', null)->where('kyc_status', 'pending')->count();    
+                            @endphp
+                            @if($pendingRequests > 0)
+                                <span class="badge bg-primary rounded-pill ms-auto">{{ $pendingRequests }}</span>
+                            @endif
+                        </div>
                     </a>
                 </li>
                 
@@ -114,12 +121,21 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="/dashboard/notifications" class="pc-link {{ request()->is('dashboard/notifications*') ? 'active' : '' }}">
-                        <span class="pc-micon"><i class="ti ti-bell"></i></span>
-                        <span class="pc-mtext">Notifications</span>
-                        @if($unreadNotifications ?? 0)
-                            <span class="badge bg-primary rounded-pill ms-auto">{{ $unreadNotifications }}</span>
-                        @endif
+                    <a href="/dashboard/notifications" class="pc-link d-flex justify-content-between align-items-center {{ request()->is('dashboard/notifications*') ? 'active' : '' }}">
+                        <div>
+                            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+                            <span class="pc-mtext">Notifications</span>
+                        </div>
+                        <div>
+                            @php
+                            $unreadNotifications = App\Models\Notification::where('user_id', Auth::id())
+                                ->where('is_read', false)
+                                ->count();
+                            @endphp
+                            @if($unreadNotifications ?? 0)
+                                <span class="badge bg-primary rounded-pill ms-auto">{{ $unreadNotifications }}</span>
+                            @endif
+                        </div>
                     </a>
                 </li>
 

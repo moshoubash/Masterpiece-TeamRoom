@@ -21,6 +21,7 @@ class PaymentController extends Controller
 {
     public function checkout(Request $request)
     {
+        dd($request->all());
         $start_time = $request->start_time;
         $end_time = $request->end_time;
         $date = $request->date;

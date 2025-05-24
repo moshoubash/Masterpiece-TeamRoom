@@ -140,8 +140,8 @@ class SpaceController extends Controller
         $hostSpaces = Space::where('host_id', $space->host_id)->get();
         $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
         $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
-
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
+        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
+        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability]);
     }
 
     public function create()
