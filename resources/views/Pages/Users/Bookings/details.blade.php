@@ -199,7 +199,6 @@
                             </div>
                         </div>
 
-                        <!-- Map Placeholder (you can replace with actual map) -->
                         <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
                             <div id="map"></div>
                         </div>
@@ -441,7 +440,7 @@
             if (modalButton) {
                 modalButton.addEventListener('click', function() {
                     modal.classList.remove('hidden');
-                    document.body.classList.add('overflow-hidden'); // Prevent scrolling
+                    document.body.classList.add('overflow-hidden');
                 });
             }
 

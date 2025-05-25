@@ -52,6 +52,27 @@ class SpaceController extends Controller
         return back();
     }
 
+    public function deleteByHost($slug){
+        dd($slug);
+        $space = Space::where('slug', $slug)->first();
+
+        if ($space == null) {
+            return view('pages.404');
+        }
+
+        $space->is_deleted = true;
+        $space->save();
+
+        (new CreateNewActivity(
+            Auth::id(),
+            'space',
+            'Space Deleted',
+            "Space '{$space->title}' was deleted"
+        ))->execute();
+
+        return back();
+    }
+
     public function explore(Request $request)
     {
         $spaces = Space::with(['images', 'host']);
@@ -359,8 +380,26 @@ class SpaceController extends Controller
         $hostSpaces = Space::where('host_id', $space->host_id)->get();
         $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
         $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
+        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
 
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
+        // if space not available in this date and time
+        $isAvailableNow = false;
+
+        if ($space && !$space->is_deleted) {
+            $today = now()->format('l');    
+            $currentTime = now()->format('H:i:s');
+
+            $availabilityToday = SpaceAvailability::where('space_id', $space->id)
+                ->where('day_of_week', $today)
+                ->where('is_available', true)
+                ->where('start_time', '<=', $currentTime)
+                ->where('end_time', '>=', $currentTime)
+                ->first();
+
+            $isAvailableNow = $availabilityToday ? true : false;
+        }
+
+        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability, 'isAvailableNow' => $isAvailableNow]);
     }
 
     public function filter(Request $request)

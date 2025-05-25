@@ -398,4 +398,93 @@
             event.target.closest('.relative').style.display = 'none';
         }
     </script>
+
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('image-upload');
+            const previewArea = document.getElementById('image-preview');
+            const imageCount = document.getElementById('image-count');
+
+            if (dropzone && fileInput) {
+                dropzone.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                dropzone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('border-blue-500', 'bg-blue-50');
+                });
+
+                dropzone.addEventListener('dragleave', () => {
+                    dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+
+                    if (e.dataTransfer.files.length) {
+                        fileInput.files = e.dataTransfer.files;
+                        handleFileSelect();
+                    }
+                });
+
+                // Handle file selection
+                fileInput.addEventListener('change', handleFileSelect);
+
+                function handleFileSelect() {
+                    if (fileInput.files.length > 0) {
+                        previewArea.classList.remove('hidden');
+
+                        const heading = previewArea.querySelector('.col-span-full');
+                        previewArea.innerHTML = '';
+                        previewArea.appendChild(heading);
+
+                        imageCount.textContent = fileInput.files.length;
+
+                        Array.from(fileInput.files).forEach((file, index) => {
+                            if (!file.type.match('image.*')) return;
+
+                            const reader = new FileReader();
+                            reader.onload = (function(file, index) {
+                                return function(e) {
+                                    const preview = document.createElement('div');
+                                    preview.className = 'relative group';
+                                    preview.innerHTML = `
+                                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                                    <img src="${e.target.result}" alt="Preview" class="h-full w-full object-cover object-center">
+                                </div>
+                                <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <button type="button" class="text-white bg-red-500 rounded-full p-1" data-index="${index}">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                ${index === 0 ? '<div class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">Main Photo</div>' : ''}
+                            `;
+
+                                    const removeBtn = preview.querySelector('button');
+                                    removeBtn.addEventListener('click', function() {
+                                        preview.remove();
+                                        const remaining = document.querySelectorAll(
+                                            '#image-preview .relative').length - 1;
+                                        imageCount.textContent = remaining;
+                                        if (remaining === 0) {
+                                            previewArea.classList.add('hidden');
+                                        }
+                                    });
+
+                                    previewArea.appendChild(preview);
+                                };
+                            })(file, index);
+
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

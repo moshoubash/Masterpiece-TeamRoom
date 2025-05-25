@@ -127,7 +127,6 @@
                             <h3 class="text-md font-medium text-gray-700 mb-3">Card Details</h3>
                             <div class="bg-white p-4 border border-gray-300 rounded-md shadow-sm">
                                 <div id="card-element">
-                                    <!-- Stripe Card Element will be inserted here -->
                                 </div>
                                 <div id="card-errors" class="text-red-600 text-sm" role="alert"></div>
                             </div>

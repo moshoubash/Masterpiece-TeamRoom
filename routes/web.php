@@ -120,6 +120,7 @@ Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->na
 
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth', 'host', 'id.verified');
 Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth', 'host', 'id.verified');
+Route::put('/room/delete/{slug}', [SpaceController::class, 'deleteByHost'])->name('room.deleteByHost')->middleware('auth', 'host');
 
 Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit')->middleware('auth');
 Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update')->middleware('auth');
