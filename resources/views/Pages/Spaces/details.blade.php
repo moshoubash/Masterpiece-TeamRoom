@@ -393,6 +393,13 @@
                         </div>
                     </div>
 
+                    <!-- show session('availability') -->
+                    @if (session('availability'))
+                        <div class="bg-blue-100 text-blue-800 p-3 rounded mb-4">
+                            {{ session('availability') }}
+                        </div>
+                    @endif
+
                     <form action="{{ route('booking.checkout') }}" method="POST">
                         @csrf
                         @method('POST')
