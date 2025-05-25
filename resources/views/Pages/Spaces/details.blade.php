@@ -246,7 +246,7 @@
                 </div>
 
                 <!-- Room Availability -->
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8" id="availability">
                     <h2 class="text-xl font-bold text-gray-900 mb-4">Availability</h2>
                     <p class="text-gray-700 mb-4">This space is available for booking on the following days and times:</p>
                     <div class="overflow-x-auto">

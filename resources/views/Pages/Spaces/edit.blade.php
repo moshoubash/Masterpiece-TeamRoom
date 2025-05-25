@@ -80,26 +80,26 @@
                 </div>
             </div>
 
-            <!-- Step 2: Placeholder for step 2 (not shown in images) -->
+            <!-- Step 2: Availabilities -->
             <div id="step-2" class="step-content bg-white rounded-lg shadow-sm p-8 mb-8 hidden">
                 <h2 class="text-xl font-bold mb-6">Availability</h2>
-                <!-- Add Step 2 form fields here -->
                 @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
                     <div class="mb-4">
-                        <label class="block font-semibold">{{ $day }}</label>
-                        <div class="flex items-center space-x-2 mt-2">
+                        <label class="block font-semibold mb-2">{{ $day }}</label>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
                             <input type="time" name="availability[{{ $day }}][start_time]"
-                                class="border rounded p-1" placeholder="Start Time"
+                                class="border rounded p-2 w-full sm:w-auto" placeholder="Start Time"
                                 value="{{ $space->availability->where('day_of_week', $day)->first() ? $space->availability->where('day_of_week', $day)->first()->start_time : '' }}">
                             <input type="time" name="availability[{{ $day }}][end_time]"
-                                class="border rounded p-1" placeholder="End Time"
+                                class="border rounded p-2 w-full sm:w-auto" placeholder="End Time"
                                 value="{{ $space->availability->where('day_of_week', $day)->first() ? $space->availability->where('day_of_week', $day)->first()->end_time : '' }}">
                             <label class="flex items-center">
                                 <input type="checkbox" name="availability[{{ $day }}][is_available]"
+                                    class="mr-2"
                                     @if (
                                         $space->availability->where('day_of_week', $day)->first() &&
-                                            $space->availability->where('day_of_week', $day)->first()->is_available) checked @endif class="mr-2">
-                                Available
+                                            $space->availability->where('day_of_week', $day)->first()->is_available) checked @endif>
+                                <span class="text-sm">Available</span>
                             </label>
                         </div>
                     </div>
@@ -233,6 +233,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md"
                         value="{{ $space->postal_code ?? '' }}">
                 </div>
+                
                 <label class="block text-sm font-medium mb-2">Pick Location on Map</label>
                 <div id="map" class="w-full h-64 mb-4 rounded shadow"></div>
                 <input type="hidden" id="latitude" name="latitude">

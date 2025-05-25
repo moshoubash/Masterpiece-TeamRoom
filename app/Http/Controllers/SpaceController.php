@@ -13,6 +13,8 @@ use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\CreateNewActivity;
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 
 class SpaceController extends Controller
 {
@@ -160,6 +162,21 @@ class SpaceController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'street_address' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'postal_code' => 'required|string|max:20',
+            'country' => 'required|string|max:100',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'capacity' => 'required|integer|min:1',
+            'hourly_rate' => 'required|numeric|min:0',
+            'min_booking_duration' => 'required|integer|min:1',
+            'max_booking_duration' => 'required|integer|min:1',
+        ]);
+
         $space = Space::create([
             'host_id' => Auth::id(),
             'title' => $request->title,

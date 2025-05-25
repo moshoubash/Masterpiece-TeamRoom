@@ -76,22 +76,21 @@
                 </div>
             </div>
 
-            <!-- Step 2: Placeholder for step 2 (not shown in images) -->
+            <!-- Step 2: Availabilities -->
             <div id="step-2" class="step-content bg-white rounded-lg shadow-sm p-8 mb-8 hidden">
                 <h2 class="text-xl font-bold mb-6">Availability</h2>
-                <!-- Add Step 2 form fields here -->
                 @foreach (['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
                     <div class="mb-4">
-                        <label class="block font-semibold">{{ $day }}</label>
-                        <div class="flex items-center space-x-2 mt-2">
+                        <label class="block font-semibold mb-2">{{ $day }}</label>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
                             <input type="time" name="availability[{{ $day }}][start_time]"
-                                class="border rounded p-1" placeholder="Start Time">
+                                class="border rounded p-2 w-full sm:w-auto" placeholder="Start Time">
                             <input type="time" name="availability[{{ $day }}][end_time]"
-                                class="border rounded p-1" placeholder="End Time">
+                                class="border rounded p-2 w-full sm:w-auto" placeholder="End Time">
                             <label class="flex items-center">
                                 <input type="checkbox" name="availability[{{ $day }}][is_available]"
                                     class="mr-2">
-                                Available
+                                <span class="text-sm">Available</span>
                             </label>
                         </div>
                     </div>
@@ -138,21 +137,26 @@
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-2">Upload Photos</label>
-                    <div id="dropzone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-all hover:border-blue-400 hover:bg-blue-50 cursor-pointer">
+                    <div id="dropzone"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-all hover:border-blue-400 hover:bg-blue-50 cursor-pointer">
                         <div class="flex flex-col items-center">
-                            <svg class="h-16 w-16 text-blue-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <svg class="h-16 w-16 text-blue-400 mb-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <p class="text-lg font-medium text-blue-600 mb-1">Drag photos here or click to upload</p>
                             <p class="text-sm text-gray-500 mb-4">Upload high-quality images to showcase your space</p>
-                            <span class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors inline-block mb-2">
+                            <span
+                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors inline-block mb-2">
                                 Select Photos
                             </span>
                             <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Max 10 photos)</p>
-                            <input type="file" id="image-upload" name="images[]" multiple class="hidden" accept="image/png,image/jpeg,image/gif">
+                            <input type="file" id="image-upload" name="images[]" multiple class="hidden"
+                                accept="image/png,image/jpeg,image/gif">
                         </div>
                     </div>
-                    
+
                     <!-- Preview Area -->
                     <div id="image-preview" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
                         <div class="col-span-full mb-2">
@@ -160,10 +164,12 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="flex justify-between">
-                    <button type="button" class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
-                    <button type="button" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
+                    <button type="button"
+                        class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 prev-step">Back</button>
+                    <button type="button"
+                        class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-800 next-step">Continue</button>
                 </div>
             </div>
 
@@ -192,7 +198,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
                 <label class="block text-sm font-medium mb-2">Pick Location on Map</label>
-                <div id="map" class="w-full h-64 rounded-lg shadow-md mt-6"></div>
+                <div id="map" class="w-full h-64 mb-4 rounded shadow"></div>
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
 
@@ -344,63 +350,63 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    // Image upload functionality
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('image-upload');
-    const previewArea = document.getElementById('image-preview');
-    const imageCount = document.getElementById('image-count');
-    
-    if (dropzone && fileInput) {
-        // Handle click on dropzone
-        dropzone.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        // Handle drag and drop
-        dropzone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropzone.classList.add('border-blue-500', 'bg-blue-50');
-        });
-        
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('border-blue-500', 'bg-blue-50');
-        });
-        
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('border-blue-500', 'bg-blue-50');
-            
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                handleFileSelect();
-            }
-        });
-        
-        // Handle file selection
-        fileInput.addEventListener('change', handleFileSelect);
-        
-        function handleFileSelect() {
-            if (fileInput.files.length > 0) {
-                previewArea.classList.remove('hidden');
-                
-                // Clear existing previews except the heading
-                const heading = previewArea.querySelector('.col-span-full');
-                previewArea.innerHTML = '';
-                previewArea.appendChild(heading);
-                
-                // Update count
-                imageCount.textContent = fileInput.files.length;
-                
-                // Create previews
-                Array.from(fileInput.files).forEach((file, index) => {
-                    if (!file.type.match('image.*')) return;
-                    
-                    const reader = new FileReader();
-                    reader.onload = (function(file, index) {
-                        return function(e) {
-                            const preview = document.createElement('div');
-                            preview.className = 'relative group';
-                            preview.innerHTML = `
+            // Image upload functionality
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('image-upload');
+            const previewArea = document.getElementById('image-preview');
+            const imageCount = document.getElementById('image-count');
+
+            if (dropzone && fileInput) {
+                // Handle click on dropzone
+                dropzone.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                // Handle drag and drop
+                dropzone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('border-blue-500', 'bg-blue-50');
+                });
+
+                dropzone.addEventListener('dragleave', () => {
+                    dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('border-blue-500', 'bg-blue-50');
+
+                    if (e.dataTransfer.files.length) {
+                        fileInput.files = e.dataTransfer.files;
+                        handleFileSelect();
+                    }
+                });
+
+                // Handle file selection
+                fileInput.addEventListener('change', handleFileSelect);
+
+                function handleFileSelect() {
+                    if (fileInput.files.length > 0) {
+                        previewArea.classList.remove('hidden');
+
+                        // Clear existing previews except the heading
+                        const heading = previewArea.querySelector('.col-span-full');
+                        previewArea.innerHTML = '';
+                        previewArea.appendChild(heading);
+
+                        // Update count
+                        imageCount.textContent = fileInput.files.length;
+
+                        // Create previews
+                        Array.from(fileInput.files).forEach((file, index) => {
+                            if (!file.type.match('image.*')) return;
+
+                            const reader = new FileReader();
+                            reader.onload = (function(file, index) {
+                                return function(e) {
+                                    const preview = document.createElement('div');
+                                    preview.className = 'relative group';
+                                    preview.innerHTML = `
                                 <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100">
                                     <img src="${e.target.result}" alt="Preview" class="h-full w-full object-cover object-center">
                                 </div>
@@ -413,27 +419,28 @@
                                 </div>
                                 ${index === 0 ? '<div class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">Main Photo</div>' : ''}
                             `;
-                            
-                            const removeBtn = preview.querySelector('button');
-                            removeBtn.addEventListener('click', function() {
-                                preview.remove();
-                                // Note: Can't directly modify FileList, would need a workaround in production
-                                const remaining = document.querySelectorAll('#image-preview .relative').length - 1;
-                                imageCount.textContent = remaining;
-                                if (remaining === 0) {
-                                    previewArea.classList.add('hidden');
-                                }
-                            });
-                            
-                            previewArea.appendChild(preview);
-                        };
-                    })(file, index);
-                    
-                    reader.readAsDataURL(file);
-                });
+
+                                    const removeBtn = preview.querySelector('button');
+                                    removeBtn.addEventListener('click', function() {
+                                        preview.remove();
+                                        // Note: Can't directly modify FileList, would need a workaround in production
+                                        const remaining = document.querySelectorAll(
+                                            '#image-preview .relative').length - 1;
+                                        imageCount.textContent = remaining;
+                                        if (remaining === 0) {
+                                            previewArea.classList.add('hidden');
+                                        }
+                                    });
+
+                                    previewArea.appendChild(preview);
+                                };
+                            })(file, index);
+
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                }
             }
-        }
-    }
-});
+        });
     </script>
 @endsection

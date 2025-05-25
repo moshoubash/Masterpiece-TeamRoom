@@ -10,7 +10,6 @@
     </style>
 @endsection
 @section('content')
-    <!-- Alert if there is an message -->
     @if (session('message'))
         <div class="z-999999 fixed top-25 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
             role="alert">
@@ -21,7 +20,6 @@
     <!-- Hero Section -->
     <div id="hero"
         class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
-        <!-- Background Pattern Overlay -->
         <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
         <div class="relative z-10 max-w-5xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
@@ -175,7 +173,6 @@
                     <p class="text-gray-600 max-w-2xl">Discover our hosts latest meeting rooms</p>
                 </div>
 
-                <!-- Navigation Controls with Blade Component -->
                 <div class="hidden md:flex space-x-3 xxl:hidden">
                     @php
                         $buttonClasses =
@@ -204,13 +201,11 @@
                         <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
                             <div
                                 class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl hover:shadow-blue-100 relative">
-                                <!-- New Badge (if applicable) -->
                                 @if ($room->created_at->diffInDays() <= 7)
                                     <span
                                         class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-999999">New</span>
                                 @endif
 
-                                <!-- Room Image with Hover Effect -->
                                 <div class="relative overflow-hidden h-56">
                                     @if (!$room->images->isEmpty())
                                         <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
@@ -227,7 +222,6 @@
                                         class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     </div>
 
-                                    <!-- Quick Actions (visible on hover) -->
                                     <div
                                         class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                                         <a href="{{ route('rooms.details', $room->slug) }}"
@@ -290,7 +284,7 @@
                                             <span class="text-gray-600 text-sm">/hr</span>
                                         </div>
 
-                                        <a href="/explore"
+                                        <a href="/rooms/details/{{ $room->slug }}#availability"
                                             class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
                                             Check Availability
                                         </a>
