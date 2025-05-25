@@ -31,7 +31,14 @@ class BookingController extends Controller
 
     public function edit(int $id){
         $booking = Booking::find($id);
-        return view('dashboard.booking.edit', compact('booking'));
+        $users = \App\Models\User::all();
+        $renters = [];
+        foreach ($users as $user) {
+            if ($user->roles->first()->name == 'renter') {
+                $renters[] = $user;
+            }
+        }
+        return view('dashboard.booking.edit', compact('booking', 'renters'));
     }
 
     /**
@@ -42,7 +49,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->update($request->all());
 
-        return redirect()->back();  
+        return redirect()->back()->with('success', 'Booking updated successfully');  
     }
 
     /**

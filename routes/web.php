@@ -20,6 +20,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\BackupController;
+use App\Models\User;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -135,6 +136,7 @@ Route::post('/refund/{booking}', [PaymentController::class, 'refund'])->name('re
 Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
 Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
 Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
+Route::put('/user/passwordchangeing/{id}', [UserController::class, 'updatePasswordAdmin'])->name('user.password.change.admin')->middleware('auth', 'admin');
 
 Route::get('/contact', function () { return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');

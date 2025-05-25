@@ -85,17 +85,34 @@ class UserController extends Controller
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'sometimes|required|string|min:8|confirmed',
             'bio' => 'nullable|string|max:500',
             'phone_number' => 'nullable|string|max:15',
-            'profile_picture_url' => 'nullable|url|max:255',
             'company_name' => 'nullable|string|max:255',
-            'is_verified' => 'boolean',
         ]);
 
-        $user->update($request->all());
+        if($request->hasFile('profile_picture_url')){
+            $request->validate([
+                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
-        return view('dashboard.users.index', ['users' => User::all()]);
+            $image = $request->file('profile_picture_url');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile-pictures');
+            $image->move($destinationPath, $name);
+            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+        }
+
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number ?? null,
+            'bio' => $request->bio ?? null,
+            'company_name' => $request->company_name ?? null,
+            'updated_at' => now()
+        ]);
+
+        return redirect()->back()->with('success', 'User updated successfully.');
     }
 
     /**
@@ -274,6 +291,19 @@ class UserController extends Controller
         Auth::logout();
 
         return redirect('/login')->with('message', 'password updated successfully.');
+    }
+
+    public function updatePasswordAdmin(Request $request, string $id){
+        $user = User::where('id', $id)->first();
+
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return back()->with('success', 'User password updated successfully.');
     }
 
     public function search(Request $request){

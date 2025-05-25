@@ -193,10 +193,10 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-16 bg-white">
+    <section id="features" class="py-6 bg-white">
         <div class="container mx-auto px-4 py-8">
             <!-- Header Section -->
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-12">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
                 <div class="mb-6 md:mb-0">
                     <span
                         class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Curated
@@ -226,12 +226,12 @@
 
             <!-- Meeting Spaces Cards Carousel -->
             <div class="relative overflow-hidden">
-                <div id="spaces-carousel" class="flex transition-transform duration-500 ease-in-out"
+                <div id="spaces-carousel" class="py-4 flex transition-transform duration-500 ease-in-out"
                     style="will-change: transform;">
                     @foreach ($meetingRooms as $index => $room)
                         <div class="carousel-card w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
                             <div
-                                class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl hover:shadow-blue-100 relative flex flex-col h-full">
+                                class="group rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:shadow-blue-100 relative flex flex-col h-full">
                                 @if ($room->created_at->diffInDays() <= 7)
                                     <span
                                         class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-10">New</span>
@@ -334,7 +334,7 @@
             </div>
 
             <!-- View All Button -->
-            <div class="text-center mt-12">
+            <div class="text-center mt-6">
                 <a href="{{ route('explore') }}"
                     class="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
                     View All Meeting Spaces
