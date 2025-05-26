@@ -175,7 +175,7 @@
                                                                 <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this user?</h5>
                                                                 <p class="text-muted">User: <strong>{{ $user->first_name }} {{ $user->last_name }}</strong></p>
-                                                                <p class="text-muted mb-0">This action cannot be undone and will remove all user data.</p>
+                                                                <p class="text-muted mb-0">This action cannot be undone.</p>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer justify-content-center">

@@ -106,6 +106,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Routes for the Companies
     Route::resource('/dashboard/companies', CompanyController::class);
     Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
+    Route::put('/dashboard/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
 
     // Routes for the admins
     Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index')->middleware('auth', 'superadmin');
