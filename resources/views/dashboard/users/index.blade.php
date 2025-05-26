@@ -94,7 +94,8 @@
                                             <div class="avatar avatar-md">
                                                 <img class="avatar-img rounded-circle" 
                                                     src="{{ $user->profile_picture_url ?? 'http://www.placehold.co/300x300' }}"
-                                                    alt="{{ $user->first_name }}" width="40" height="40">
+                                                    alt="{{ $user->first_name }}" width="40" height="40"
+                                                    style="object-fit: contain;">
                                             </div>
                                         </td>
                                         <td>

@@ -136,7 +136,8 @@
                                         <td class="text-center">
                                             <img src="{{ asset('storage/' . $company->logo) }}"
                                                 alt="{{ $company->name }}" width="50" height="50"
-                                                class="rounded-circle">
+                                                class="rounded-circle border border-2 p-1"
+                                                style="object-fit: contain;">
                                         </td>
                                         <td>{{ $company->name }}</td>
                                         <td>{{ $company->phone }}</td>

@@ -410,7 +410,7 @@
                         <div class="mb-4">
                             <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
                             <div class="relative">
-                                <input type="date" id="date" name="date"
+                                <input type="date" id="date" name="date" min="{{ date('Y-m-d') }}"
                                     value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                     class="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             </div>

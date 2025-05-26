@@ -11,7 +11,7 @@
                             @else
                                 {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
                         "
-                        alt="Profile Picture" class="w-24 h-24 rounded-full object-cover shadow-md">
+                        alt="Profile Picture" style="object-fit: contain;" class="p-2 w-24 h-24 rounded-full object-cover shadow-md">
                 </div>
                 <div class="flex-grow">
                     <h1 class="text-2xl font-bold text-gray-900">{{ $name }}</h1>

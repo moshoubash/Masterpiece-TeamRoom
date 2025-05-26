@@ -130,7 +130,7 @@
                                     Date
                                 </label>
                                 <div class="relative">
-                                    <input type="date" id="date" name="date"
+                                    <input type="date" id="date" name="date" min="{{ date('Y-m-d') }}"
                                         value="{{ request('date', date('Y-m-d')) }}"
                                         class="w-full pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                 </div>
