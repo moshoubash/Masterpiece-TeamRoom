@@ -407,11 +407,12 @@ class UserController extends Controller
 
         $mostBookedSpaces = DB::table('bookings')
             ->join('spaces', 'bookings.space_id', '=', 'spaces.id')
+            ->where('spaces.host_id', Auth::id())
             ->select('spaces.id', 'spaces.title', DB::raw('COUNT(bookings.id) as bookings_count'))
             ->groupBy('spaces.id', 'spaces.title')
             ->orderByDesc('bookings_count')
-            ->get()
-            ->take(3);
+            ->take(3)
+            ->get();
 
         $recentBookings = DB::table('bookings')
             ->join('spaces', 'bookings.space_id', '=', 'spaces.id')

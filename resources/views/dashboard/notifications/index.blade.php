@@ -79,6 +79,14 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">All Notifications</h5>
+            {{-- button to mark all as read --}}
+            <form action="{{route('notifications.markAllAsRead', Auth::user()->id)}}" method="POST">
+                @csrf
+                @method('POST')
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check-double me-1"></i> Mark All As Read
+                </button>
+            </form>
         </div>
     </div>
     <div class="table-responsive">

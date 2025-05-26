@@ -366,7 +366,7 @@
 
                         <!-- Modern Pagination -->
                         <div class="mt-8">
-                            {{ $rooms->links() }}
+                            {{ $rooms->links('pagination::tailwind') }}
                         </div>
                     @endif
                 </div>
