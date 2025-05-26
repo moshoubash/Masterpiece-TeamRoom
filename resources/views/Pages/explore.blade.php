@@ -276,11 +276,11 @@
                                         @if ($room->images->isEmpty())
                                             <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
                                                 alt="{{ $room->title }}"
-                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full" style="max-height: 200px;">
                                         @else
                                             <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
                                                 alt="{{ $room->title }}"
-                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full" style="max-height: 200px;">
                                         @endif
 
                                         @if ($room->is_active)
