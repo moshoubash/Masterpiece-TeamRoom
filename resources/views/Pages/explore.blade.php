@@ -20,7 +20,7 @@
                     <form action="{{ route('explore') }}" method="GET">
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search for meeting spaces..."
+                                placeholder="Search ..."
                                 class="w-full px-5 py-3 pl-12 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
 
                             <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">

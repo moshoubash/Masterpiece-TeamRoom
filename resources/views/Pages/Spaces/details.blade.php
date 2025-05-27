@@ -285,7 +285,7 @@
                             @else
                                 {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
                         "
-                                alt="Profile Picture" class="w-12 h-12 rounded-full object-cover shadow-md mr-4">
+                                alt="Profile Picture" class="w-12 h-12 rounded-full object-contain shadow-md mr-4">
                             <div>
                                 <h3 class="text-lg font-semibold text-gray-800">
                                     <a href="{{ route('user.profile', $space->host->slug) }}">{{ $space->host->first_name }}
