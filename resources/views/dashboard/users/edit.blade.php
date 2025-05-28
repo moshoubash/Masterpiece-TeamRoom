@@ -2,6 +2,13 @@
 @section('title', 'Edit User')
 @section('content')
     <h1>Edit User #{{$user->id}}</h1>
+    
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form action="{{ url('/dashboard/users/' . $user->id) . '/update' }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
@@ -28,7 +35,7 @@
 
         <div class="form-group">
             <label for="profile_picture_url">Profile Picture</label>
-            <input type="text" name="profile_picture_url" id="profile_picture_url" class="form-control">
+            <input type="file" name="profile_picture_url" id="profile_picture_url" class="form-control">
             @if($user->profile_picture_url)
                 <img src="{{ asset($user->profile_picture_url) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="150">
             @endif
@@ -45,5 +52,28 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update User</button>
+    </form>
+
+    {{-- password change form --}}
+    <h2 class="mt-5">Change Password for User #{{$user->id}}</h2>
+    <form action="{{ route('user.password.change.admin', $user->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="form-group">
+            <label for="password">New Password</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+            @error('password')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirmation">Confirm New Password</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Change Password</button>
+        <a href="{{ url('/dashboard/users') }}" class="btn btn-secondary">Back to users</a>
     </form>
 @endsection

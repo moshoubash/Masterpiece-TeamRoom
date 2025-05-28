@@ -79,6 +79,14 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">All Notifications</h5>
+            {{-- button to mark all as read --}}
+            <form action="{{route('notifications.markAllAsRead', Auth::user()->id)}}" method="POST">
+                @csrf
+                @method('POST')
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check-double me-1"></i> Mark All As Read
+                </button>
+            </form>
         </div>
     </div>
     <div class="table-responsive">
@@ -137,27 +145,18 @@
                         </td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
-                                @if($item->is_read == 0)
-                                    <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Mark as Read">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Mark as Unread">
-                                            <i class="fa-solid fa-eye-slash"></i>
-                                        </button>
-                                    </form>
-                                @endif
-                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item->id }}" title="View Details">
+                                <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="Mark as Read">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </form>
+                                
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item->id }}" title="View Details">
                                     <i class="fa-solid fa-info-circle"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" title="Delete">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" title="Delete">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>

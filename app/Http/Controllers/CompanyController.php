@@ -64,6 +64,14 @@ class CompanyController extends Controller
             $validatedData['logo'] = $logoPath;
         }
 
+        if($request->hasFile('host_profile_picture')){
+            $image = $request->file('host_profile_picture');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile-pictures');
+            $image->move($destinationPath, $name);
+            $validatedData['host_profile_picture'] = '/images/profile-pictures/' . $name;
+        }
+
         $company = Company::create([
             'name' => $validatedData['name'],
             'phone' => $validatedData['phone'],
@@ -90,9 +98,10 @@ class CompanyController extends Controller
             'company_name' => $validatedData['company_name'],
             'company_id' => $company->id,
             'slug' => 'company-'.$company->id,
+            'profile_picture_url' => $validatedData['host_profile_picture'] ?? null,
         ]);
 
-        $companyRole = Role::where('name', 'company')->first();
+        $companyRole = Role::where('name', 'host')->first();
         $user->roles()->attach($companyRole->id);
 
         return back()->with('success', 'Company created successfully.');
@@ -155,8 +164,31 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         
         if($company !=null){
-            $company->delete();
-            return redirect()->route('dashboard.companies')->with('success', 'Company deleted successfully.');
+            if($company->is_deleted == true){
+                return back()->with('error', 'Company is already deleted.');
+            }
+
+            $company->is_deleted = true;
+            $company->save();
+            return back()->with('success', 'Company deleted successfully.');
+        }
+
+        return back()->with('error', 'Company not found.');
+    }
+
+    // restore deleted company
+    public function restore($id)
+    {
+        $company = Company::findOrFail($id);
+
+        if ($company) {
+            if ($company->is_deleted == false) {
+                return back()->with('error', 'Company is not deleted.');
+            }
+            
+            $company->is_deleted = false;
+            $company->save();
+            return back()->with('success', 'Company restored successfully.');
         }
 
         return back()->with('error', 'Company not found.');

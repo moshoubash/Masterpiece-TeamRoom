@@ -13,6 +13,8 @@ use App\Models\Review;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\CreateNewActivity;
+use Dotenv\Validator;
+use Illuminate\Auth\Events\Validated;
 
 class SpaceController extends Controller
 {
@@ -46,6 +48,27 @@ class SpaceController extends Controller
         $space = Space::findOrFail($id);
         $space->is_deleted = true;
         $space->save();
+
+        return back();
+    }
+
+    public function deleteByHost($slug){
+        dd($slug);
+        $space = Space::where('slug', $slug)->first();
+
+        if ($space == null) {
+            return view('pages.404');
+        }
+
+        $space->is_deleted = true;
+        $space->save();
+
+        (new CreateNewActivity(
+            Auth::id(),
+            'space',
+            'Space Deleted',
+            "Space '{$space->title}' was deleted"
+        ))->execute();
 
         return back();
     }
@@ -140,8 +163,26 @@ class SpaceController extends Controller
         $hostSpaces = Space::where('host_id', $space->host_id)->get();
         $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
         $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
+        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
 
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
+        // if space not available in this date and time
+        $isAvailableNow = false;
+
+        if ($space && !$space->is_deleted) {
+            $today = now()->format('l');
+            $currentTime = now()->format('H:i:s');
+
+            $availabilityToday = SpaceAvailability::where('space_id', $space->id)
+                ->where('day_of_week', $today)
+                ->where('is_available', true)
+                ->where('start_time', '<=', $currentTime)
+                ->where('end_time', '>=', $currentTime)
+                ->first();
+
+            $isAvailableNow = $availabilityToday ? true : false;
+        }
+
+        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability, 'isAvailableNow' => $isAvailableNow]);
     }
 
     public function create()
@@ -160,6 +201,21 @@ class SpaceController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'street_address' => 'required|string|max:255',
+            'city' => 'required|string|max:100',
+            'postal_code' => 'required|string|max:20',
+            'country' => 'required|string|max:100',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'capacity' => 'required|integer|min:1',
+            'hourly_rate' => 'required|numeric|min:0',
+            'min_booking_duration' => 'required|integer|min:1',
+            'max_booking_duration' => 'required|integer|min:1',
+        ]);
+
         $space = Space::create([
             'host_id' => Auth::id(),
             'title' => $request->title,
@@ -324,8 +380,26 @@ class SpaceController extends Controller
         $hostSpaces = Space::where('host_id', $space->host_id)->get();
         $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
         $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
+        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
 
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount]);
+        // if space not available in this date and time
+        $isAvailableNow = false;
+
+        if ($space && !$space->is_deleted) {
+            $today = now()->format('l');    
+            $currentTime = now()->format('H:i:s');
+
+            $availabilityToday = SpaceAvailability::where('space_id', $space->id)
+                ->where('day_of_week', $today)
+                ->where('is_available', true)
+                ->where('start_time', '<=', $currentTime)
+                ->where('end_time', '>=', $currentTime)
+                ->first();
+
+            $isAvailableNow = $availabilityToday ? true : false;
+        }
+
+        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability, 'isAvailableNow' => $isAvailableNow]);
     }
 
     public function filter(Request $request)

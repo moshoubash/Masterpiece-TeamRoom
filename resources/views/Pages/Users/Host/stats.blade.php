@@ -208,7 +208,7 @@
                                 </tbody>
                             </table>
                             <div class="mt-4">
-                                {{ $recentBookings->links() }}
+                                {{ $recentBookings->links('pagination::tailwind') }}
                             </div>
                         </div>
                     </div>

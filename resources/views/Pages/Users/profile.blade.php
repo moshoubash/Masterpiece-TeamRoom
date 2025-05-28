@@ -11,7 +11,7 @@
                             @else
                                 {{ asset('images/profile-pictures/default-avatar.svg') }} @endif
                         "
-                        alt="Profile Picture" class="w-24 h-24 rounded-full object-cover shadow-md">
+                        alt="Profile Picture" style="object-fit: contain;" class="p-2 w-24 h-24 rounded-full object-cover shadow-md">
                 </div>
                 <div class="flex-grow">
                     <h1 class="text-2xl font-bold text-gray-900">{{ $name }}</h1>
@@ -98,9 +98,20 @@
                                         <img src="{{ asset('storage/' . $space->images->first()->image_url) }}"
                                             alt="Executive Meeting Room" class="w-full h-48 object-cover">
                                     @endif
+                                    {{-- Show deleted flag if space is deleted --}}
+                                    @if ($space->is_deleted)
+                                        <div class="absolute top-3 left-3">
+                                            <span
+                                                class="bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded shadow">
+                                                Deleted
+                                            </span>
+                                        </div>
+                                    @endif
+
                                     {{-- enable this section for the owner or host --}}
                                     @if (Auth::check() && $role == 'HOST' && $user->id == Auth::user()->id)
-                                        <div class="absolute top-3 right-3 space-x-2">
+                                        <div class="absolute top-3 right-3 space-x-2 flex">
+                                            {{-- view button --}}
                                             <a href="{{ route('space.edit', $space->slug) }}"
                                                 class="cursor-pointer bg-white p-2 w-9 h-9 flex items-center justify-center rounded-md shadow hover:bg-gray-100">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600"

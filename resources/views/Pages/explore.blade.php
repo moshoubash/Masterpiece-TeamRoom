@@ -20,7 +20,7 @@
                     <form action="{{ route('explore') }}" method="GET">
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search for meeting spaces..."
+                                placeholder="Search ..."
                                 class="w-full px-5 py-3 pl-12 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
 
                             <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
@@ -130,7 +130,7 @@
                                     Date
                                 </label>
                                 <div class="relative">
-                                    <input type="date" id="date" name="date"
+                                    <input type="date" id="date" name="date" min="{{ date('Y-m-d') }}"
                                         value="{{ request('date', date('Y-m-d')) }}"
                                         class="w-full pl-3 pr-3 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                 </div>
@@ -276,11 +276,11 @@
                                         @if ($room->images->isEmpty())
                                             <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
                                                 alt="{{ $room->title }}"
-                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full" style="max-height: 200px;">
                                         @else
                                             <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
                                                 alt="{{ $room->title }}"
-                                                class="object-cover w-full h-full min-h-48 md:min-h-full">
+                                                class="object-cover w-full h-full min-h-48 md:min-h-full" style="max-height: 200px;">
                                         @endif
 
                                         @if ($room->is_active)
@@ -366,7 +366,7 @@
 
                         <!-- Modern Pagination -->
                         <div class="mt-8">
-                            {{ $rooms->links() }}
+                            {{ $rooms->links('pagination::tailwind') }}
                         </div>
                     @endif
                 </div>

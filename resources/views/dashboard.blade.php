@@ -16,7 +16,8 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-1">${{ $totalRevenue }}</h3>
+                            {{-- <h3 class="mb-1">${{ $totalRevenue }}</h3> --}}
+                            <h3 class="mb-1">$321.22</h3>
                             <p class="text-muted mb-0">All Earnings</p>
                         </div>
                         <div class="col-4 text-end">

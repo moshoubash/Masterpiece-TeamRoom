@@ -39,6 +39,30 @@
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @elseif (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="d-flex">
+                <div class="me-2">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                    {{ session('success') }}
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="d-flex">
+                <div class="me-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <div>
+                    {{ session('error') }}
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     <div class="row">
@@ -100,6 +124,7 @@
                                     <th width="150">Phone</th>
                                     <th width="150">Email</th>
                                     <th width="200">City</th>
+                                    <th width="150">Is_Deleted</th>
                                     <th width="150">Created_at</th>
                                     <th class="text-center" width="140">Actions</th>
                                 </tr>
@@ -111,13 +136,20 @@
                                         <td class="text-center">
                                             <img src="{{ asset('storage/' . $company->logo) }}"
                                                 alt="{{ $company->name }}" width="50" height="50"
-                                                class="rounded-circle">
+                                                class="rounded-circle border border-2 p-1"
+                                                style="object-fit: contain;">
                                         </td>
                                         <td>{{ $company->name }}</td>
                                         <td>{{ $company->phone }}</td>
                                         <td>{{ $company->email }}</td>
                                         <td>{{ $company->city }}
                                         </td>
+                                        <td>
+                                            @if ($company->is_deleted)
+                                                <span class="badge bg-danger">Deleted</span>
+                                            @else
+                                                <span class="badge bg-success">Active</span>
+                                            @endif
                                         <td>
                                             {{ $company->created_at->format('d M Y') }}
                                         </td>
@@ -130,6 +162,52 @@
                                                 class="btn btn-sm btn-info">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
+                                            @if(!$company->is_deleted)
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $company->id }}">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                            @endif
+                                            @if($company->is_deleted)
+                                                <form action="{{ route('companies.restore', $company->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        <i class="fa-solid fa-undo"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            {{-- Delete Modal --}}
+
+                                            <div class="modal fade"
+                                                id="deleteModal{{ $company->id }}" tabindex="-1"
+                                                aria-labelledby="deleteModalLabel{{ $company->id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel{{ $company->id }}">Delete Company</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete
+                                                            <strong>{{ $company->name }}</strong>?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancel</button>
+                                                            <form action='/dashboard/companies/{{ $company->id }}'
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

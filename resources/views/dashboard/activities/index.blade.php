@@ -108,7 +108,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}"><i class="align-middle me-1" data-feather="trash-2"></i></button>
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}"><i class="fa-solid fa-trash"></i></button>
                                         </td>
                                         {{-- delete modal --}}
                                         <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $item->id }}" aria-hidden="true">

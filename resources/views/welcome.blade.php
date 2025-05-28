@@ -7,12 +7,40 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+
+        #spaces-carousel {
+            /* Remove scrollbars */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        #spaces-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-card {
+            min-width: 100%;
+            max-width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-card {
+                min-width: 50%;
+                max-width: 50%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .carousel-card {
+                min-width: 33.3333%;
+                max-width: 33.3333%;
+            }
+        }
     </style>
 @endsection
 @section('content')
-    <!-- Alert if there is an message -->
     @if (session('message'))
-        <div class="z-999999 fixed top-20 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+        <div class="z-999999 fixed top-25 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
             role="alert">
             {{ session('message') }}
         </div>
@@ -21,7 +49,6 @@
     <!-- Hero Section -->
     <div id="hero"
         class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
-        <!-- Background Pattern Overlay -->
         <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
         <div class="relative z-10 max-w-5xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
@@ -43,7 +70,8 @@
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
                     <label for="location"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Location</label>
-                    <select id="location" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="location">
+                    <select id="location" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
+                        name="location">
                         <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>Amman</option>
                         <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>Irbid</option>
                     </select>
@@ -63,8 +91,9 @@
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
                     <label for="start_time"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Check-in</label>
-                    <input id="start_time" type="time" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
-                        name="start_time" value="{{ request('start_time', '09:00') }}">
+                    <input id="start_time" type="time"
+                        class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="start_time"
+                        value="{{ request('start_time', '09:00') }}">
                 </div>
 
                 <!-- Capacity -->
@@ -72,7 +101,8 @@
                     class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
                     <label for="capacity"
                         class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Capacity</label>
-                    <select id="capacity" name="capacity" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
+                    <select id="capacity" name="capacity"
+                        class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
                         <option value="">Any capacity</option>
                         @foreach ([4, 8, 12, 20, 50] as $size)
                             <option value="{{ $size }}" {{ request('capacity') == $size ? 'selected' : '' }}>
@@ -117,14 +147,14 @@
                         ],
                         [
                             'number' => 2,
-                            'title' => 'Invite your team',
-                            'description' => 'Add team members to start collaborating on room bookings.',
+                            'title' => 'Choose your meeting room',
+                            'description' => 'Search and select the meeting rooms that suit your needs.',
                             'icon' => 'users',
                         ],
                         [
                             'number' => 3,
                             'title' => 'Start booking',
-                            'description' => 'Reserve rooms, manage resources, and optimize your workspace.',
+                            'description' => 'Select a date and time, and book your meeting room.',
                             'icon' => 'calendar',
                         ],
                     ];
@@ -163,10 +193,10 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-16 bg-white">
+    <section id="features" class="py-6 bg-white">
         <div class="container mx-auto px-4 py-8">
             <!-- Header Section -->
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-12">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
                 <div class="mb-6 md:mb-0">
                     <span
                         class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Curated
@@ -174,14 +204,11 @@
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Meeting Spaces</h2>
                     <p class="text-gray-600 max-w-2xl">Discover our hosts latest meeting rooms</p>
                 </div>
-
-                <!-- Navigation Controls with Blade Component -->
-                <div class="hidden md:flex space-x-3 xxl:hidden">
+                <div class="hidden md:flex space-x-3">
                     @php
                         $buttonClasses =
                             'flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
                     @endphp
-
                     <button id="prev-spaces" class="{{ $buttonClasses }}" aria-label="Previous spaces">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -199,35 +226,29 @@
 
             <!-- Meeting Spaces Cards Carousel -->
             <div class="relative overflow-hidden">
-                <div id="spaces-carousel" class="mb-4 flex transition-transform duration-500 ease-in-out">
+                <div id="spaces-carousel" class="py-4 flex transition-transform duration-500 ease-in-out"
+                    style="will-change: transform;">
                     @foreach ($meetingRooms as $index => $room)
-                        <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                        <div class="carousel-card w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
                             <div
-                                class="group rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl hover:shadow-blue-100 relative">
-                                <!-- New Badge (if applicable) -->
+                                class="group rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:shadow-blue-100 relative flex flex-col h-full">
                                 @if ($room->created_at->diffInDays() <= 7)
                                     <span
-                                        class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-999999">New</span>
+                                        class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-10">New</span>
                                 @endif
-
-                                <!-- Room Image with Hover Effect -->
-                                <div class="relative overflow-hidden h-56">
+                                <div class="relative overflow-hidden h-56 flex-shrink-0">
                                     @if (!$room->images->isEmpty())
                                         <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
-                                            alt="{{ $room->title }}"
-                                            loading="lazy"
+                                            alt="{{ $room->title }}" loading="lazy"
                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                                     @else
                                         <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
-                                            alt="{{ $room->title }}"
-                                            loading="lazy"
+                                            alt="{{ $room->title }}" loading="lazy"
                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                                     @endif
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     </div>
-
-                                    <!-- Quick Actions (visible on hover) -->
                                     <div
                                         class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                                         <a href="{{ route('rooms.details', $room->slug) }}"
@@ -236,9 +257,8 @@
                                         </a>
                                     </div>
                                 </div>
-
                                 <!-- Room Info -->
-                                <div class="p-5">
+                                <div class="p-5 flex flex-col flex-1">
                                     <div class="flex justify-between items-start">
                                         <h3
                                             class="font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
@@ -252,7 +272,6 @@
                                             <span class="ml-1 font-medium">{{ '0.0' }}</span>
                                         </div>
                                     </div>
-
                                     <div class="flex items-center mt-3 text-sm text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
                                             viewBox="0 0 20 20" fill="currentColor">
@@ -261,9 +280,7 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                         <span class="ml-1">{{ $room->city }}</span>
-
                                         <span class="mx-2">•</span>
-
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
@@ -272,7 +289,6 @@
                                         </svg>
                                         <span class="ml-1">Up to {{ $room->capacity }} people</span>
                                     </div>
-
                                     <!-- Amenities -->
                                     <div class="mt-3 flex flex-wrap gap-1">
                                         @foreach ($room->amenities as $amenity)
@@ -282,15 +298,13 @@
                                             </span>
                                         @endforeach
                                     </div>
-
                                     <!-- Price with Book Button -->
-                                    <div class="mt-4 flex justify-between items-center">
+                                    <div class="mt-4 flex justify-between items-center mt-auto">
                                         <div>
                                             <span class="font-bold text-xl text-gray-900">${{ $room->hourly_rate }}</span>
                                             <span class="text-gray-600 text-sm">/hr</span>
                                         </div>
-
-                                        <a href="/explore"
+                                        <a href="/rooms/details/{{ $room->slug }}#availability"
                                             class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
                                             Check Availability
                                         </a>
@@ -300,10 +314,27 @@
                         </div>
                     @endforeach
                 </div>
+                <!-- Carousel navigation for mobile -->
+                <div class="flex justify-center mt-4 md:hidden">
+                    <button id="prev-spaces-mobile"
+                        class="mx-2 w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-blue-500 hover:text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="next-spaces-mobile"
+                        class="mx-2 w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-blue-500 hover:text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <!-- View All Button -->
-            <div class="text-center mt-12">
+            <div class="text-center mt-6">
                 <a href="{{ route('explore') }}"
                     class="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
                     View All Meeting Spaces
@@ -403,8 +434,7 @@
     <section class="py-20 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-bold mb-6">Ready to optimize your workspace?</h2>
-            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Join thousands of companies already using MeetSpace to
-                streamline their meeting room bookings.</p>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Discover the perfect meeting room for your next event</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <a href="/explore"
                     class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg">
@@ -434,54 +464,54 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const carousel = document.getElementById('spaces-carousel');
-            const prevButton = document.getElementById('prev-spaces');
-            const nextButton = document.getElementById('next-spaces');
+            const cards = carousel.querySelectorAll('.carousel-card');
+            const prevBtn = document.getElementById('prev-spaces');
+            const nextBtn = document.getElementById('next-spaces');
+            const prevBtnMobile = document.getElementById('prev-spaces-mobile');
+            const nextBtnMobile = document.getElementById('next-spaces-mobile');
 
-            const carouselItems = carousel.children;
-            const totalItems = carouselItems.length;
+            function getVisibleCards() {
+                if (window.innerWidth >= 1024) return 3;
+                if (window.innerWidth >= 768) return 2;
+                return 1;
+            }
 
-            const itemsPerPage = 3;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            let currentIndex = 0;
+            const totalCards = cards.length;
 
-            let currentPage = 0;
+            function updateCarousel() {
+                const visible = getVisibleCards();
+                if (currentIndex < 0) currentIndex = 0;
+                if (currentIndex > totalCards - visible) currentIndex = totalCards - visible;
+                const cardWidth = cards[0].offsetWidth;
+                carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            }
 
-            function updateCarouselPosition() {
-                const translateValue = -currentPage * (100 / itemsPerPage);
-                carousel.style.transform = `translateX(${translateValue}%)`;
-
-                prevButton.disabled = currentPage === 0;
-                nextButton.disabled = currentPage === totalPages - 1;
-
-                if (prevButton.disabled) {
-                    prevButton.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    prevButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-
-                if (nextButton.disabled) {
-                    nextButton.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            function goNext() {
+                const visible = getVisibleCards();
+                if (currentIndex < totalCards - visible) {
+                    currentIndex++;
+                    updateCarousel();
                 }
             }
 
-            updateCarouselPosition();
-
-            prevButton.addEventListener('click', function() {
-                if (currentPage > 0) {
-                    currentPage--;
-                    updateCarouselPosition();
+            function goPrev() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
                 }
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', goPrev);
+            if (nextBtn) nextBtn.addEventListener('click', goNext);
+            if (prevBtnMobile) prevBtnMobile.addEventListener('click', goPrev);
+            if (nextBtnMobile) nextBtnMobile.addEventListener('click', goNext);
+
+            window.addEventListener('resize', function() {
+                updateCarousel();
             });
 
-            nextButton.addEventListener('click', function() {
-                if (currentPage < totalPages - 1) {
-                    currentPage++;
-                    updateCarouselPosition();
-                }
-            });
-
-            window.addEventListener('resize', updateCarouselPosition);
+            updateCarousel();
         });
     </script>
 @endsection

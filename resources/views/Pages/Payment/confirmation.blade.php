@@ -93,7 +93,7 @@
                     <div class="flex-shrink-0">
                         <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
                             @if($booking->space->host->profile_picture_url)
-                                <img src="{{ asset($booking->space->host->profile_photo_url) }}" alt="{{ $booking->space->host->first_name }}" class="h-12 w-12 rounded-full object-cover">
+                                <img src="{{ asset($booking->space->host->profile_picture_url) }}" alt="{{ $booking->space->host->first_name }}" class="h-12 w-12 rounded-full object-cover" style="object-fit: contain;">
                             @else
                                 <span class="text-gray-500 text-lg font-medium">{{ substr($booking->space->host->first_name, 0, 1) }}</span>
                             @endif

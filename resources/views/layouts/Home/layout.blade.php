@@ -7,7 +7,7 @@
     <meta name="title" content="Team Room" />
     <meta name="description" content="Best P2P Rental Marketplace for meeting rooms" />
     <meta name="keywords" content="Meeting Room, P2P Rental Marketplace, Team Room, Meeting Room Booking, Meeting Room Booking Platform, Meeting Room Booking App" />
-    <title>Team Room - P2P Rental Marketplace for meeting rooms</title>
+    <title>Team Room - Meeting rooms Booking Platform</title>
 
     <link rel="icon" href="{{ asset('assets/dashboard/images/team-room-logo-dashboard.svg') }}" type="image/x-icon">
 

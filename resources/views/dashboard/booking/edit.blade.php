@@ -4,6 +4,13 @@
     <div class="row">
         <h1>Edit Booking #{{$booking->id}}</h1>
 
+        {{-- show success message --}}
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <form action="/dashboard/bookings/{{ $booking->id }}" method="POST">
             @csrf
             @method('PUT')
@@ -54,7 +61,12 @@
             </div>
             <div class="form-group">
                 <label for="cancelled_by">Cancelled By</label>
-                <input type="text" name="cancelled_by" id="cancelled_by" class="form-control" value="{{ old('cancelled_by', $booking->cancelled_by) }}" @readonly(true)>
+                <select name="cancelled_by" id="cancelled_by" class="form-control">
+                    <option value="">Select Cancelled By User</option>
+                    @foreach ($renters as $user)
+                        <option value="{{ $user->id }}" {{ old('cancelled_by', $booking->cancelled_by) == $user->id ? 'selected' : '' }}>{{ $user->email }}</option>
+                    @endforeach
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Update Booking</button>
             <a href="/dashboard/bookings" class="btn btn-secondary">Back to Bookings</a>

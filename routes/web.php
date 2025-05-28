@@ -20,6 +20,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\BackupController;
+use App\Models\User;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -105,6 +106,7 @@ Route::middleware('auth', 'admin')->group(function () {
     // Routes for the Companies
     Route::resource('/dashboard/companies', CompanyController::class);
     Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
+    Route::put('/dashboard/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
 
     // Routes for the admins
     Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index')->middleware('auth', 'superadmin');
@@ -120,6 +122,7 @@ Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->na
 
 Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth', 'host', 'id.verified');
 Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth', 'host', 'id.verified');
+Route::put('/room/delete/{slug}', [SpaceController::class, 'deleteByHost'])->name('room.deleteByHost')->middleware('auth', 'host');
 
 Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit')->middleware('auth');
 Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update')->middleware('auth');
@@ -134,6 +137,7 @@ Route::post('/refund/{booking}', [PaymentController::class, 'refund'])->name('re
 Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
 Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
 Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
+Route::put('/user/passwordchangeing/{id}', [UserController::class, 'updatePasswordAdmin'])->name('user.password.change.admin')->middleware('auth', 'admin');
 
 Route::get('/contact', function () { return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');

@@ -109,8 +109,8 @@
                     <div class="relative group">
                         <button id="user-menu-button"
                             class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1">
-                            <img src="{{ Auth::user()->profile_photo ?? asset('images/profile-pictures/default-avatar.svg') }}"
-                                alt="Profile" class="h-9 w-9 rounded-full object-cover border-2 border-gray-200">
+                            <img src="{{ Auth::user()->profile_picture_url ?? asset('images/profile-pictures/default-avatar.svg') }}"
+                                alt="Profile" class="h-10 w-10 rounded-full object-cover border-2 border-gray-200" style="object-fit: contain;">
                             <span class="text-gray-700 font-medium">{{ Auth::user()->name }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                                 fill="currentColor">

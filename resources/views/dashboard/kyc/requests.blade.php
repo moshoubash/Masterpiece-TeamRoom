@@ -124,7 +124,7 @@
                                                 <div class="modal-body">
                                                     <div class="text-center mb-4">
                                                         <div
-                                                            class="avatar avatar-xl bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-3">
+                                                            class="avatar avatar-xl bg-opacity-10 text-success rounded-circle mx-auto mb-3">
                                                             <i class="align-middle" data-feather="check"
                                                                 style="width: 30px; height: 30px;"></i>
                                                         </div>
@@ -174,7 +174,7 @@
                                                 <div class="modal-body">
                                                     <div class="text-center mb-4">
                                                         <div
-                                                            class="avatar avatar-xl bg-danger bg-opacity-10 text-danger rounded-circle mx-auto mb-3">
+                                                            class="avatar avatar-xl bg-opacity-10 text-danger rounded-circle mx-auto mb-3">
                                                             <i class="align-middle" data-feather="x"
                                                                 style="width: 30px; height: 30px;"></i>
                                                         </div>
