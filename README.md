@@ -8,10 +8,6 @@
     <strong>Connect, Book, Collaborate</strong>
 </p>
 
-<p align="center">
-    <img src="https://i.ibb.co/hF6R9BHT/Untitled-design.png" alt="team room thumbnail">
-</p>
-
 ## 🚀 Overview
 
 TeamRoom is a comprehensive peer-to-peer platform designed to revolutionize the way professionals book and manage meeting spaces. Our platform connects space owners with individuals and teams seeking the perfect environment for their meetings, presentations, and collaborative sessions.
