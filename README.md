@@ -1,11 +1,15 @@
 # TeamRoom - Meeting Rooms Booking Platform
 
 <p align="center">
-  <img src="public/assets/dashboard/images/team-room-dashboard.svg" alt="TeamRoom Logo" width="300">
+    <img src="public/assets/dashboard/images/team-room-dashboard.svg" alt="TeamRoom Logo" width="300">
 </p>
 
 <p align="center">
-  <strong>Connect, Book, Collaborate</strong>
+    <strong>Connect, Book, Collaborate</strong>
+</p>
+
+<p align="center">
+    <img src="https://i.ibb.co/hF6R9BHT/Untitled-design.png" alt="team room thumbnail">
 </p>
 
 ## 🚀 Overview
