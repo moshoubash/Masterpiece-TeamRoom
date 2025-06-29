@@ -25,11 +25,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body style="font-family: 'Inter', sans-serif; margin: 0 auto">
-    @include('layouts.Home.components.navbar')
+    @include('layouts.home.components.navbar')
 
     @yield('content')
 
-    @include('layouts.Home.components.footer')
+    @include('layouts.home.components.footer')
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     @yield('scripts')

@@ -386,7 +386,7 @@ class SpaceController extends Controller
         $isAvailableNow = false;
 
         if ($space && !$space->is_deleted) {
-            $today = now()->format('l');    
+            $today = now()->format('l');
             $currentTime = now()->format('H:i:s');
 
             $availabilityToday = SpaceAvailability::where('space_id', $space->id)

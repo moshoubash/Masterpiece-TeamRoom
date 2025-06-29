@@ -1,4 +1,4 @@
-@extends('layouts.Home.layout')
+@extends('layouts.home.layout')
 @section('content')
 <div class="bg-gray-50 min-h-screen py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

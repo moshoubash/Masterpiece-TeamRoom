@@ -1,4 +1,4 @@
-@extends('layouts.Home.layout')
+@extends('layouts.home.layout')
 @section('styles')
     <style>
         #hero {

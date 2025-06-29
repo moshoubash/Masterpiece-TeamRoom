@@ -38,7 +38,7 @@
         <div class="hidden md:flex items-center space-x-5">
             @auth
                 <div class="flex items-center space-x-4">
-                    
+
 
                     <!-- Notification Button -->
                     <div class="relative inline-block">
@@ -64,7 +64,7 @@
                                     <button type="submit" class="cursor-pointer text-sm text-blue-500 hover:text-blue-700">Mark all as read</button>
                                 </form>
                             </div>
-                            
+
                             @if(Auth::user()->notifications->count())
                                 @foreach(Auth::user()->notifications->sortByDesc('created_at') as $notification)
                                 <!-- Notification Item -->
@@ -254,7 +254,7 @@
                             List a Space
                         </a>
                     @endif
-                    
+
                     @if (Auth::user()->roles[0]->name == 'renter' || Auth::user()->roles[0]->name =='host')
                         <a href="/wishlist"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">

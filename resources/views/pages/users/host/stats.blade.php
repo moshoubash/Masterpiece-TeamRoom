@@ -1,4 +1,4 @@
-@extends('layouts.Home.layout')
+@extends('layouts.home.layout')
 @section('content')
     <div class="py-6 px-4 sm:px-6 lg:px-8">
         <div class="mb-6">
@@ -107,14 +107,14 @@
                                                     <form action="{{ route('booking.confirm', $booking->booking_id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        
+
                                                         <button class="mr-1 cursor-pointer bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full text-xs font-medium">Approve</button>
                                                     </form>
 
                                                     <form action="{{ route('booking.cancel', $booking->booking_id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        
+
                                                         <button class="mr-1 cursor-pointer bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full text-xs font-medium">Reject</button>
                                                     </form>
                                                 </div>
@@ -171,7 +171,7 @@
                                                 {{ \Carbon\Carbon::parse($booking->end_datetime)->format('h:i A') }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                                @if ($booking->status === 'confirmed') 
+                                                @if ($booking->status === 'confirmed')
                                                 <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Confirmed</span>
                                                 @elseif($booking->status === 'pending')
                                                 <span class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">Pending</span>
@@ -224,7 +224,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const labels = {!! json_encode($mostBookedSpaces->pluck('title')) !!};
             const data = {!! json_encode($mostBookedSpaces->pluck('bookings_count')) !!};
-    
+
             const spaceCtx = document.getElementById('mostBookedSpacesChart').getContext('2d');
             const spaceChart = new Chart(spaceCtx, {
                 type: 'doughnut',
@@ -248,5 +248,5 @@
                 }
             });
         });
-    </script>    
+    </script>
 @endsection

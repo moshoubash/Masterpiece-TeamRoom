@@ -1,4 +1,4 @@
-@extends('layouts.Home.layout')
+@extends('layouts.home.layout')
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -61,7 +61,7 @@
                         </svg>
                         Share
                     </button>
-                    
+
                     <div id="share-dropdown" class="hidden absolute right-0 md:right-10 left-0 md:left-auto mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                         <div class="p-3 text-center">
                             <p class="text-sm font-medium text-gray-700 mb-2">Share this space</p>
