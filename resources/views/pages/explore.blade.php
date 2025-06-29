@@ -300,19 +300,15 @@
                                                 </span>
                                             </div>
                                         @endif
-
-                                        <div class="absolute bottom-3 left-3">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                ${{ number_format($room->hourly_rate, 2) }}/hour
-                                            </span>
-                                        </div>
                                     </div>
 
                                     <!-- Right side - Details -->
                                     <div class="flex flex-col w-full md:w-2/3">
                                         <div class="p-5 flex-grow">
-                                            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $room->title }}</h3>
+                                            <div class="flex justify-between items-start">
+                                                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $room->title }}</h3>
+                                                <p class="font-bold text-lg">${{ number_format($room->hourly_rate, 2) }}</p>
+                                            </div>
 
                                             <div class="flex items-center text-sm text-gray-600 mb-3">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"

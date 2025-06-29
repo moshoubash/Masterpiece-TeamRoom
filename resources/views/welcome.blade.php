@@ -6,6 +6,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            height: 450px;
         }
 
         #spaces-carousel {
@@ -48,7 +49,7 @@
 
     <!-- Hero Section -->
     <div id="hero"
-        class="relative z-10 flex flex-col items-center justify-center min-h-screen text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
+        class="relative z-10 flex flex-col items-center justify-center text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
         <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
         <div class="relative z-10 max-w-5xl mx-auto">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">

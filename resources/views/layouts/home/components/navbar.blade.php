@@ -16,7 +16,6 @@
                 $navItems = [
                     ['url' => '/', 'label' => 'Home'],
                     ['url' => '/explore', 'label' => 'Explore'],
-                    ['url' => '/about', 'label' => 'About'],
                     ['url' => '/contact', 'label' => 'Contact'],
                 ];
                 $currentRoute = Route::currentRouteName();
