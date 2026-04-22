@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <button class="btn btn-primary">
-                        <i class="align-middle" data-feather="refresh-cw"></i> 
+                        <i class="align-middle" data-feather="refresh-cw"></i>
                         <a href="/dashboard/bookings" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
                     </button>
                 </div>
@@ -92,12 +92,12 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                @foreach ($bookings->sortByDesc('created_at') as $booking)
+                                @foreach ($bookings as $booking)
                                     <tr>
                                         <td class="fw-medium">{{ $booking->id }}</td>
                                         <td>
-                                            <a href="/dashboard/spaces/{{ $booking->space_id }}"
-                                                class="text-decoration-none" data-bs-toggle="tooltip" title="View Space">
+                                            <a href="/dashboard/spaces/{{ $booking->space_id }}" class="text-decoration-none"
+                                                data-bs-toggle="tooltip" title="View Space">
                                                 #{{ $booking->space_id }}
                                             </a>
                                         </td>
@@ -150,9 +150,8 @@
                                         <td>{{ (new DateTime($booking->created_at))->format('M d, Y') }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
-                                                <a href="/dashboard/bookings/{{ $booking->id }}"
-                                                    class="btn btn-sm btn-info" data-bs-toggle="tooltip"
-                                                    title="View Details">
+                                                <a href="/dashboard/bookings/{{ $booking->id }}" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="tooltip" title="View Details">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
                                                 <a href="/dashboard/bookings/{{ $booking->id }}/edit"
@@ -161,8 +160,7 @@
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $booking->id }}"
-                                                    title="Delete Booking">
+                                                    data-bs-target="#deleteModal{{ $booking->id }}" title="Delete Booking">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
@@ -183,7 +181,8 @@
                                                                     class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this booking?</h5>
                                                                 <p class="text-muted">Booking ID:
-                                                                    <strong>#{{ $booking->id }}</strong></p>
+                                                                    <strong>#{{ $booking->id }}</strong>
+                                                                </p>
                                                                 <p class="text-muted">This action cannot be undone and may
                                                                     affect related records.</p>
                                                             </div>
@@ -193,8 +192,7 @@
                                                                 data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <form action="/dashboard/bookings/{{ $booking->id }}"
-                                                                method="post">
+                                                            <form action="/dashboard/bookings/{{ $booking->id }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">
@@ -216,7 +214,8 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $bookings->count() }}</span> of
-                                <span class="fw-medium">{{ $bookings->total() }}</span> bookings</p>
+                                <span class="fw-medium">{{ $bookings->total() }}</span> bookings
+                            </p>
                         </div>
                         <div>
                             {{ $bookings->links() }}
@@ -229,9 +228,9 @@
 
     <!-- Initialize tooltips -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
         });

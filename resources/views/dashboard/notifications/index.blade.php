@@ -102,7 +102,7 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                @foreach($notifications->sortByDesc('created_at') as $item)
+                @foreach($notifications as $item)
                     <tr class="{{ $item->is_read == 0 ? 'bg-light' : ''}}">
                         <td><span class="fw-medium">#{{ $item->id }}</span></td>
                         <td>

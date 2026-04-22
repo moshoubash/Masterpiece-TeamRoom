@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <button class="btn btn-primary">
-                        <i class="align-middle" data-feather="refresh-cw"></i> 
+                        <i class="align-middle" data-feather="refresh-cw"></i>
                         <a href="/dashboard/spaces" class="ms-1 d-none d-sm-inline text-white">Refresh</a>
                     </button>
                 </div>
@@ -57,14 +57,16 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                @foreach ($spaces->sortByDesc('created_at') as $space)
+                                @foreach ($spaces as $space)
                                     <tr>
                                         <td class="text-center fw-bold">{{ $space->id }}</td>
                                         <td>
                                             @if (!$space->images->isEmpty())
-                                                <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}" alt="{{$space->title}}" class="img-fluid rounded">
+                                                <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
+                                                    alt="{{$space->title}}" class="img-fluid rounded">
                                             @else
-                                                <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg" alt="Default Space Image" class="img-fluid rounded">
+                                                <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                                                    alt="Default Space Image" class="img-fluid rounded">
                                             @endif
                                         </td>
                                         <td>
@@ -87,35 +89,44 @@
                                         <td class="text-center">{{ (new DateTime($space->created_at))->format('Y-m-d') }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
-                                                <a href="/dashboard/spaces/{{ $space->id }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="View Details">
+                                                <a href="/dashboard/spaces/{{ $space->id }}" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="tooltip" title="View Details">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <a href="/dashboard/spaces/{{ $space->id }}/edit" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Edit Space">
+                                                <a href="/dashboard/spaces/{{ $space->id }}/edit" class="btn btn-sm btn-primary"
+                                                    data-bs-toggle="tooltip" title="Edit Space">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $space->id }}" data-bs-toggle="tooltip" title="Delete Space">
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $space->id }}" data-bs-toggle="tooltip"
+                                                    title="Delete Space">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
 
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="deleteModal{{ $space->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal{{ $space->id }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger text-white">
                                                             <h5 class="modal-title">Delete Space</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="text-center mb-3">
-                                                                <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
+                                                                <i
+                                                                    class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this space?</h5>
-                                                                <p class="text-muted mb-0">Space: <strong>{{ $space->title }}</strong></p>
+                                                                <p class="text-muted mb-0">Space:
+                                                                    <strong>{{ $space->title }}</strong></p>
                                                                 <p class="text-muted">This action cannot be undone.</p>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer justify-content-center">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
                                                             <form action="/dashboard/spaces/{{ $space->id }}" method="post">
@@ -139,7 +150,8 @@
                 <div class="card-footer bg-light">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $spaces->count() }}</span> entries</p>
+                            <p class="text-muted mb-0">Showing <span class="fw-medium">{{ $spaces->count() }}</span> entries
+                            </p>
                         </div>
                         <div>
                             {{ $spaces->links() }}
@@ -152,7 +164,7 @@
 
     <!-- Initialize tooltips -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)

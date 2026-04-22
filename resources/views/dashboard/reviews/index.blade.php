@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody id="table-body">
-                                @foreach ($reviews->sortByDesc('created_at') as $review)
+                                @foreach ($reviews as $review)
                                     <tr>
                                         <td><span class="badge bg-secondary">#{{ $review->id }}</span></td>
                                         <td>

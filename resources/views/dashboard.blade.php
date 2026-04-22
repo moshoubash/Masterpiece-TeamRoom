@@ -129,16 +129,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($spaces->sortByDesc('created_at')->take(5) as $space)
+                                @foreach ($spaces->take(5) as $space)
                                     <tr>
                                         <td class="text-center fw-bold">{{ $space->id }}</td>
                                         <td>
                                             @if ($space->images->isEmpty())
                                                 <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
-                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                                    alt="{{ $space->title }}" class="img-fluid rounded"
+                                                    style="width: 50px; height: 50px; object-fit: cover;">
                                             @else
                                                 <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
-                                                    alt="{{ $space->title }}" class="img-fluid rounded">
+                                                    alt="{{ $space->title }}" class="img-fluid rounded"
+                                                    style="width: 100px; height: 50px; object-fit: cover;">
                                             @endif
                                         </td>
                                         <td>
@@ -164,14 +166,13 @@
                                                     data-bs-toggle="tooltip" title="View Details">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <a href="/dashboard/spaces/{{ $space->id }}/edit"
-                                                    class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
-                                                    title="Edit Space">
+                                                <a href="/dashboard/spaces/{{ $space->id }}/edit" class="btn btn-sm btn-primary"
+                                                    data-bs-toggle="tooltip" title="Edit Space">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $space->id }}"
-                                                    data-bs-toggle="tooltip" title="Delete Space">
+                                                    data-bs-target="#deleteModal{{ $space->id }}" data-bs-toggle="tooltip"
+                                                    title="Delete Space">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
@@ -202,8 +203,7 @@
                                                                 data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <form action="/dashboard/spaces/{{ $space->id }}"
-                                                                method="post">
+                                                            <form action="/dashboard/spaces/{{ $space->id }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">
@@ -229,7 +229,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var dates = {!! json_encode($dailyRevenue->pluck('date')) !!};
             var totals = {!! json_encode($dailyRevenue->pluck('total')) !!};
 
@@ -304,7 +304,7 @@
                 },
                 tooltip: {
                     y: {
-                        formatter: function(val) {
+                        formatter: function (val) {
                             return "$" + val;
                         }
                     }
