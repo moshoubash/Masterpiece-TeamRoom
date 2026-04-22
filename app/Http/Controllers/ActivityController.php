@@ -13,7 +13,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::paginate(10);
+        $activities = Activity::latest()->paginate(10);
         return view('dashboard.activities.index', compact('activities'));
     }
 
@@ -38,7 +38,8 @@ class ActivityController extends Controller
         return back()->with('success', 'Activity deleted successfully.');
     }
 
-    public function filter($type){
+    public function filter($type)
+    {
         $activities = Activity::where('type', $type)->paginate(10);
         return view('dashboard.activities.index', compact('activities'));
     }

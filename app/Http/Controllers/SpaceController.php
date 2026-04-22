@@ -20,7 +20,7 @@ class SpaceController extends Controller
 {
     public function index()
     {
-        return view('dashboard.spaces.index', ['spaces' => Space::paginate(10)]);
+        return view('dashboard.spaces.index', ['spaces' => Space::latest()->paginate(10)]);
     }
 
     public function show(string $id)
@@ -52,7 +52,8 @@ class SpaceController extends Controller
         return back();
     }
 
-    public function deleteByHost($slug){
+    public function deleteByHost($slug)
+    {
         dd($slug);
         $space = Space::where('slug', $slug)->first();
 

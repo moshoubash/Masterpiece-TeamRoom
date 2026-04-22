@@ -16,7 +16,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::paginate(10);
+        $bookings = Booking::latest()->paginate(10);
         return view('dashboard.booking.index', compact('bookings'));
     }
 
@@ -29,7 +29,8 @@ class BookingController extends Controller
         return view('dashboard.booking.show', compact('booking'));
     }
 
-    public function edit(int $id){
+    public function edit(int $id)
+    {
         $booking = Booking::find($id);
         $users = \App\Models\User::all();
         $renters = [];
@@ -49,7 +50,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
         $booking->update($request->all());
 
-        return redirect()->back()->with('success', 'Booking updated successfully');  
+        return redirect()->back()->with('success', 'Booking updated successfully');
     }
 
     /**
@@ -64,11 +65,12 @@ class BookingController extends Controller
         }
 
         $booking->delete();
-        
+
         return back();
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $start_time = $request->start_time;
         $end_time = $request->end_time;
         $date = $request->date;
@@ -101,32 +103,35 @@ class BookingController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function info(string $id) {
+    public function info(string $id)
+    {
         $booking = Booking::find($id);
 
         // check authentication
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        if($booking->renter_id == Auth::user()->id){
+        if ($booking->renter_id == Auth::user()->id) {
             $currentTime = \Carbon\Carbon::parse(date('Y-m-d H:i:s', strtotime('+3 hours')));
             $hoursSinceBookingCreated = \Carbon\Carbon::parse($booking->created_at)->diffInHours($currentTime, true);
             $canRefund = $hoursSinceBookingCreated <= 24 && \Carbon\Carbon::parse($booking->start_datetime)->isFuture();
-            
+
             return view('pages.users.bookings.details', compact('booking', 'canRefund'));
         }
 
         return view('pages.404');
     }
 
-    public function filter($status) {
+    public function filter($status)
+    {
         $bookings = Booking::where('status', $status)->paginate(10);
-        
+
         return view('dashboard.booking.index', compact('bookings'));
     }
 
-    public function approve($id) {
+    public function approve($id)
+    {
         $booking = Booking::find($id);
         $booking->status = 'confirmed';
         $booking->save();
@@ -141,7 +146,8 @@ class BookingController extends Controller
         return redirect()->back();
     }
 
-    public function reject($id) {
+    public function reject($id)
+    {
         $booking = Booking::find($id);
         $booking->status = 'cancelled';
         $booking->save();
@@ -156,7 +162,8 @@ class BookingController extends Controller
         return redirect()->back();
     }
 
-    public function complete($id) {
+    public function complete($id)
+    {
         $booking = Booking::find($id);
         $booking->status = 'completed';
         $booking->save();

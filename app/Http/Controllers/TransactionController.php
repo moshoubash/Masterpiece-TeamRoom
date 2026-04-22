@@ -12,7 +12,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::paginate(10);
+        $transactions = Transaction::latest()->paginate(10);
         return view('dashboard.transactions.index', compact('transactions'));
     }
 

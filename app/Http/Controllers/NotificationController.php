@@ -12,11 +12,11 @@ class NotificationController extends Controller
     public function index()
     {
         return view('dashboard.notifications.index', [
-            'notifications' => Notification::where('user_id', Auth::user()->id)->paginate(10),
+            'notifications' => Notification::where('user_id', Auth::user()->id)->latest()->paginate(10),
             'users' => User::all()
         ]);
     }
-    
+
     public function store(Request $request)
     {
         Notification::create($request->all());
@@ -24,11 +24,12 @@ class NotificationController extends Controller
         return back()->with('alert', 'Notification sent successfully');
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $query = Notification::query();
 
         // Status filter
-        if($request->filled('status')){
+        if ($request->filled('status')) {
             $query->where('is_read', $request->status == 'read' ? true : false);
         }
 
@@ -36,7 +37,7 @@ class NotificationController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('user_id', 'like', '%' . $request->search . '%')
-                    ->orWhere('notification_type', 'like', '%' . $request->search  . '%');
+                    ->orWhere('notification_type', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -53,8 +54,9 @@ class NotificationController extends Controller
             'notifications' => $notifications
         ]);
     }
-    
-    public function markAsRead(Request $request){
+
+    public function markAsRead(Request $request)
+    {
         $notification = Notification::find($request->id);
         $notification->is_read = true;
         $notification->save();
