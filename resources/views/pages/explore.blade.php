@@ -17,9 +17,9 @@
 
                 <!-- Search Bar -->
                 <div class="w-full md:w-2/5">
-                    <form action="{{ route('explore') }}" method="GET">
+                    <form action="{{ route('explore') }}" method="GET" id="search-form">
                         <div class="relative">
-                            <input type="text" name="search" value="{{ request('search') }}"
+                            <input type="text" id="search-input" name="search" value="{{ request('search') }}"
                                 placeholder="Search ..."
                                 class="w-full px-5 py-3 pl-12 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700">
 
@@ -245,7 +245,7 @@
                 </div>
 
                 <!-- Room Listings - Horizontal Cards -->
-                <div class="w-full lg:w-3/4">
+                <div class="w-full lg:w-3/4" id="results-container">
                     @if ($rooms->isEmpty())
                         <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center justify-center h-80">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mb-4" fill="none"
@@ -423,6 +423,63 @@
                     filtersContainer.classList.add('hidden');
                 }
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let searchTimeout = null;
+            const searchInput = document.getElementById('search-input');
+            const searchForm = document.getElementById('search-form');
+            const resultsContainer = document.getElementById('results-container');
+            const filterForm = document.getElementById('filter-form');
+
+            if (searchInput && resultsContainer) {
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    
+                    searchTimeout = setTimeout(function() {
+                        const url = new URL(searchForm.action);
+                        url.searchParams.set('search', searchInput.value);
+                        
+                        // Append other filters if present
+                        if (filterForm) {
+                            const formData = new FormData(filterForm);
+                            for (const [key, value] of formData.entries()) {
+                                if (value) {
+                                    url.searchParams.append(key, value);
+                                }
+                            }
+                        }
+
+                        resultsContainer.style.opacity = '0.5';
+                        resultsContainer.style.transition = 'opacity 0.3s ease';
+
+                        fetch(url.toString(), {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newContainer = doc.getElementById('results-container');
+                            
+                            if (newContainer) {
+                                resultsContainer.innerHTML = newContainer.innerHTML;
+                            }
+                            resultsContainer.style.opacity = '1';
+                            
+                            // Update URL without reloading page
+                            window.history.pushState({path: url.toString()}, '', url.toString());
+                        })
+                        .catch(err => {
+                            console.error('Error fetching search results:', err);
+                            resultsContainer.style.opacity = '1';
+                        });
+                    }, 1000);
+                });
+            }
         });
     </script>
 @endsection

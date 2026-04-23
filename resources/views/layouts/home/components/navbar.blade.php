@@ -22,13 +22,11 @@
             @endphp
 
             @foreach ($navItems as $item)
-                <a href="{{ $item['url'] }}"
-                    class="text-gray-700 hover:text-blue-600 font-medium relative py-2 group transition-colors duration-200
-                       {{ request()->is(trim($item['url'], '/')) ? 'text-blue-600' : '' }}">
+                <a href="{{ $item['url'] }}" class="text-gray-700 hover:text-blue-600 font-medium relative py-2 group transition-colors duration-200
+                           {{ request()->is(trim($item['url'], '/')) ? 'text-blue-600' : '' }}">
                     {{ $item['label'] }}
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300
-                          {{ request()->is(trim($item['url'], '/')) ? 'w-full' : '' }}"></span>
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300
+                              {{ request()->is(trim($item['url'], '/')) ? 'w-full' : '' }}"></span>
                 </a>
             @endforeach
         </nav>
@@ -44,8 +42,10 @@
                         <button id="notification-button" title="Notifications"
                             class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 text-xl relative">
                             <i class="fa-regular fa-bell text-gray-700"></i>
-                            <span id="notification-badge-container" class="{{ Auth::user()->notifications->where('is_read', false)->count() > 0 ? '' : 'hidden' }} text-xs absolute top-0 right-0 h-3 w-3 bg-blue-500 rounded-full flex items-center justify-center p-2">
-                                <span id="notification-unread-count" class="absolute top-0 right-0 h-3 w-3 bg-blue-500 text-white rounded-full flex items-center justify-center p-2">
+                            <span id="notification-badge-container"
+                                class="{{ Auth::user()->notifications->where('is_read', false)->count() > 0 ? '' : 'hidden' }} text-xs absolute top-0 right-0 h-3 w-3 bg-blue-500 rounded-full flex items-center justify-center p-2">
+                                <span id="notification-unread-count"
+                                    class="absolute top-0 right-0 h-3 w-3 bg-blue-500 text-white rounded-full flex items-center justify-center p-2">
                                     {{ Auth::user()->notifications->where('is_read', false)->count() }}
                                 </span>
                             </span>
@@ -58,36 +58,39 @@
                                 <h3 class="font-semibold text-gray-700">Notifications</h3>
                                 <form action="{{ route('notifications.markAllAsRead', Auth::user()->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="cursor-pointer text-sm text-blue-500 hover:text-blue-700">Mark all as read</button>
+                                    <button type="submit"
+                                        class="cursor-pointer text-sm text-blue-500 hover:text-blue-700">Mark all as
+                                        read</button>
                                 </form>
                             </div>
 
                             <div id="notification-list">
                                 @if(Auth::user()->notifications->count())
-                                    @foreach(Auth::user()->notifications->sortByDesc('created_at') as $notification)
-                                    <!-- Notification Item -->
-                                    <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                        <div class="flex justify-between items-start">
-                                            <div class="flex items-start space-x-3">
-                                                <div class="bg-blue-100 p-2 rounded-full text-blue-500">
-                                                    <i class="fa-solid fa-comment-dots"></i>
+                                    @foreach(Auth::user()->notifications->sortByDesc('created_at')->take(5) as $notification)
+                                        <!-- Notification Item -->
+                                        <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                            <div class="flex justify-between items-start">
+                                                <div class="flex items-start space-x-3">
+                                                    <div class="bg-blue-100 p-2 rounded-full text-blue-500">
+                                                        <i class="fa-solid fa-comment-dots"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-medium text-gray-800">{{ $notification->title }}</h4>
+                                                        <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
+                                                        <span class="text-xs text-gray-500 mt-1 block">
+                                                            {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h4 class="font-medium text-gray-800">{{ $notification->title }}</h4>
-                                                    <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
-                                                    <span class="text-xs text-gray-500 mt-1 block">
-                                                        {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
-                                                    </span>
-                                                </div>
+                                                @if ($notification->is_read == false)
+                                                    <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                                @endif
                                             </div>
-                                            @if ($notification->is_read == false)
-                                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                            @endif
                                         </div>
-                                    </div>
                                     @endforeach
                                 @else
-                                    <div id="no-notifications-message" class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                    <div id="no-notifications-message"
+                                        class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
                                         <div class="flex justify-between items-start">
                                             <div class="flex items-start space-x-3">
                                                 <div class="bg-blue-100 p-2 rounded-full text-blue-500">
@@ -109,7 +112,8 @@
                         <button id="user-menu-button"
                             class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1">
                             <img src="{{ Auth::user()->profile_picture_url ?? asset('images/profile-pictures/default-avatar.svg') }}"
-                                alt="Profile" class="h-10 w-10 rounded-full object-cover border-2 border-gray-200" style="object-fit: contain;">
+                                alt="Profile" class="h-10 w-10 rounded-full object-cover border-2 border-gray-200"
+                                style="object-fit: contain;">
                             <span class="text-gray-700 font-medium">{{ Auth::user()->name }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                                 fill="currentColor">
@@ -123,8 +127,7 @@
                         <div id="user-dropdown"
                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-focus-within:block">
                             @if (Auth::user()->roles[0]->name == 'admin' || Auth::user()->roles[0]->name == 'superadmin')
-                                <a href="/dashboard"
-                                    class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                <a href="/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                                     <i class="h-5 w-5 mr-2 fa-solid fa-gauge"></i>
                                     Dashboard
                                 </a>
@@ -212,7 +215,7 @@
             @foreach ($navItems as $item)
                 <a href="{{ $item['url'] }}"
                     class="block px-3 py-2.5 rounded-md font-medium transition-colors duration-200
-                       {{ request()->is(trim($item['url'], '/')) ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }}">
+                           {{ request()->is(trim($item['url'], '/')) ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }}">
                     {{ $item['label'] }}
                 </a>
             @endforeach
@@ -223,14 +226,14 @@
                 <div class="flex items-center px-5 mb-3">
                     <div class="flex-shrink-0">
                         <img src="
-                            @if (Auth::user()->profile_picture_url) {{ asset(Auth::user()->profile_picture_url) }}
-                            @else
+                                @if (Auth::user()->profile_picture_url) {{ asset(Auth::user()->profile_picture_url) }}
+                                @else
                                 {{ asset('/images/profile-pictures/default-avatar.svg') }} @endif
-                        "
-                            alt="Profile" class="h-10 w-10 rounded-full">
+                            " alt="Profile" class="h-10 w-10 rounded-full">
                     </div>
                     <div class="ml-3">
-                        <div class="text-base font-medium text-gray-800">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+                        <div class="text-base font-medium text-gray-800">{{ Auth::user()->first_name }}
+                            {{ Auth::user()->last_name }}</div>
                         <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
                     </div>
                 </div>
@@ -254,7 +257,7 @@
                         </a>
                     @endif
 
-                    @if (Auth::user()->roles[0]->name == 'renter' || Auth::user()->roles[0]->name =='host')
+                    @if (Auth::user()->roles[0]->name == 'renter' || Auth::user()->roles[0]->name == 'host')
                         <a href="/wishlist"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
                             Wishlist
