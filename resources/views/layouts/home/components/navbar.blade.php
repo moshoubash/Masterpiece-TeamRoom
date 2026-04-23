@@ -44,13 +44,11 @@
                         <button id="notification-button" title="Notifications"
                             class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 text-xl relative">
                             <i class="fa-regular fa-bell text-gray-700"></i>
-                            @if(Auth::user()->notifications->count() && Auth::user()->notifications->where('is_read', false)->count() > 0)
-                                <span class="text-xs absolute top-0 right-0 h-3 w-3 bg-blue-500 rounded-full flex items-center justify-center p-2">
-                                    <span class="absolute top-0 right-0 h-3 w-3 bg-blue-500 text-white rounded-full flex items-center justify-center p-2">
-                                        {{ Auth::user()->notifications->where('is_read', false)->count() }}
-                                    </span>
+                            <span id="notification-badge-container" class="{{ Auth::user()->notifications->where('is_read', false)->count() > 0 ? '' : 'hidden' }} text-xs absolute top-0 right-0 h-3 w-3 bg-blue-500 rounded-full flex items-center justify-center p-2">
+                                <span id="notification-unread-count" class="absolute top-0 right-0 h-3 w-3 bg-blue-500 text-white rounded-full flex items-center justify-center p-2">
+                                    {{ Auth::user()->notifications->where('is_read', false)->count() }}
                                 </span>
-                            @endif
+                            </span>
                         </button>
 
                         <!-- Notifications Dropdown -->
@@ -64,43 +62,45 @@
                                 </form>
                             </div>
 
-                            @if(Auth::user()->notifications->count())
-                                @foreach(Auth::user()->notifications->sortByDesc('created_at') as $notification)
-                                <!-- Notification Item -->
-                                <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                    <div class="flex justify-between items-start">
-                                        <div class="flex items-start space-x-3">
-                                            <div class="bg-blue-100 p-2 rounded-full text-blue-500">
-                                                <i class="fa-solid fa-comment-dots"></i>
+                            <div id="notification-list">
+                                @if(Auth::user()->notifications->count())
+                                    @foreach(Auth::user()->notifications->sortByDesc('created_at') as $notification)
+                                    <!-- Notification Item -->
+                                    <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="bg-blue-100 p-2 rounded-full text-blue-500">
+                                                    <i class="fa-solid fa-comment-dots"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-medium text-gray-800">{{ $notification->title }}</h4>
+                                                    <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
+                                                    <span class="text-xs text-gray-500 mt-1 block">
+                                                        {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 class="font-medium text-gray-800">{{ $notification->title }}</h4>
-                                                <p class="text-sm text-gray-600 mt-1">{{ $notification->message }}</p>
-                                                <span class="text-xs text-gray-500 mt-1 block">
-                                                    {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        @if ($notification->is_read == false)
-                                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                        @endif
-                                    </div>
-                                </div>
-                                @endforeach
-                            @else
-                                <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                                    <div class="flex justify-between items-start">
-                                        <div class="flex items-start space-x-3">
-                                            <div class="bg-blue-100 p-2 rounded-full text-blue-500">
-                                                <i class="fa-solid fa-comment-dots"></i>
-                                            </div>
-                                            <div>
-                                                <h4 class="font-medium text-gray-800">No Notifications</h4>
-                                            </div>
+                                            @if ($notification->is_read == false)
+                                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                            @endif
                                         </div>
                                     </div>
-                                </div>
-                            @endif
+                                    @endforeach
+                                @else
+                                    <div id="no-notifications-message" class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex items-start space-x-3">
+                                                <div class="bg-blue-100 p-2 rounded-full text-blue-500">
+                                                    <i class="fa-solid fa-comment-dots"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-medium text-gray-800">No Notifications</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
 

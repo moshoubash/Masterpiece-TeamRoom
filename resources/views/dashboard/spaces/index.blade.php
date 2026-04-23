@@ -63,10 +63,12 @@
                                         <td>
                                             @if (!$space->images->isEmpty())
                                                 <img src="{{ asset('storage/' . $space->images->first()->image_url ?? '') }}"
-                                                    alt="{{$space->title}}" class="img-fluid rounded">
+                                                    alt="{{$space->title}}" class="img-fluid rounded"
+                                                    style="width: 100px; height: 50px; object-fit: cover;">
                                             @else
                                                 <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
-                                                    alt="Default Space Image" class="img-fluid rounded">
+                                                    alt="Default Space Image" class="img-fluid rounded"
+                                                    style="width: 100px; height: 50px; object-fit: cover;">
                                             @endif
                                         </td>
                                         <td>
@@ -120,7 +122,8 @@
                                                                     class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                                 <h5>Are you sure you want to delete this space?</h5>
                                                                 <p class="text-muted mb-0">Space:
-                                                                    <strong>{{ $space->title }}</strong></p>
+                                                                    <strong>{{ $space->title }}</strong>
+                                                                </p>
                                                                 <p class="text-muted">This action cannot be undone.</p>
                                                             </div>
                                                         </div>
