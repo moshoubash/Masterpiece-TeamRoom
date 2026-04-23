@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Services\CreateNewActivity;
 use Dotenv\Validator;
 use Illuminate\Auth\Events\Validated;
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 
 class SpaceController extends Controller
 {
@@ -278,6 +279,8 @@ class SpaceController extends Controller
             'Space Created',
             "Space '{$space->title}' was created"
         ))->execute();
+
+        ToastMagic::success('Space created successfully');
 
         return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
     }

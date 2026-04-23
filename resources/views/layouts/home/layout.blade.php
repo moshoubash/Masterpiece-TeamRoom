@@ -29,6 +29,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+
+    {!! ToastMagic::styles() !!}
+
+    <style>
+        .toast-container {
+            z-index: 9999999 !important;
+            margin-top: 80px;
+        }
+    </style>
 </head>
 
 <body style="font-family: 'Inter', sans-serif; margin: 0 auto">
@@ -105,24 +114,24 @@
                             const notificationList = document.getElementById('notification-list');
                             if (notificationList) {
                                 const newNotificationHtml = `
-                                                <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100 bg-blue-50">
-                                                    <div class="flex justify-between items-start">
-                                                        <div class="flex items-start space-x-3">
-                                                            <div class="bg-blue-100 p-2 rounded-full text-blue-500">
-                                                                <i class="fa-solid fa-comment-dots"></i>
-                                                            </div>
-                                                            <div>
-                                                                <h4 class="font-medium text-gray-800">${e.notification.title}</h4>
-                                                                <p class="text-sm text-gray-600 mt-1">${e.notification.message}</p>
-                                                                <span class="text-xs text-gray-500 mt-1 block">
-                                                                    Just now
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                                    </div>
-                                                </div>
-                                            `;
+                                                                        <div class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100 bg-blue-50">
+                                                                            <div class="flex justify-between items-start">
+                                                                                <div class="flex items-start space-x-3">
+                                                                                    <div class="bg-blue-100 p-2 rounded-full text-blue-500">
+                                                                                        <i class="fa-solid fa-comment-dots"></i>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <h4 class="font-medium text-gray-800">${e.notification.title}</h4>
+                                                                                        <p class="text-sm text-gray-600 mt-1">${e.notification.message}</p>
+                                                                                        <span class="text-xs text-gray-500 mt-1 block">
+                                                                                            Just now
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    `;
                                 notificationList.insertAdjacentHTML('afterbegin', newNotificationHtml);
                             }
                         });
@@ -130,6 +139,8 @@
             });
         </script>
     @endauth
+
+    {!! ToastMagic::scripts() !!}
 </body>
 
 </html>

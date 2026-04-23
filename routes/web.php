@@ -26,7 +26,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
-    
+
     Route::get('/bookings', [BookingController::class, 'index']);
 
     Route::get('/messages', function () {
@@ -96,7 +96,7 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/dashboard/notifications/filter', [NotificationController::class, 'filter'])->name('notifications.filter');
     Route::post('/dashboard/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
     Route::delete('/dashboard/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
-    
+
     // Routes for activities
     Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
     Route::resource('/dashboard/activities', ActivityController::class);
@@ -139,18 +139,22 @@ Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('u
 Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
 Route::put('/user/passwordchangeing/{id}', [UserController::class, 'updatePasswordAdmin'])->name('user.password.change.admin')->middleware('auth', 'admin');
 
-Route::get('/contact', function () { return view('pages.contact'); });
+Route::get('/contact', function () {
+    return view('pages.contact'); });
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/about', function () { return view('pages.about'); });
-Route::get('/terms', function () { return view('pages.terms'); });
-Route::get('/privacy', function () { return view('pages.privacy'); });
+Route::get('/about', function () {
+    return view('pages.about'); });
+Route::get('/terms', function () {
+    return view('pages.terms'); });
+Route::get('/privacy', function () {
+    return view('pages.privacy'); });
 
 Route::get('/host/stats/{host}', [UserController::class, 'hostStats'])->name('host.stats')->middleware('auth', 'host');
 Route::post('/notifications/markAllAsRead/{user}', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead')->middleware('auth');
 
 Route::put('/booking/confirm/{booking}', [BookingController::class, 'approve'])->name('booking.confirm')->middleware('auth');
 Route::put('/booking/cancel/{booking}', [BookingController::class, 'reject'])->name('booking.cancel')->middleware('auth');
-Route::put('/booking/complete/{booking}', [BookingController::class,'complete'])->name('booking.complete')->middleware('auth', 'host');
+Route::put('/booking/complete/{booking}', [BookingController::class, 'complete'])->name('booking.complete')->middleware('auth', 'host');
 
 Route::post('/reviews/store/{booking}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
 
@@ -186,4 +190,4 @@ Route::fallback(function () {
     return view('pages.404');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
