@@ -380,30 +380,16 @@ class SpaceController extends Controller
 
         $space->save();
 
-        $availability = SpaceAvailability::where('space_id', $space->id)->where('day_of_week', now()->dayOfWeek)->first();
-        $hostSpaces = Space::where('host_id', $space->host_id)->get();
-        $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
-        $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
-        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
+        (new CreateNewActivity(
+            Auth::id(),
+            'space',
+            'Space Updated',
+            "Space '{$space->title}' was updated"
+        ))->execute();
 
-        // if space not available in this date and time
-        $isAvailableNow = false;
+        ToastMagic::success('Space updated successfully');
 
-        if ($space && !$space->is_deleted) {
-            $today = now()->format('l');
-            $currentTime = now()->format('H:i:s');
-
-            $availabilityToday = SpaceAvailability::where('space_id', $space->id)
-                ->where('day_of_week', $today)
-                ->where('is_available', true)
-                ->where('start_time', '<=', $currentTime)
-                ->where('end_time', '>=', $currentTime)
-                ->first();
-
-            $isAvailableNow = $availabilityToday ? true : false;
-        }
-
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability, 'isAvailableNow' => $isAvailableNow]);
+        return redirect()->route('rooms.details', ['room' => $space->slug]);
     }
 
     public function filter(Request $request)
