@@ -51,10 +51,10 @@ class PaymentController extends Controller
 
         $existingBooking = Booking::where('space_id', $space->id)
             ->where(function ($query) use ($requestedStart, $requestedEnd) {
-            $query->where(function ($q) use ($requestedStart, $requestedEnd) {
-                $q->where('start_datetime', '<', $requestedEnd)
-                  ->where('end_datetime', '>', $requestedStart);
-            });
+                $query->where(function ($q) use ($requestedStart, $requestedEnd) {
+                    $q->where('start_datetime', '<', $requestedEnd)
+                        ->where('end_datetime', '>', $requestedStart);
+                });
             })
             ->exists();
 
@@ -112,12 +112,13 @@ class PaymentController extends Controller
                 'service_fee' => $request->service_fee,
                 'status' => 'pending'
             ]);
-            
+
             $space = \App\Models\Space::find($request->space_id);
             $host = \App\Models\User::find($space->host->id);
+
             // Send email notification to host
             Mail::to($host->email)->send(new \App\Mail\NewBookingNotification($booking, $space, $host));
-            
+
             $transaction = Transaction::create([
                 'transaction_type' => 'payment',
                 'booking_id' => $booking->id,
@@ -136,7 +137,7 @@ class PaymentController extends Controller
                 'message' => 'New booking from ' . Auth::user()->first_name . ' ' . Auth::user()->last_name
             ]);
 
-            
+
             (new \App\Services\CreateNewActivity(
                 Auth::id(),
                 'booking',
@@ -163,7 +164,7 @@ class PaymentController extends Controller
         try {
             // Find related transaction
             $transaction = Transaction::where('booking_id', $booking->id)->first();
-            
+
             if (!$transaction) {
                 return back()->withErrors(['refund' => 'Transaction not found.']);
             }

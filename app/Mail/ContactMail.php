@@ -7,27 +7,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Booking;
-use App\Models\Space;
-use App\Models\User;
 
-class NewBookingNotification extends Mailable implements ShouldQueue
+class ContactMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $booking;
-    public $space;
-    public $host;
+    public $data;
+    public $date;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Booking $booking, Space $space, User $host)
+    public function __construct(array $data, string $date)
     {
-        $this->booking = $booking;
-        $this->space = $space;
-        $this->host = $host;
+        $this->data = $data;
+        $this->date = $date;
     }
 
     /**
@@ -36,7 +32,10 @@ class NewBookingNotification extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Booking Request for ' . $this->space->title,
+            subject: $this->data['subject'] ?? 'New Contact Inquiry',
+            replyTo: [
+                new Address($this->data['email'], $this->data['name']),
+            ],
         );
     }
 
@@ -46,7 +45,11 @@ class NewBookingNotification extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'pages.mail.booking-template',
+            view: 'Pages.Mail.template',
+            with: [
+                'data' => $this->data,
+                'date' => $this->date,
+            ],
         );
     }
 

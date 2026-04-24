@@ -19,11 +19,7 @@ class ContactController extends Controller
 
         $currentDate = Carbon::now()->toFormattedDateString();
 
-        Mail::send('Pages.Mail.template', ['data' => $validated, 'date' => $currentDate], function ($message) use ($validated) {
-            $message->to('mohammedshobash2002@gmail.com')
-                    ->subject($validated['subject'])
-                    ->replyTo($validated['email']);
-        });
+        Mail::to('mohammedshobash2002@gmail.com')->send(new \App\Mail\ContactMail($validated, $currentDate));
 
         return back()->with('success', 'Your message has been sent successfully!');
     }
