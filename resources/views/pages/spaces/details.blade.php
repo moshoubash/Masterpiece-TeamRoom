@@ -487,8 +487,8 @@
                         <input type="hidden" name="host_payout" id="host_payout">
 
                         <!-- Book Now Button -->
-                        <button type="submit" @if (Auth::check() && Auth::user()->roles->first()->name == 'host') disabled @endif
-                            class="cursor-pointer w-full bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
+                        <button type="submit" @if (!Auth::check() || Auth::user()->roles->first()->name == 'host') disabled @endif
+                            class="cursor-pointer w-full @if (!Auth::check() || Auth::user()->roles->first()->name == 'host') bg-gray-400 @else bg-blue-700 hover:bg-blue-800 @endif text-white font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
                             Book Now
                         </button>
                     </form>
