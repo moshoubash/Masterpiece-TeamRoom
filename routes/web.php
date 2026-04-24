@@ -140,14 +140,18 @@ Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword
 Route::put('/user/passwordchangeing/{id}', [UserController::class, 'updatePasswordAdmin'])->name('user.password.change.admin')->middleware('auth', 'admin');
 
 Route::get('/contact', function () {
-    return view('pages.contact'); });
+    return view('pages.contact');
+});
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::get('/about', function () {
-    return view('pages.about'); });
+    return view('pages.about');
+});
 Route::get('/terms', function () {
-    return view('pages.terms'); });
+    return view('pages.terms');
+});
 Route::get('/privacy', function () {
-    return view('pages.privacy'); });
+    return view('pages.privacy');
+});
 
 Route::get('/host/stats/{host}', [UserController::class, 'hostStats'])->name('host.stats')->middleware('auth', 'host');
 Route::post('/notifications/markAllAsRead/{user}', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead')->middleware('auth');
@@ -184,6 +188,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/add/{space}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{space}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'allNotifications'])->name('notifications.all');
+    Route::put('/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
+
 });
 
 Route::fallback(function () {

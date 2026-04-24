@@ -55,9 +55,10 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function markAsRead(Request $request)
+    public function markAsRead(Request $request, $id = null)
     {
-        $notification = Notification::find($request->id);
+        $notificationId = $id ?: $request->id;
+        $notification = Notification::findOrFail($notificationId);
         $notification->is_read = true;
         $notification->save();
 
@@ -95,5 +96,11 @@ class NotificationController extends Controller
         }
 
         return back();
+    }
+    public function allNotifications()
+    {
+        return view('pages.users.notifications', [
+            'notifications' => Notification::where('user_id', Auth::user()->id)->latest()->paginate(10),
+        ]);
     }
 }

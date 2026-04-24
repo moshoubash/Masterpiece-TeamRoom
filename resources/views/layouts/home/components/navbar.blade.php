@@ -104,6 +104,13 @@
                                     </div>
                                 @endif
                             </div>
+                            
+                            <!-- View All Footer -->
+                            <div class="px-4 py-2 border-t border-gray-100 text-center">
+                                <a href="{{ route('notifications.all') }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                                    View all notifications
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -144,6 +151,10 @@
                                 <a href="/wishlist" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                                     <i class="h-5 w-5 mr-2 fa-solid fa-list"></i>
                                     Wishlist
+                                </a>
+                                <a href="{{ route('notifications.all') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="h-5 w-5 mr-2 fa-solid fa-bell"></i>
+                                    Notifications
                                 </a>
                             @endif
 
@@ -261,6 +272,10 @@
                         <a href="/wishlist"
                             class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
                             Wishlist
+                        </a>
+                        <a href="{{ route('notifications.all') }}"
+                            class="block px-3 py-2.5 rounded-md text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200">
+                            Notifications
                         </a>
                     @endif
 
