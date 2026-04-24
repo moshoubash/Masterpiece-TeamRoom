@@ -112,29 +112,112 @@
             </div>
         @endif
 
-        <!-- Room Images Grid -->
-        <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="col-span-2 row-span-2">
-                @if ($space->images->isEmpty())
-                    <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg" alt="Place Holder image"
-                        class="w-full h-full object-cover rounded-lg">
-                @else
-                    <img src="{{ asset('storage/' . $space->images->first()->image_url) }}" alt="Executive Meeting Room"
-                        class="w-full h-full object-cover rounded-lg">
-                @endif
+        <!-- Room Images Gallery -->
+        @php
+            $galleryImages = $space->images->map(function($img) {
+                return asset('storage/' . $img->image_url);
+            });
+            if ($galleryImages->isEmpty()) {
+                $galleryImages = collect(['https://www.svgrepo.com/show/508699/landscape-placeholder.svg']);
+            }
+        @endphp
+
+        <div x-data="{ 
+            open: false, 
+            activeImage: 0, 
+            images: {{ $galleryImages->toJson() }},
+            next() {
+                this.activeImage = (this.activeImage + 1) % this.images.length;
+            },
+            prev() {
+                this.activeImage = (this.activeImage - 1 + this.images.length) % this.images.length;
+            }
+        }" class="mb-8">
+            <!-- Dynamic Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                @foreach ($galleryImages->take(4) as $index => $imageUrl)
+                    <div class="relative cursor-pointer group overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                         @click="open = true; activeImage = {{ $index }}">
+                        <img src="{{ $imageUrl }}" 
+                             alt="Room Image {{ $index + 1 }}"
+                             class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-110">
+                        
+                        <!-- Overlay for more images -->
+                        @if ($loop->index === 3 && $galleryImages->count() > 4)
+                            <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white transition-opacity duration-300">
+                                <span class="text-2xl font-bold">+{{ $galleryImages->count() - 4 }}</span>
+                                <span class="text-sm font-medium uppercase tracking-wider">More Photos</span>
+                            </div>
+                        @else
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                                <div class="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                                    <span class="bg-white/90 text-gray-900 px-4 py-2 rounded-full text-sm font-semibold shadow-lg">View Photo</span>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
             </div>
-            @foreach ($space->images as $image)
-                <div>
-                    @if ($image->image_url != null)
-                        <img src="{{ asset('storage/' . $image->image_url) }}" alt="Room Image"
-                            class="w-full h-full object-cover rounded-lg">
-                    @else
-                        <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg" alt="Room Image"
-                            class="w-full h-full object-cover rounded-lg">
-                    @endif
+
+            <!-- Slider / Lightbox Modal -->
+            <template x-teleport="body">
+                <div x-show="open" 
+                     class="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-10"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     @keydown.escape.window="open = false"
+                     @keydown.right.window="next()"
+                     @keydown.left.window="prev()"
+                     style="display: none;">
+                    
+                    <!-- Close Button -->
+                    <button @click="open = false" 
+                            class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 z-[110]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <!-- Navigation Controls -->
+                    <div class="absolute inset-y-0 left-4 md:left-10 flex items-center z-[110]">
+                        <button @click="prev()" 
+                                class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full backdrop-blur-md transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="absolute inset-y-0 right-4 md:right-10 flex items-center z-[110]">
+                        <button @click="next()" 
+                                class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full backdrop-blur-md transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Main Image Container -->
+                    <div class="relative w-full h-full flex flex-col items-center justify-center">
+                        <img :src="images[activeImage]" 
+                             class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl transition-all duration-300"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="scale-95 opacity-0"
+                             x-transition:enter-end="scale-100 opacity-100">
+                        
+                        <!-- Counter -->
+                        <div class="mt-6 text-white/80 font-medium">
+                            <span x-text="activeImage + 1"></span> / <span x-text="images.length"></span>
+                        </div>
+                    </div>
                 </div>
-            @endforeach
+            </template>
         </div>
+
 
         <div class="flex flex-wrap -mx-4">
             <!-- Left Column: Room Details -->

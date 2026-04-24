@@ -5,8 +5,8 @@ return [
         "closeButton" => true,
         "positionClass" => "toast-top-end",
         "preventDuplicates" => false,
-        "showDuration" => "1000",
-        "timeOut" => "5000",
+        "showDuration" => "100",
+        "timeOut" => "3000",
         "theme" => "material", // Available themes: default, material, ios, glassmorphism, neon, minimal, neumorphism
         "gradient_enable" => true, // Available for: default, material, ios, glassmorphism, neon themes
         "color_mode" => false // Color mode (true or false)
