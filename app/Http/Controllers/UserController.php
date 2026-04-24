@@ -70,7 +70,8 @@ class UserController extends Controller
         return view('dashboard.users.show', compact('user'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         return view('dashboard.users.edit', ['user' => User::findOrFail($id)]);
     }
 
@@ -90,7 +91,7 @@ class UserController extends Controller
             'company_name' => 'nullable|string|max:255',
         ]);
 
-        if($request->hasFile('profile_picture_url')){
+        if ($request->hasFile('profile_picture_url')) {
             $request->validate([
                 'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -127,13 +128,15 @@ class UserController extends Controller
         return back();
     }
 
-    public function adminSettings(){
+    public function adminSettings()
+    {
         return view('dashboard.settings.index', [
             'user' => Auth::user()
         ]);
     }
 
-    public function updateAdminSettings(Request $request, string $id){
+    public function updateAdminSettings(Request $request, string $id)
+    {
         $user = User::findOrFail($id);
 
         $request->validate([
@@ -142,7 +145,7 @@ class UserController extends Controller
             'phone_number' => 'nullable|string|max:15',
         ]);
 
-        if($request->hasFile('profile_picture_url')){
+        if ($request->hasFile('profile_picture_url')) {
             $request->validate([
                 'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -164,36 +167,37 @@ class UserController extends Controller
         return back()->with('success', 'Profile updated successfully.');
     }
 
-    public function profile(string $slug){
+    public function profile(string $slug)
+    {
         $user = User::where('slug', $slug)->first();
-        
-        if($user == null){
+
+        if ($user == null) {
             return view('pages.404');
         }
-        
+
         $role = strtoupper($user->roles()->first()->name);
-        
-        if($role == 'ADMIN' || $role == 'SUPERADMIN' || $user->is_deleted == true){
+
+        if ($role == 'ADMIN' || $role == 'SUPERADMIN' || $user->is_deleted == true) {
             return view('pages.404');
         }
-        
+
         $name = $user->first_name . ' ' . $user->last_name;
         $created_at = $user->created_at->format('M d, Y');
         $profile_image = $user->profile_picture_url;
-        
-        if($role == 'HOST'){
+
+        if ($role == 'HOST') {
             $spaces = Space::where('host_id', $user->id)->get();
-            
+
             $average_rating = 0;
             $total_reviews = 0;
-            if($spaces->count() > 0){
-                foreach($spaces as $space){
+            if ($spaces->count() > 0) {
+                foreach ($spaces as $space) {
                     $average_rating += $space->reviews()->avg('rating');
                     $total_reviews += $space->reviews()->count();
                 }
                 $average_rating = $average_rating / $spaces->count();
             }
-            
+
             return view('pages.users.profile', [
                 'user' => $user,
                 'role' => $role,
@@ -210,7 +214,7 @@ class UserController extends Controller
         $bookings = $user->bookingsAsRenter()->with('space')->get();
         $renterId = $bookings[0]->renter_id ?? $user->id;
         $userReviews = Review::where('reviewee_id', $renterId)->get();
-        
+
         return view('pages.users.profile', [
             'user' => $user,
             'role' => $role,
@@ -224,24 +228,26 @@ class UserController extends Controller
         ]);
     }
 
-    public function profileEdit(string $slug){
-        
+    public function profileEdit(string $slug)
+    {
+
         $user = User::where('slug', $slug)->first();
 
-        if($user == null){
+        if ($user == null) {
             return view('pages.404');
         }
 
-        if($user->is_deleted == true || $user->id != Auth::user()->id){
+        if ($user->is_deleted == true || $user->id != Auth::user()->id) {
             return view('pages.404');
         }
 
         return view('pages.users.edit', ['user' => $user]);
     }
 
-    public function updateProfile(Request $request, string $id){
+    public function updateProfile(Request $request, string $id)
+    {
         $user = User::findOrFail($id);
-        
+
         $request->validate([
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
@@ -252,7 +258,7 @@ class UserController extends Controller
             'company_name' => 'nullable|string|max:255',
         ]);
 
-        if($request->hasFile('profile_picture_url')){
+        if ($request->hasFile('profile_picture_url')) {
             $request->validate([
                 'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -263,7 +269,7 @@ class UserController extends Controller
             $image->move($destinationPath, $name);
             $user->profile_picture_url = '/images/profile-pictures/' . $name;
         }
-        
+
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -274,11 +280,12 @@ class UserController extends Controller
             'company_name' => $request->company_name,
             'updated_at' => now()
         ]);
-        
+
         return back()->with('message', 'user updated successfully.');
     }
 
-    public function updatePassword(Request $request, string $id){
+    public function updatePassword(Request $request, string $id)
+    {
         $user = User::where('id', $id)->first();
 
         $request->validate([
@@ -293,7 +300,8 @@ class UserController extends Controller
         return redirect('/login')->with('message', 'password updated successfully.');
     }
 
-    public function updatePasswordAdmin(Request $request, string $id){
+    public function updatePasswordAdmin(Request $request, string $id)
+    {
         $user = User::where('id', $id)->first();
 
         $request->validate([
@@ -306,9 +314,10 @@ class UserController extends Controller
         return back()->with('success', 'User password updated successfully.');
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $query = User::query();
-        
+
         $searchTerm = $request->input('query');
 
         $query->where(function ($q) use ($searchTerm) {
@@ -323,27 +332,29 @@ class UserController extends Controller
         return view('dashboard.users.index', ['users' => $users]);
     }
 
-    public function filter($option){
-        if($option == 'verified'){
+    public function filter($option)
+    {
+        if ($option == 'verified') {
             $users = User::where('is_verified', true)->paginate(10);
         }
 
-        if($option == 'unverified'){
+        if ($option == 'unverified') {
             $users = User::where('is_verified', false)->paginate(10);
         }
 
-        if($option == 'recent'){
+        if ($option == 'recent') {
             $users = User::orderBy('created_at', 'desc')->paginate(10);
         }
 
-        if($option == 'deleted'){
+        if ($option == 'deleted') {
             $users = User::where('is_deleted', true)->paginate(10);
         }
 
         return view('dashboard.users.index', ['users' => $users]);
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
         $user = User::findOrFail($id);
         $user->is_deleted = false;
         $user->save();
@@ -351,16 +362,17 @@ class UserController extends Controller
         return back()->with('message', 'user restored successfully.');
     }
 
-    public function hostStats(string $slug){
+    public function hostStats(string $slug)
+    {
         $host = User::where('slug', $slug)->first();
 
-        if($host == null){
+        if ($host == null) {
             return view('pages.404');
         }
 
         $totalBookings = 0;
         $hostRooms = $host->spaces()->count();
-        
+
         $totalHostBookings = 0;
 
         $hostTotalBookingsOnSpces = DB::table('spaces')
@@ -368,7 +380,7 @@ class UserController extends Controller
             ->where('spaces.host_id', $host->id)
             ->get();
 
-        foreach($hostTotalBookingsOnSpces as $booking){
+        foreach ($hostTotalBookingsOnSpces as $booking) {
             $totalHostBookings += 1;
         }
 
@@ -379,8 +391,8 @@ class UserController extends Controller
             ->where('spaces.host_id', $host->id)
             ->get();
 
-        foreach($hostProfitsOnSpces as $booking){
-            if($booking->status == 'completed'){
+        foreach ($hostProfitsOnSpces as $booking) {
+            if ($booking->status == 'completed') {
                 $hostProfits += $booking->host_payout;
             }
         }
@@ -393,7 +405,7 @@ class UserController extends Controller
             ->where('bookings.status', 'cancelled')
             ->get();
 
-        foreach($cancelledBookingsOnSpces as $booking){
+        foreach ($cancelledBookingsOnSpces as $booking) {
             $cancelledBookings += 1;
         }
 
@@ -403,6 +415,7 @@ class UserController extends Controller
             ->where('spaces.host_id', $host->id)
             ->where('bookings.status', 'pending')
             ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
+            ->orderBy('bookings.created_at', 'desc')
             ->get();
 
         $mostBookedSpaces = DB::table('bookings')
@@ -419,6 +432,7 @@ class UserController extends Controller
             ->join('users', 'bookings.renter_id', '=', 'users.id')
             ->where('spaces.host_id', $host->id)
             ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
+            ->orderBy('bookings.created_at', 'desc')
             ->paginate(6);
 
         return view('pages.users.host.stats', [
