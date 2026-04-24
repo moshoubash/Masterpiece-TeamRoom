@@ -14,9 +14,7 @@
     <link rel="icon" href="{{ asset('assets/dashboard/images/team-room-logo-dashboard.svg') }}" type="image/x-icon">
 
     <!-- Styles / Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    @vite('resources/js/app.js')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @yield('styles')
 
@@ -47,7 +45,7 @@
 
     @include('layouts.home.components.footer')
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
     @yield('scripts')
 
     <!-- Mobile Menu -->
