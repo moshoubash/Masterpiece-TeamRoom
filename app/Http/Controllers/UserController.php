@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
@@ -14,8 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Models\Review;
-
-use function PHPUnit\Framework\isEmpty;
+use App\Http\Requests\Profile\UpdateProfileRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -30,35 +32,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'bio' => 'nullable|string|max:500',
-            'phone_number' => 'nullable|string|max:15',
-            'profile_picture_url' => 'nullable|url|max:255',
-            'company_name' => 'nullable|string|max:255',
-            'is_verified' => 'boolean',
-        ]);
+        $validated = $request->validated();
+        $validated['created_at'] = now();
+        $validated['updated_at'] = now();
+        $validated['password'] = bcrypt($validated['password']);
+        $validated['is_verified'] = $validated['is_verified'] ?? false;
+        $validated['profile_picture_url'] = $validated['profile_picture_url'] ?? 'https://placehold.co/300x300';
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'bio' => $request->bio,
-            'phone_number' => $request->phone_number,
-            'profile_picture_url' => $request->profile_picture_url ?? 'https://placehold.co/300x300',
-            'company_name' => $request->company_name,
-            'is_verified' => $request->is_verified ?? false,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        User::create($validated);
 
-        return view('dashboard.users.index');
+        ToastMagic::success('User created successfully.');
+
+        return back();
     }
 
     /**
@@ -76,44 +63,27 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. (for admins)
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
-            'first_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
-            'bio' => 'nullable|string|max:500',
-            'phone_number' => 'nullable|string|max:15',
-            'company_name' => 'nullable|string|max:255',
-        ]);
+        $validated = $request->validated();
+        $validated['updated_at'] = now();
 
         if ($request->hasFile('profile_picture_url')) {
-            $request->validate([
-                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-
             $image = $request->file('profile_picture_url');
             $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/images/profile-pictures');
             $image->move($destinationPath, $name);
-            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+            $validated['profile_picture_url'] = '/images/profile-pictures/' . $name;
         }
 
-        $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number ?? null,
-            'bio' => $request->bio ?? null,
-            'company_name' => $request->company_name ?? null,
-            'updated_at' => now()
-        ]);
+        $user->update($validated);
 
-        return redirect()->back()->with('success', 'User updated successfully.');
+        ToastMagic::success('User updated successfully.');
+        return back();
     }
 
     /**
@@ -244,19 +214,13 @@ class UserController extends Controller
         return view('pages.users.edit', ['user' => $user]);
     }
 
-    public function updateProfile(Request $request, string $id)
+    public function updateProfile(UpdateProfileRequest $request, string $id)
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
-            'first_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'sometimes|string|min:8|confirmed|required',
-            'bio' => 'nullable|string|max:500',
-            'phone_number' => 'nullable|string|max:15',
-            'company_name' => 'nullable|string|max:255',
-        ]);
+        $data = $request->validated();
+
+        $data['updated_at'] = now();
 
         if ($request->hasFile('profile_picture_url')) {
             $request->validate([
@@ -267,19 +231,10 @@ class UserController extends Controller
             $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/images/profile-pictures');
             $image->move($destinationPath, $name);
-            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+            $data['profile_picture_url'] = '/images/profile-pictures/' . $name;
         }
 
-        $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'bio' => $request->bio,
-            'phone_number' => $request->phone_number,
-            'company_name' => $request->company_name,
-            'updated_at' => now()
-        ]);
+        $user->update($data);
 
         return back()->with('message', 'user updated successfully.');
     }

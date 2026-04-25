@@ -73,13 +73,17 @@
                         <h5 class="card-title mb-0">All companies</h5>
 
                         <div class="dropdown">
-                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                                id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-download me-1"></i> Export
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                                <li><a class="dropdown-item" href="{{ route('export.excel', ['table' => 'companies']) }}"><i class="fa-solid fa-file-excel me-2"></i>Excel</a></li>
-                                <li><a class="dropdown-item" href="{{ route('export.pdf', ['table' => 'companies']) }}"><i class="fa-solid fa-file-pdf me-2"></i>PDF</a></li>
-                                <li><a class="dropdown-item" href="{{ route('export.csv', ['table' => 'companies']) }}"><i class="fa-solid fa-file-csv me-2"></i>CSV</a></li>
+                                <li><a class="dropdown-item" href="{{ route('export.excel', ['table' => 'companies']) }}"><i
+                                            class="fa-solid fa-file-excel me-2"></i>Excel</a></li>
+                                <li><a class="dropdown-item" href="{{ route('export.pdf', ['table' => 'companies']) }}"><i
+                                            class="fa-solid fa-file-pdf me-2"></i>PDF</a></li>
+                                <li><a class="dropdown-item" href="{{ route('export.csv', ['table' => 'companies']) }}"><i
+                                            class="fa-solid fa-file-csv me-2"></i>CSV</a></li>
                             </ul>
                         </div>
                     </div>
@@ -88,8 +92,7 @@
                         <div class="col-lg-4 col-md-6">
                             <label for="search" class="form-label">Search</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-transparent"><i
-                                        class="fa-solid fa-search"></i></span>
+                                <span class="input-group-text bg-transparent"><i class="fa-solid fa-search"></i></span>
                                 <input type="text" name="search" class="form-control" id="search"
                                     placeholder="Search companies..." value="{{ request('search') }}">
                             </div>
@@ -98,16 +101,17 @@
                             <label for="sort" class="form-label">Sort</label>
                             <select class="form-select" id="sort" name="sort">
                                 <option value="">Select Sort</option>
-                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>From Oldest</option>
-                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>From Newest</option>
+                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>From Oldest
+                                </option>
+                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>From Newest
+                                </option>
                             </select>
                         </div>
                         <div class="col-4 text-end mt-5">
                             <button type="submit" class="btn btn-primary px-4">
                                 <i class="fa-solid fa-filter me-1"></i> Filter
                             </button>
-                            <a title="reset filters" href="/dashboard/companies"
-                                class="btn btn-outline-secondary">
+                            <a title="reset filters" href="/dashboard/companies" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-rotate me-1"></i> Reset
                             </a>
                         </div>
@@ -134,10 +138,9 @@
                                     <tr>
                                         <td class="fw-medium">{{ $company->id }}</td>
                                         <td class="text-center">
-                                            <img src="{{ asset('storage/' . $company->logo) }}"
+                                            <img src="{{ $company->logo ? asset('storage/' . $company->logo) : "https://placehold.co/50x50" }}"
                                                 alt="{{ $company->name }}" width="50" height="50"
-                                                class="rounded-circle border border-2 p-1"
-                                                style="object-fit: contain;">
+                                                class="rounded-circle border border-2 p-1 max-w-50 max-h-50 object-fit-contain">
                                         </td>
                                         <td>{{ $company->name }}</td>
                                         <td>{{ $company->phone }}</td>
@@ -158,18 +161,18 @@
                                                 class="btn btn-sm btn-primary">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <a href="{{ route('companies.show', $company->id) }}"
-                                                class="btn btn-sm btn-info">
+                                            <a href="{{ route('companies.show', $company->id) }}" class="btn btn-sm btn-info">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                             @if(!$company->is_deleted)
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $company->id }}">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $company->id }}">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
                                             @endif
                                             @if($company->is_deleted)
-                                                <form action="{{ route('companies.restore', $company->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('companies.restore', $company->id) }}" method="POST"
+                                                    class="d-inline">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-sm btn-success">
@@ -180,16 +183,15 @@
 
                                             {{-- Delete Modal --}}
 
-                                            <div class="modal fade"
-                                                id="deleteModal{{ $company->id }}" tabindex="-1"
-                                                aria-labelledby="deleteModalLabel{{ $company->id }}"
-                                                aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal{{ $company->id }}" tabindex="-1"
+                                                aria-labelledby="deleteModalLabel{{ $company->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="deleteModalLabel{{ $company->id }}">Delete Company</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title" id="deleteModalLabel{{ $company->id }}">
+                                                                Delete Company</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             Are you sure you want to delete
