@@ -16,6 +16,9 @@ use App\Services\CreateNewActivity;
 use Dotenv\Validator;
 use Illuminate\Auth\Events\Validated;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
+use App\Http\Requests\Space\StoreSpaceRequest;
+use App\Http\Requests\Space\UpdateSpaceRequest;
+use App\Services\SpaceService;
 
 class SpaceController extends Controller
 {
@@ -55,7 +58,6 @@ class SpaceController extends Controller
 
     public function deleteByHost($slug)
     {
-        dd($slug);
         $space = Space::where('slug', $slug)->first();
 
         if ($space == null) {
@@ -201,88 +203,48 @@ class SpaceController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreSpaceRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'street_address' => 'required|string|max:255',
-            'city' => 'required|string|max:100',
-            'postal_code' => 'required|string|max:20',
-            'country' => 'required|string|max:100',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'capacity' => 'required|integer|min:1',
-            'hourly_rate' => 'required|numeric|min:0',
-            'min_booking_duration' => 'required|integer|min:1',
-            'max_booking_duration' => 'required|integer|min:1',
-        ]);
+        try {
+            $validated = $request->validated();
+            $validated['host_id'] = Auth::id();
+            $validated['slug'] = Str::slug($request->title . '-' . time());
 
-        $space = Space::create([
-            'host_id' => Auth::id(),
-            'title' => $request->title,
-            'description' => $request->description,
-            'street_address' => $request->street_address,
-            'city' => $request->city,
-            'postal_code' => $request->postal_code,
-            'country' => $request->country,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'capacity' => $request->capacity,
-            'hourly_rate' => $request->hourly_rate,
-            'min_booking_duration' => $request->min_booking_duration,
-            'max_booking_duration' => $request->max_booking_duration,
-            'is_active' => true,
-            'is_deleted' => false,
-            'slug' => Str::slug($request->title . '-' . time()),
-        ]);
+            $space = Space::create($validated);
 
-        // Handle image uploads if exist
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('space_images', 'public');
+            $spaceService = new SpaceService();
 
-                SpaceImage::create([
-                    'space_id' => $space->id,
-                    'image_url' => $path,
-                    'caption' => $space->title
-                ]);
+            // Handle image uploads if exist
+            if ($request->hasFile('images')) {
+                $spaceService->storeSpaceImages($request->file('images'), $space->id);
             }
-        }
 
-        // Handle Amenities
-        if ($request->has('amenities')) {
-            $space->amenities()->attach($request->amenities);
-        }
-
-        // Handle Availabilities
-        if ($request->has('availability')) {
-            foreach ($request->availability as $day => $data) {
-                // Save only if checkbox is ticked
-                if (isset($data['is_available'])) {
-                    SpaceAvailability::create([
-                        'space_id' => $space->id,
-                        'day_of_week' => $day,
-                        'start_time' => $data['start_time'],
-                        'end_time' => $data['end_time'],
-                        'is_available' => true,
-                    ]);
-                }
+            // Handle Amenities
+            if ($request->has('amenities')) {
+                $spaceService->storeSpaceAmenities($request->amenities, $space->id);
             }
+
+            // Handle Availabilities
+            if ($request->has('availability')) {
+                $spaceService->storeSpaceAvailabilities($request->availability, $space->id);
+            }
+
+            $space->save();
+
+            (new CreateNewActivity(
+                Auth::id(),
+                'space',
+                'Space Created',
+                "Space '{$space->title}' was created"
+            ))->execute();
+
+            ToastMagic::success('Space created successfully');
+
+            return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
+        } catch (\Exception $e) {
+            ToastMagic::error('Space created failed: ' . $e->getMessage());
+            return back();
         }
-
-        $space->save();
-
-        (new CreateNewActivity(
-            Auth::id(),
-            'space',
-            'Space Created',
-            "Space '{$space->title}' was created"
-        ))->execute();
-
-        ToastMagic::success('Space created successfully');
-
-        return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
     }
 
     public function editSpace($slug)
@@ -297,99 +259,62 @@ class SpaceController extends Controller
         return view('pages.spaces.edit', compact('space', 'amenities'));
     }
 
-    public function updateSpace(Request $request, $slug)
+    public function updateSpace(UpdateSpaceRequest $request, $slug)
     {
-        $space = Space::where('slug', $slug)->first();
+        try {
+            $space = Space::where('slug', $slug)->first();
 
-        if ($space == null) {
-            return view('pages.404');
-        }
-        $space->update([
-            'host_id' => Auth::id(),
-            'title' => $request->title,
-            'description' => $request->description,
-            'street_address' => $request->street_address,
-            'city' => $request->city,
-            'postal_code' => $request->postal_code,
-            'country' => $request->country,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'capacity' => $request->capacity,
-            'hourly_rate' => $request->hourly_rate,
-            'min_booking_duration' => $request->min_booking_duration,
-            'max_booking_duration' => $request->max_booking_duration,
-            'is_active' => true,
-            'is_deleted' => false,
-            'slug' => Str::slug($request->title . '-' . time()),
-            'updated_at' => now()
-        ]);
-
-        // Handle image uploads if exist
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('space_images', 'public');
-
-                SpaceImage::create([
-                    'space_id' => $space->id,
-                    'image_url' => $path,
-                    'caption' => $space->title
-                ]);
-            }
-        }
-
-        // Handle deleted images
-        if ($request->has('deleted_images')) {
-            foreach ($request->deleted_images as $imageId) {
-                $image = SpaceImage::find($imageId);
-                if ($image) {
-                    Storage::delete($image->image_url); // delete from disk
-                    $image->delete();
-                }
-            }
-        }
-
-        // Handle Amenities
-        if ($request->has('amenities')) {
-            if ($space->amenities()->count() > 0) {
-                $space->amenities()->detach();
-            }
-            $space->amenities()->attach($request->amenities);
-        }
-
-        // Handle Availabilities
-        if ($request->has('availability')) {
-            if ($space->availability()->count() > 0) {
-                $spaceAvailabilities = SpaceAvailability::where('space_id', $space->id)->get();
-                foreach ($spaceAvailabilities as $spaceAvailability) {
-                    $spaceAvailability->delete();
-                }
+            if ($space == null) {
+                return view('pages.404');
             }
 
-            foreach ($request->availability as $day => $data) {
-                if (isset($data['is_available'])) {
-                    SpaceAvailability::create([
-                        'space_id' => $space->id,
-                        'day_of_week' => $day,
-                        'start_time' => $data['start_time'],
-                        'end_time' => $data['end_time'],
-                        'is_available' => true,
-                    ]);
-                }
+            $validated = $request->validated();
+            $validated['host_id'] = Auth::id();
+            $validated['slug'] = Str::slug($request->title . '-' . time());
+            $validated['is_active'] = true;
+            $validated['is_deleted'] = false;
+            $validated['updated_at'] = now();
+
+            $space->update($validated);
+
+            $spaceService = new SpaceService();
+
+            // Handle image uploads if exist
+            if ($request->hasFile('images')) {
+                $spaceService->storeSpaceImages($request->file('images'), $space->id);
             }
+
+            // Handle deleted images
+            if ($request->has('deleted_images')) {
+                $spaceService->deleteSpaceImages($request->deleted_images, $space->id);
+            }
+
+            // Handle Amenities
+            if ($request->has('amenities')) {
+                $spaceService->storeSpaceAmenities($request->amenities, $space->id);
+            }
+
+            // Handle Availabilities
+            if ($request->has('availability')) {
+                $spaceService->storeSpaceAvailabilities($request->availability, $space->id);
+            }
+
+            $space->save();
+
+            (new CreateNewActivity(
+                Auth::id(),
+                'space',
+                'Space Updated',
+                "Space '{$space->title}' was updated"
+            ))->execute();
+
+            ToastMagic::success('Space updated successfully');
+
+            return redirect()->route('rooms.details', ['room' => $space->slug]);
+        } catch (\Exception $e) {
+            ToastMagic::error('Space updated failed: ' . $e->getMessage());
+            return back();
         }
-
-        $space->save();
-
-        (new CreateNewActivity(
-            Auth::id(),
-            'space',
-            'Space Updated',
-            "Space '{$space->title}' was updated"
-        ))->execute();
-
-        ToastMagic::success('Space updated successfully');
-
-        return redirect()->route('rooms.details', ['room' => $space->slug]);
     }
 
     public function filter(Request $request)
