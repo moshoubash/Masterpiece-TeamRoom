@@ -8,7 +8,9 @@ use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-
+use App\Http\Requests\Booking\StoreBookingRequest;
+use App\Http\Requests\Booking\UpdateBookingRequest;
+use App\Services\BookingService;
 class BookingController extends Controller
 {
     /**
@@ -45,10 +47,10 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateBookingRequest $request, string $id)
     {
         $booking = Booking::find($id);
-        $booking->update($request->all());
+        $booking->update($request->validated());
 
         return redirect()->back()->with('success', 'Booking updated successfully');
     }
@@ -69,30 +71,9 @@ class BookingController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function store(StoreBookingRequest $request, BookingService $bookingService)
     {
-        $start_time = $request->start_time;
-        $end_time = $request->end_time;
-        $date = $request->date;
-
-        $start_datetime = date('Y-m-d H:i:s', strtotime("$date $start_time"));
-        $end_datetime = date('Y-m-d H:i:s', strtotime("$date $end_time"));
-
-        $request->merge([
-            'start_datetime' => $start_datetime,
-            'end_datetime' => $end_datetime,
-        ]);
-
-        $booking = Booking::create([
-            'space_id' => $request->space_id,
-            'renter_id' => Auth::user()->id,
-            'start_datetime' => $start_datetime,
-            'end_datetime' => $end_datetime,
-            'num_attendees' => $request->num_attendees,
-            'total_price' => $request->total_price,
-            'service_fee' => $request->service_fee,
-            'host_payout' => $request->host_payout
-        ]);
+        $bookingService->createBooking($request->validated());
 
         return redirect()->back();
     }
@@ -130,43 +111,36 @@ class BookingController extends Controller
         return view('dashboard.booking.index', compact('bookings'));
     }
 
-    public function approve($id)
+    public function approve($id, BookingService $bookingService)
     {
         $booking = Booking::find($id);
-        $booking->status = 'confirmed';
-        $booking->save();
-
-        Notification::create([
-            'user_id' => $booking->renter_id,
-            'title' => 'Your booking has been confirmed',
-            'notification_type' => 'Booking',
-            'message' => 'Your booking has been confirmed on ' . $booking->start_datetime
-        ]);
+        $bookingService->updateBookingStatus(
+            $booking, 
+            'confirmed', 
+            'Your booking has been confirmed', 
+            'Your booking has been confirmed'
+        );
 
         return redirect()->back();
     }
 
-    public function reject($id)
+    public function reject($id, BookingService $bookingService)
     {
         $booking = Booking::find($id);
-        $booking->status = 'cancelled';
-        $booking->save();
-
-        Notification::create([
-            'user_id' => $booking->renter_id,
-            'title' => 'Your booking has been rejected',
-            'notification_type' => 'Booking',
-            'message' => 'Your booking has been rejected on ' . $booking->start_datetime
-        ]);
+        $bookingService->updateBookingStatus(
+            $booking, 
+            'cancelled', 
+            'Your booking has been rejected', 
+            'Your booking has been rejected'
+        );
 
         return redirect()->back();
     }
 
-    public function complete($id)
+    public function complete($id, BookingService $bookingService)
     {
         $booking = Booking::find($id);
-        $booking->status = 'completed';
-        $booking->save();
+        $bookingService->updateBookingStatus($booking, 'completed', '', '');
         return back()->with('success', 'Booking completed successfully');
     }
 }
