@@ -3,20 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
-use Stripe\Refund;
-use Stripe\Exception\ApiErrorException;
 use Carbon\Carbon;
 use App\Models\Space;
 use App\Models\Booking;
-use App\Models\Transaction;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Notification;
 use App\Models\SpaceAvailability;
+use App\Http\Requests\Payment\ProcessPaymentRequest;
+use App\Http\Requests\Payment\RefundPaymentRequest;
+use App\Services\PaymentService;
 
 class PaymentController extends Controller
 {
@@ -77,75 +70,19 @@ class PaymentController extends Controller
         return view('pages.payment.checkout', compact('request'));
     }
 
-    public function process(Request $request)
+    public function process(ProcessPaymentRequest $request, PaymentService $paymentService)
     {
         try {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            $result = $paymentService->processPayment($request->validated());
 
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => intval($request->total_price * 100),
-                'currency' => 'usd',
-                'payment_method' => $request->payment_method_id,
-                'automatic_payment_methods' => [
-                    'enabled' => true,
-                    'allow_redirects' => 'never',
-                ],
-                'confirm' => true
-            ]);
-
-            if ($paymentIntent->status === 'requires_action' && $paymentIntent->next_action->type === 'use_stripe_sdk') {
+            if (isset($result['requires_action']) && $result['requires_action']) {
                 return response()->json([
                     'requires_action' => true,
-                    'payment_intent_client_secret' => $paymentIntent->client_secret
+                    'payment_intent_client_secret' => $result['payment_intent_client_secret']
                 ]);
             }
 
-            $booking = Booking::create([
-                'renter_id' => Auth::user()->id,
-                'space_id' => $request->space_id,
-                'date' => $request->date,
-                'start_datetime' => $request->start_datetime,
-                'end_datetime' => $request->end_datetime,
-                'num_attendees' => $request->num_attendees,
-                'total_price' => $request->total_price,
-                'host_payout' => $request->host_payout,
-                'service_fee' => $request->service_fee,
-                'status' => 'pending'
-            ]);
-
-            $space = \App\Models\Space::find($request->space_id);
-            $host = \App\Models\User::find($space->host->id);
-
-            // Send email notification to host
-            Mail::to($host->email)->send(new \App\Mail\NewBookingNotification($booking, $space, $host));
-
-            $transaction = Transaction::create([
-                'transaction_type' => 'payment',
-                'booking_id' => $booking->id,
-                'amount' => $request->total_price,
-                'payment_method' => 'stripe',
-                'status' => 'completed',
-                'payment_intent_id' => $paymentIntent->id
-            ]);
-
-            $space = Space::find($request->space_id);
-
-            Notification::create([
-                'notification_type' => 'booking',
-                'user_id' => $space->host_id,
-                'title' => 'New Booking',
-                'message' => 'New booking from ' . Auth::user()->first_name . ' ' . Auth::user()->last_name
-            ]);
-
-
-            (new \App\Services\CreateNewActivity(
-                Auth::id(),
-                'booking',
-                'Booking Created',
-                "Booking for '{$booking->space->title}' was created from {$booking->start_date} to {$booking->end_date}"
-            ))->execute();
-
-            return redirect()->route('bookings.confirmation', $booking->id);
+            return redirect()->route('bookings.confirmation', $result['booking']->id);
         } catch (\Stripe\Exception\CardException $e) {
             return back()->withErrors(['card' => $e->getMessage()]);
         } catch (\Exception $e) {
@@ -159,45 +96,10 @@ class PaymentController extends Controller
         return view('pages.payment.confirmation', compact('booking'));
     }
 
-    public function refund(Request $request, Booking $booking)
+    public function refund(RefundPaymentRequest $request, Booking $booking, PaymentService $paymentService)
     {
         try {
-            // Find related transaction
-            $transaction = Transaction::where('booking_id', $booking->id)->first();
-
-            if (!$transaction) {
-                return back()->withErrors(['refund' => 'Transaction not found.']);
-            }
-
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-            // Find the payment intent ID
-            $paymentIntentId = $transaction->payment_intent_id;
-
-            $refund = \Stripe\Refund::create([
-                'payment_intent' => $paymentIntentId,
-            ]);
-
-            $booking->status = 'cancelled';
-            $booking->cancellation_reason = $request->input('cancellation_reason');
-            $booking->cancelled_by = $request->input('cancelled_by');
-            $booking->save();
-
-            Transaction::create([
-                'transaction_type' => 'refund',
-                'booking_id' => $booking->id,
-                'amount' => $transaction->amount,
-                'payment_method' => 'stripe',
-                'status' => 'failed',
-                'payment_intent_id' => $transaction->payment_intent_id
-            ]);
-
-            Notification::create([
-                'notification_type' => 'refund',
-                'user_id' => $booking->renter_id,
-                'title' => 'Refund',
-                'message' => 'Your refund request has been processed.'
-            ]);
+            $paymentService->refundPayment($booking, $request->validated());
 
             return back()->with('success', 'Refund successful.');
         } catch (\Exception $e) {
