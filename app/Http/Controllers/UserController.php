@@ -236,7 +236,9 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return back()->with('message', 'user updated successfully.');
+        ToastMagic::success('User updated successfully.');
+
+        return back();
     }
 
     public function updatePassword(Request $request, string $id)
