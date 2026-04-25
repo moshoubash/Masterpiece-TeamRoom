@@ -18,7 +18,9 @@ use App\Models\Review;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-
+use App\Services\UserService;
+use App\Http\Requests\User\UpdateAdminSettingsRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 class UserController extends Controller
 {
     /**
@@ -65,7 +67,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage. (for admins)
      */
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(UpdateUserRequest $request, string $id, UserService $userService)
     {
         $user = User::findOrFail($id);
 
@@ -73,11 +75,7 @@ class UserController extends Controller
         $validated['updated_at'] = now();
 
         if ($request->hasFile('profile_picture_url')) {
-            $image = $request->file('profile_picture_url');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/profile-pictures');
-            $image->move($destinationPath, $name);
-            $validated['profile_picture_url'] = '/images/profile-pictures/' . $name;
+            $validated['profile_picture_url'] = $userService->uploadProfilePicture($request->file('profile_picture_url'));
         }
 
         $user->update($validated);
@@ -105,32 +103,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateAdminSettings(Request $request, string $id)
+    public function updateAdminSettings(UpdateAdminSettingsRequest $request, string $id, UserService $userService)
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone_number' => 'nullable|string|max:15',
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('profile_picture_url')) {
-            $request->validate([
-                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-
-            $image = $request->file('profile_picture_url');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/profile-pictures');
-            $image->move($destinationPath, $name);
-            $user->profile_picture_url = '/images/profile-pictures/' . $name;
+            $user->profile_picture_url = $userService->uploadProfilePicture($request->file('profile_picture_url'));
         }
 
         $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone_number' => $request->phone_number,
+            'first_name' => $validated['first_name'] ?? $user->first_name,
+            'last_name' => $validated['last_name'] ?? $user->last_name,
+            'phone_number' => $validated['phone_number'] ?? $user->phone_number,
             'updated_at' => now()
         ]);
 
@@ -214,7 +200,7 @@ class UserController extends Controller
         return view('pages.users.edit', ['user' => $user]);
     }
 
-    public function updateProfile(UpdateProfileRequest $request, string $id)
+    public function updateProfile(UpdateProfileRequest $request, string $id, UserService $userService)
     {
         $user = User::findOrFail($id);
 
@@ -223,15 +209,7 @@ class UserController extends Controller
         $data['updated_at'] = now();
 
         if ($request->hasFile('profile_picture_url')) {
-            $request->validate([
-                'profile_picture_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
-
-            $image = $request->file('profile_picture_url');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/profile-pictures');
-            $image->move($destinationPath, $name);
-            $data['profile_picture_url'] = '/images/profile-pictures/' . $name;
+            $data['profile_picture_url'] = $userService->uploadProfilePicture($request->file('profile_picture_url'));
         }
 
         $user->update($data);
@@ -241,13 +219,9 @@ class UserController extends Controller
         return back();
     }
 
-    public function updatePassword(Request $request, string $id)
+    public function updatePassword(UpdatePasswordRequest $request, string $id)
     {
         $user = User::where('id', $id)->first();
-
-        $request->validate([
-            'password' => 'required|string|min:8|confirmed',
-        ]);
 
         $user->password = Hash::make($request->password);
         $user->save();
@@ -257,13 +231,9 @@ class UserController extends Controller
         return redirect('/login')->with('message', 'password updated successfully.');
     }
 
-    public function updatePasswordAdmin(Request $request, string $id)
+    public function updatePasswordAdmin(UpdatePasswordRequest $request, string $id)
     {
         $user = User::where('id', $id)->first();
-
-        $request->validate([
-            'password' => 'required|string|min:8|confirmed',
-        ]);
 
         $user->password = Hash::make($request->password);
         $user->save();
@@ -319,7 +289,7 @@ class UserController extends Controller
         return back()->with('message', 'user restored successfully.');
     }
 
-    public function hostStats(string $slug)
+    public function hostStats(string $slug, UserService $userService)
     {
         $host = User::where('slug', $slug)->first();
 
@@ -327,81 +297,18 @@ class UserController extends Controller
             return view('pages.404');
         }
 
-        $totalBookings = 0;
-        $hostRooms = $host->spaces()->count();
-
-        $totalHostBookings = 0;
-
-        $hostTotalBookingsOnSpces = DB::table('spaces')
-            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
-            ->where('spaces.host_id', $host->id)
-            ->get();
-
-        foreach ($hostTotalBookingsOnSpces as $booking) {
-            $totalHostBookings += 1;
-        }
-
-        $hostProfits = 0;
-
-        $hostProfitsOnSpces = DB::table('spaces')
-            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
-            ->where('spaces.host_id', $host->id)
-            ->get();
-
-        foreach ($hostProfitsOnSpces as $booking) {
-            if ($booking->status == 'completed') {
-                $hostProfits += $booking->host_payout;
-            }
-        }
-
-        $cancelledBookings = 0;
-
-        $cancelledBookingsOnSpces = DB::table('spaces')
-            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
-            ->where('spaces.host_id', $host->id)
-            ->where('bookings.status', 'cancelled')
-            ->get();
-
-        foreach ($cancelledBookingsOnSpces as $booking) {
-            $cancelledBookings += 1;
-        }
-
-        $pendingBookingsOnSpces = DB::table('spaces')
-            ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
-            ->join('users', 'bookings.renter_id', '=', 'users.id')
-            ->where('spaces.host_id', $host->id)
-            ->where('bookings.status', 'pending')
-            ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
-            ->orderBy('bookings.created_at', 'desc')
-            ->get();
-
-        $mostBookedSpaces = DB::table('bookings')
-            ->join('spaces', 'bookings.space_id', '=', 'spaces.id')
-            ->where('spaces.host_id', Auth::id())
-            ->select('spaces.id', 'spaces.title', DB::raw('COUNT(bookings.id) as bookings_count'))
-            ->groupBy('spaces.id', 'spaces.title')
-            ->orderByDesc('bookings_count')
-            ->take(3)
-            ->get();
-
-        $recentBookings = DB::table('bookings')
-            ->join('spaces', 'bookings.space_id', '=', 'spaces.id')
-            ->join('users', 'bookings.renter_id', '=', 'users.id')
-            ->where('spaces.host_id', $host->id)
-            ->select('bookings.id as booking_id', 'spaces.*', 'bookings.*', 'users.*')
-            ->orderBy('bookings.created_at', 'desc')
-            ->paginate(6);
+        $stats = $userService->getHostStats($host);
 
         return view('pages.users.host.stats', [
             'host' => $host,
-            'totalBookings' => $totalBookings,
-            'hostRooms' => $hostRooms,
-            'totalHostBookings' => $totalHostBookings,
-            'hostProfits' => $hostProfits,
-            'cancelledBookings' => $cancelledBookings,
-            'pendingBookingsOnSpces' => $pendingBookingsOnSpces,
-            'mostBookedSpaces' => $mostBookedSpaces,
-            'recentBookings' => $recentBookings
+            'totalBookings' => $stats['totalBookings'],
+            'hostRooms' => $stats['hostRooms'],
+            'totalHostBookings' => $stats['totalHostBookings'],
+            'hostProfits' => $stats['hostProfits'],
+            'cancelledBookings' => $stats['cancelledBookings'],
+            'pendingBookingsOnSpces' => $stats['pendingBookingsOnSpces'],
+            'mostBookedSpaces' => $stats['mostBookedSpaces'],
+            'recentBookings' => $stats['recentBookings']
         ]);
     }
 }
