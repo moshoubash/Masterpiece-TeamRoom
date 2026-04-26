@@ -2,13 +2,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Space extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'host_id', 'title', 'description', 'street_address', 'city',
         'postal_code', 'country', 'latitude', 'longitude', 'capacity',
-        'hourly_rate', 'min_booking_duration', 'max_booking_duration', 'is_active', 'is_deleted', 'slug'
+        'hourly_rate', 'min_booking_duration', 'max_booking_duration', 'is_active', 'slug'
     ];
 
     public function host()
@@ -130,9 +133,7 @@ class Space extends Model
      */
     public function getIsAvailableNowAttribute(): bool
     {
-        if ($this->is_deleted) {
-            return false;
-        }
+
 
         $today = now()->format('l');
         $currentTime = now()->format('H:i:s');

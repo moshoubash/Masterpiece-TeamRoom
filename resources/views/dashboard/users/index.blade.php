@@ -135,7 +135,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            @if ($user->is_deleted)
+                                            @if ($user->trashed())
                                                 <span class="badge bg-danger">Deleted</span>
                                             @else
                                                 <span class="badge bg-success">Active</span>
@@ -152,7 +152,7 @@
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}" data-bs-toggle="tooltip" title="Delete User">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
-                                                @if ($user->is_deleted == true)
+                                                @if ($user->trashed())
                                                     <form action="{{ route('user.restore', $user->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')

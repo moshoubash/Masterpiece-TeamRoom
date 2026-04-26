@@ -99,7 +99,7 @@
                                             alt="Executive Meeting Room" class="w-full h-48 object-cover">
                                     @endif
                                     {{-- Show deleted flag if space is deleted --}}
-                                    @if ($space->is_deleted)
+                                    @if ($space->trashed())
                                         <div class="absolute top-3 left-3">
                                             <span
                                                 class="bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded shadow">

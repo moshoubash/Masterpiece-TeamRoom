@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::job(new CleanDebugbarLogs)->everyFiveMinutes();
+Schedule::command('app:cleanup-soft-deleted')->daily();

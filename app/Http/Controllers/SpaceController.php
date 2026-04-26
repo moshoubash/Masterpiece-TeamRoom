@@ -50,8 +50,7 @@ class SpaceController extends Controller
     public function destroy(string $id)
     {
         $space = Space::findOrFail($id);
-        $space->is_deleted = true;
-        $space->save();
+        $space->delete();
 
         return back();
     }
@@ -64,8 +63,7 @@ class SpaceController extends Controller
             return view('pages.404');
         }
 
-        $space->is_deleted = true;
-        $space->save();
+        $space->delete();
 
         return back();
     }
@@ -183,7 +181,6 @@ class SpaceController extends Controller
             $validated['host_id'] = Auth::id();
             $validated['slug'] = Str::slug($request->title . '-' . time());
             $validated['is_active'] = true;
-            $validated['is_deleted'] = false;
             $validated['updated_at'] = now();
 
             $space->update($validated);

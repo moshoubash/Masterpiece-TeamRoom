@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +21,7 @@ class User extends Authenticatable
     
     protected $fillable = [
         'email', 'password', 'first_name', 'last_name', 'phone_number',
-        'profile_picture_url', 'bio', 'company_name', 'is_verified', 'is_deleted', 'slug', 'company_id'
+        'profile_picture_url', 'bio', 'company_name', 'is_verified', 'slug', 'company_id'
     ];
 
     /**

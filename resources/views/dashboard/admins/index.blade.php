@@ -111,7 +111,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            @if ($user->is_deleted)
+                                            @if ($user->trashed())
                                                 <span class="badge bg-danger">Deleted</span>
                                             @else
                                                 <span class="badge bg-success">Active</span>
@@ -142,7 +142,7 @@
                                                     <i class="fa-solid fa-exchange"></i>
                                                 </button>
 
-                                                @if ($user->is_deleted == true)
+                                                @if ($user->trashed())
                                                     <form action="{{ route('user.restore', $user->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')

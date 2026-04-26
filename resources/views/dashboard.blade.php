@@ -152,7 +152,7 @@
                                         <td class="text-end fw-medium">${{ number_format($space->hourly_rate, 2) }}</td>
                                         <td class="text-center">{{ $space->min_booking_duration }} hrs</td>
                                         <td class="text-center">
-                                            @if ($space->is_deleted)
+                                            @if ($space->trashed())
                                                 <span class="badge bg-danger">Deleted</span>
                                             @elseif($space->is_active)
                                                 <span class="badge bg-success">Active</span>

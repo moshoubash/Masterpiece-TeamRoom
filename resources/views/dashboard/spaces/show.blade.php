@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                         <td>Is Deleted</td>
-                        <td>{!! $space->is_deleted ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                        <td>{!! $space->trashed() ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
                     </tr>
                 </tbody>
             </table>

@@ -90,8 +90,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
-        $user->is_deleted = true;
-        $user->save();
+        $user->delete();
 
         return back();
     }
@@ -133,7 +132,7 @@ class UserController extends Controller
 
         $role = strtoupper($user->roles()->first()->name);
 
-        if ($role == 'ADMIN' || $role == 'SUPERADMIN' || $user->is_deleted == true) {
+        if ($role == 'ADMIN' || $role == 'SUPERADMIN') {
             return view('pages.404');
         }
 
@@ -193,7 +192,7 @@ class UserController extends Controller
             return view('pages.404');
         }
 
-        if ($user->is_deleted == true || $user->id != Auth::user()->id) {
+        if ($user->id != Auth::user()->id) {
             return view('pages.404');
         }
 
@@ -274,7 +273,7 @@ class UserController extends Controller
         }
 
         if ($option == 'deleted') {
-            $users = User::where('is_deleted', true)->paginate(10);
+            $users = User::onlyTrashed()->paginate(10);
         }
 
         return view('dashboard.users.index', ['users' => $users]);
@@ -282,9 +281,8 @@ class UserController extends Controller
 
     public function restore($id)
     {
-        $user = User::findOrFail($id);
-        $user->is_deleted = false;
-        $user->save();
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
 
         return back()->with('message', 'user restored successfully.');
     }

@@ -26,23 +26,25 @@ class SpaceObserver
      */
     public function updated(Space $space): void
     {
-        // Check if it was "deleted" (custom flag)
-        if ($space->isDirty('is_deleted') && $space->is_deleted) {
-            (new CreateNewActivity(
-                Auth::id() ?? $space->host_id,
-                'space',
-                'Space Deleted',
-                "Space '{$space->title}' was deleted"
-            ))->execute();
-            return;
-        }
-
         // Standard update
         (new CreateNewActivity(
             Auth::id() ?? $space->host_id,
             'space',
             'Space Updated',
             "Space '{$space->title}' was updated"
+        ))->execute();
+    }
+
+    /**
+     * Handle the Space "deleted" event.
+     */
+    public function deleted(Space $space): void
+    {
+        (new CreateNewActivity(
+            Auth::id() ?? $space->host_id,
+            'space',
+            'Space Deleted',
+            "Space '{$space->title}' was deleted"
         ))->execute();
     }
 }
