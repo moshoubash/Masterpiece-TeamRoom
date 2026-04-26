@@ -146,9 +146,10 @@ Route::middleware('auth')->group(function () {
                 'bookings' => BookingController::class,
                 'reviews' => ReviewController::class,
                 'transactions' => TransactionController::class,
-                'activities' => ActivityController::class,
                 'companies' => CompanyController::class,
             ]);
+
+            Route::get('activities', [ActivityController::class, 'index'])->name('activity.all');
 
             // User Management
             Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
