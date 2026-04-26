@@ -67,86 +67,15 @@ class SpaceController extends Controller
         $space->is_deleted = true;
         $space->save();
 
-        (new CreateNewActivity(
-            Auth::id(),
-            'space',
-            'Space Deleted',
-            "Space '{$space->title}' was deleted"
-        ))->execute();
-
         return back();
     }
 
     public function explore(Request $request)
     {
-        $spaces = Space::with(['images', 'host']);
-
-        if ($request->filled('sort')) {
-            switch ($request->sort) {
-                case 'price_asc':
-                    $spaces->orderBy('hourly_rate', 'asc');
-                    break;
-                case 'price_desc':
-                    $spaces->orderBy('hourly_rate', 'desc');
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if ($request->filled('search')) {
-            $spaces->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhere('city', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        // Capacity filter
-        if ($request->filled('capacity')) {
-            $spaces->where('capacity', '>=', $request->capacity);
-        }
-
-        // Date filter
-        if ($request->filled('date')) {
-            $selectedDay = Carbon::parse($request->date)->format('l');
-
-            $spaces->whereHas('availability', function ($q) use ($selectedDay) {
-                $q->where('day_of_week', $selectedDay);
-            });
-        }
-
-        // Time Range filter
-        if ($request->filled('start_time') && $request->filled('end_time')) {
-            $spaces->whereHas('availability', function ($query) use ($request) {
-                $query->where('start_time', '<=', $request->start_time)
-                    ->where('end_time', '>=', $request->end_time);
-            });
-        }
-
-        // Amenities filter (assuming pivot table or JSON column)
-        if ($request->filled('amenities')) {
-            foreach ($request->amenities as $amenityId) {
-                $spaces->whereHas('amenities', function ($q) use ($amenityId) {
-                    $q->where('id', $amenityId);
-                });
-            }
-        }
-
-        // Location filter
-        if ($request->filled('location')) {
-            $spaces->where('city', $request->location);
-        }
-
-        // Price Range filter
-        if ($request->filled('min_price')) {
-            $spaces->where('hourly_rate', '>=', $request->min_price);
-        }
-        if ($request->filled('max_price')) {
-            $spaces->where('hourly_rate', '<=', $request->max_price);
-        }
-
-        // Paginate and pass to view
-        $spaces = $spaces->paginate(10)->appends($request->query());
+        $spaces = Space::with(['images', 'host'])
+            ->filter($request->all())
+            ->paginate(10)
+            ->appends($request->query());
 
         // Assuming $amenities for sidebar
         $amenities = Amenity::all();
@@ -162,31 +91,20 @@ class SpaceController extends Controller
 
     public function roomDetails(string $slug)
     {
-        $space = Space::with('images')->where('slug', $slug)->first();
-        $availability = SpaceAvailability::where('space_id', $space->id)->where('day_of_week', now()->dayOfWeek)->first();
+        $space = Space::with('images')->where('slug', $slug)->firstOrFail();
+        $availability = $space->availability()->where('day_of_week', now()->dayOfWeek)->first();
         $hostSpaces = Space::where('host_id', $space->host_id)->get();
-        $avgReview = Review::where('space_id', $space->id)->avg('rating') ?? 0.0;
-        $reviewsCount = Review::where('space_id', $space->id)->count() ?? 0;
-        $space_availability = SpaceAvailability::where('space_id', $space->id)->get();
+        $space_availability = $space->availability;
 
-        // if space not available in this date and time
-        $isAvailableNow = false;
-
-        if ($space && !$space->is_deleted) {
-            $today = now()->format('l');
-            $currentTime = now()->format('H:i:s');
-
-            $availabilityToday = SpaceAvailability::where('space_id', $space->id)
-                ->where('day_of_week', $today)
-                ->where('is_available', true)
-                ->where('start_time', '<=', $currentTime)
-                ->where('end_time', '>=', $currentTime)
-                ->first();
-
-            $isAvailableNow = $availabilityToday ? true : false;
-        }
-
-        return view('pages.spaces.details', ['space' => $space, 'availability' => $availability, 'hostSpaces' => $hostSpaces, 'avgReview' => $avgReview, 'reviewsCount' => $reviewsCount, 'space_availability' => $space_availability, 'isAvailableNow' => $isAvailableNow]);
+        return view('pages.spaces.details', [
+            'space' => $space,
+            'availability' => $availability,
+            'hostSpaces' => $hostSpaces,
+            'avgReview' => $space->average_rating,
+            'reviewsCount' => $space->reviews_count,
+            'space_availability' => $space_availability,
+            'isAvailableNow' => $space->is_available_now
+        ]);
     }
 
     public function create()
@@ -230,13 +148,6 @@ class SpaceController extends Controller
             }
 
             $space->save();
-
-            (new CreateNewActivity(
-                Auth::id(),
-                'space',
-                'Space Created',
-                "Space '{$space->title}' was created"
-            ))->execute();
 
             ToastMagic::success('Space created successfully');
 
@@ -300,13 +211,6 @@ class SpaceController extends Controller
             }
 
             $space->save();
-
-            (new CreateNewActivity(
-                Auth::id(),
-                'space',
-                'Space Updated',
-                "Space '{$space->title}' was updated"
-            ))->execute();
 
             ToastMagic::success('Space updated successfully');
 
