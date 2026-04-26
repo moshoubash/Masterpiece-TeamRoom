@@ -1,198 +1,210 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\SpaceController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\BackupController;
-use App\Models\User;
+use App\Http\Controllers\{
+    DashboardController,
+    BookingController,
+    SpaceController,
+    UserController,
+    ReviewController,
+    RoleController,
+    ActivityController,
+    AdminController,
+    ContactController,
+    HomeController,
+    NotificationController,
+    TransactionController,
+    ReportController,
+    PaymentController,
+    VerificationController,
+    WishlistController,
+    CompanyController
+};
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::prefix('dashboard')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
-
-    Route::get('/bookings', [BookingController::class, 'index']);
-
-    Route::get('/messages', function () {
-        return view('dashboard.messages.index');
-    });
-
-    Route::get('/spaces', [SpaceController::class, 'index']);
-
-    Route::get('/users', [UserController::class, 'index']);
-
-    Route::get('/reviews', [ReviewController::class, 'index']);
-
-    Route::get('/reports', function () {
-        return view('dashboard.reports.index');
-    });
-
-    Route::get('/roles', [RoleController::class, 'index']);
-
-    Route::get('/activities', [ActivityController::class, 'index']);
-
-    Route::get('/notifications', [NotificationController::class, 'index']);
-
-    Route::get('/transactions', [TransactionController::class, 'index']);
-
-    Route::get('/settings', [UserController::class, 'adminSettings']);
-    Route::put('/user/update/{user}', [UserController::class, 'updateProfile'])->name('settings.update');
-
-    Route::get('/companies', [CompanyController::class, 'index']);
-});
-
-Route::middleware('auth', 'admin')->group(function () {
-    // Route for the Users
-    Route::get('/dashboard/users/{id}/show', [UserController::class, 'show']);
-    Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit']);
-    Route::post('/dashboard/users/{id}/update', [UserController::class, 'update'])->name('users.update');
-    Route::post('/dashboard/users/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::get('/dashboard/users/search', [UserController::class, 'search'])->name('users.search');
-    Route::get('/dashboard/users/{option}', [UserController::class, 'filter'])->name('users.filter');
-    Route::put('/dashboard/user/{id}/restore', [UserController::class, 'restore'])->name('user.restore');
-
-    // Route for the Roles
-    Route::resource('/dashboard/roles', RoleController::class);
-
-    // Route for the Spaces
-
-    Route::resource('/dashboard/spaces', SpaceController::class);
-    Route::get('/spaces/search', [SpaceController::class, 'filter'])->name('spaces.search');
-
-    // Route for the Booking
-
-    Route::resource('/dashboard/bookings', BookingController::class);
-    Route::get('/bookings/status/{status}', [BookingController::class, 'filter'])->name('bookings.search');
-
-    // Route for the Reviews
-
-    Route::resource('/dashboard/reviews', ReviewController::class);
-    Route::get('/dashboard/reviews/{review}', [ReviewController::class, 'filter'])->name('reviews.search');
-    // Route for Transactions
-
-    Route::resource('/dashboard/transactions', TransactionController::class);
-    Route::get('/transactions/search', [TransactionController::class, 'filter'])->name('transactions.filter');
-
-    // Route for the Notifications
-
-    // Route::resource('/dashboard/notifications', NotificationController::class);
-    Route::put('/dashboard/notifications/{id}/markAsRead', [NotificationController::class, 'markAsRead']);
-    Route::get('/dashboard/notifications/filter', [NotificationController::class, 'filter'])->name('notifications.filter');
-    Route::post('/dashboard/notifications/store', [NotificationController::class, 'store'])->name('notifications.store');
-    Route::delete('/dashboard/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
-
-    // Routes for activities
-    Route::get('/dashboard/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
-    Route::resource('/dashboard/activities', ActivityController::class);
-    // Routes for settings
-    Route::put('/dashboard/admin/settings/{user}', [UserController::class, 'updateAdminSettings'])->name('admin.settings.update');
-
-    // Routes for the Companies
-    Route::resource('/dashboard/companies', CompanyController::class);
-    Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
-    Route::put('/dashboard/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
-
-    // Routes for the admins
-    Route::get('/dashboard/admins', [AdminController::class, 'index'])->name('admins.index')->middleware('auth', 'superadmin');
-    Route::put('/dashboard/admins/{user_id})/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole')->middleware('auth', 'superadmin');
-});
-
-// Routes for public website
-
 Route::get('/explore', [SpaceController::class, 'explore'])->name('explore');
+Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
+Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
 Route::get('/user/profile/{user}', [UserController::class, 'profile'])->name('user.profile');
 
-Route::get('/rooms/details/{room}', [SpaceController::class, 'roomDetails'])->name('rooms.details');
-
-Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create')->middleware('auth', 'host', 'id.verified');
-Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store')->middleware('auth', 'host', 'id.verified');
-Route::put('/room/delete/{slug}', [SpaceController::class, 'deleteByHost'])->name('room.deleteByHost')->middleware('auth', 'host');
-
-Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit')->middleware('auth');
-Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update')->middleware('auth');
-
-Route::post('/booking/store', [BookingController::class, 'store'])->name('spaces.book')->middleware('auth');
-Route::post('/booking/checkout', [PaymentController::class, 'checkout'])->name('booking.checkout')->middleware('auth');
-Route::post('/booking/process', [PaymentController::class, 'process'])->name('payment.process')->middleware('auth');
-Route::get('/bookings/confirmation/{booking}', [PaymentController::class, 'confirmation'])->name('bookings.confirmation')->middleware('auth');
-Route::get('/booking/details/{booking}', [BookingController::class, 'info'])->name('bookings.details');
-Route::post('/refund/{booking}', [PaymentController::class, 'refund'])->name('refund');
-
-Route::get('/user/edit/{user}', [UserController::class, 'profileEdit'])->name('user.edit')->middleware('auth');
-Route::put('/user/edit/{id}', [UserController::class, 'updateProfile'])->name('user.update')->middleware('auth');
-Route::put('/user/password/edit/{user}', [UserController::class, 'updatePassword'])->name('user.password.update')->middleware('auth');
-Route::put('/user/passwordchangeing/{id}', [UserController::class, 'updatePasswordAdmin'])->name('user.password.change.admin')->middleware('auth', 'admin');
-
-Route::get('/contact', function () {
-    return view('pages.contact');
-});
+Route::view('/contact', 'pages.contact')->name('contact');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/about', function () {
-    return view('pages.about');
-});
-Route::get('/terms', function () {
-    return view('pages.terms');
-});
-Route::get('/privacy', function () {
-    return view('pages.privacy');
-});
+Route::view('/about', 'pages.about')->name('about');
+Route::view('/terms', 'pages.terms')->name('terms');
+Route::view('/privacy', 'pages.privacy')->name('privacy');
 
-Route::get('/host/stats/{host}', [UserController::class, 'hostStats'])->name('host.stats')->middleware('auth', 'host');
-Route::post('/notifications/markAllAsRead/{user}', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead')->middleware('auth');
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::put('/booking/confirm/{booking}', [BookingController::class, 'approve'])->name('booking.confirm')->middleware('auth');
-Route::put('/booking/cancel/{booking}', [BookingController::class, 'reject'])->name('booking.cancel')->middleware('auth');
-Route::put('/booking/complete/{booking}', [BookingController::class, 'complete'])->name('booking.complete')->middleware('auth', 'host');
-
-Route::post('/reviews/store/{booking}', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
-
-// Route for the KYC
-// Admin Routes
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard/kyc/requests', [VerificationController::class, 'requests'])->name('requests.page');
-    Route::post('/dashboard/kyc-approve/{user}', [VerificationController::class, 'approve'])->name('kyc.approve');
-    Route::post('/dashboard/kyc-reject/{user}', [VerificationController::class, 'reject'])->name('kyc.reject');
-
-    Route::get('/dashboard/search/', [DashboardController::class, 'search'])->name('search.page');
-});
-
-// Host Routes
-Route::middleware(['auth', 'host'])->group(function () {
-    Route::get('/host/verification', [VerificationController::class, 'verification'])->name('verification.page');
-    Route::post('/host/verification/submit', [VerificationController::class, 'submit'])->name('verification.submit');
-});
-
-Route::get('/export/{table}/excel', [ReportController::class, 'exportExcel'])->name('export.excel')->middleware('auth', 'admin');
-Route::get('/export/{table}/csv', [ReportController::class, 'exportCsv'])->name('export.csv')->middleware('auth', 'admin');
-Route::get('/export/{table}/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf')->middleware('auth', 'admin');
-
-// Wishlist
 Route::middleware('auth')->group(function () {
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/wishlist/add/{space}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::delete('/wishlist/remove/{space}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
-    // Notifications
-    Route::get('/notifications', [NotificationController::class, 'allNotifications'])->name('notifications.all');
-    Route::put('/notifications/{id}/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
+    // User Profile & Settings
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user/edit/{user}', 'profileEdit')->name('user.edit');
+        Route::put('/user/edit/{id}', 'updateProfile')->name('user.update');
+        Route::put('/user/password/edit/{user}', 'updatePassword')->name('user.password.update');
+    });
 
+    // Bookings & Payments
+    Route::post('/booking/store', [BookingController::class, 'store'])->name('spaces.book');
+    Route::controller(PaymentController::class)->group(function () {
+        Route::post('/booking/checkout', 'checkout')->name('booking.checkout');
+        Route::post('/booking/process', 'process')->name('payment.process');
+        Route::get('/bookings/confirmation/{booking}', 'confirmation')->name('bookings.confirmation');
+        Route::post('/refund/{booking}', 'refund')->name('refund');
+    });
+
+    // Space Interaction
+    Route::get('/space/edit/{space}', [SpaceController::class, 'editSpace'])->name('space.edit');
+    Route::put('/space/update/{slug}', [SpaceController::class, 'updateSpace'])->name('space.update');
+    Route::post('/reviews/store/{booking}', [ReviewController::class, 'store'])->name('reviews.store');
+
+    // Wishlist
+    Route::controller(WishlistController::class)->prefix('wishlist')->name('wishlist.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/add/{space}', 'add')->name('add');
+        Route::delete('/remove/{space}', 'remove')->name('remove');
+    });
+
+    // Notifications (Common)
+    Route::controller(NotificationController::class)->group(function () {
+        Route::get('/notifications', 'allNotifications')->name('notifications.all');
+        Route::put('/notifications/{id}/mark-read', 'markAsRead')->name('notifications.markRead');
+        Route::post('/notifications/markAllAsRead/{user}', 'markAllAsRead')->name('notifications.markAllAsRead');
+    });
+
+    // Booking Actions
+    Route::controller(BookingController::class)->group(function () {
+        Route::put('/booking/confirm/{booking}', 'approve')->name('booking.confirm');
+        Route::put('/booking/cancel/{booking}', 'reject')->name('booking.cancel');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Host Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('host')->group(function () {
+        Route::get('/host/stats/{host}', [UserController::class, 'hostStats'])->name('host.stats');
+        Route::put('/booking/complete/{booking}', [BookingController::class, 'complete'])->name('booking.complete');
+        Route::put('/room/delete/{slug}', [SpaceController::class, 'deleteByHost'])->name('room.deleteByHost');
+
+        // KYC Verification
+        Route::controller(VerificationController::class)->prefix('host/verification')->name('verification.')->group(function () {
+            Route::get('/', 'verification')->name('page');
+            Route::post('/submit', 'submit')->name('submit');
+        });
+
+        // Space Management (Verified Hosts)
+        Route::middleware('id.verified')->group(function () {
+            Route::get('/room/create', [SpaceController::class, 'create'])->name('room.create');
+            Route::post('/room/store', [SpaceController::class, 'store'])->name('rooms.store');
+        });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin & Dashboard Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('admin')->group(function () {
+
+        // Global Dashboard Search & Exports (No Dashboard Prefix in original)
+        Route::get('/spaces/search', [SpaceController::class, 'filter'])->name('spaces.search');
+        Route::get('/bookings/status/{status}', [BookingController::class, 'filter'])->name('bookings.search');
+        Route::get('/transactions/search', [TransactionController::class, 'filter'])->name('transactions.filter');
+        Route::get('/companies/filter', [CompanyController::class, 'filter'])->name('companies.filter');
+
+        Route::controller(ReportController::class)->prefix('export')->name('export.')->group(function () {
+            Route::get('/{table}/excel', 'exportExcel')->name('excel');
+            Route::get('/{table}/csv', 'exportCsv')->name('csv');
+            Route::get('/{table}/pdf', 'exportPdf')->name('pdf');
+        });
+
+        // Dashboard Prefixed Routes
+        Route::prefix('dashboard')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+            Route::get('/search', [DashboardController::class, 'search'])->name('search.page');
+
+            // Static Dashboard Views
+            Route::view('/messages', 'dashboard.messages.index');
+            Route::view('/reports', 'dashboard.reports.index');
+
+            // Resources
+            Route::resources([
+                'roles' => RoleController::class,
+                'spaces' => SpaceController::class,
+                'bookings' => BookingController::class,
+                'reviews' => ReviewController::class,
+                'transactions' => TransactionController::class,
+                'activities' => ActivityController::class,
+                'companies' => CompanyController::class,
+            ]);
+
+            // User Management
+            Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/search', 'search')->name('search');
+                Route::get('/filter/{option}', 'filter')->name('filter');
+                Route::get('/{id}/show', 'show')->name('show');
+                Route::get('/{id}/edit', 'edit')->name('edit');
+                Route::post('/{id}/update', 'update')->name('update');
+                Route::post('/{id}/destroy', 'destroy')->name('destroy');
+                Route::put('/{id}/restore', 'restore')->name('user.restore');
+            });
+
+            // Specialized Admin Actions
+            Route::get('/reviews/{review}', [ReviewController::class, 'filter'])->name('reviews.search');
+            Route::get('/activities/{type}', [ActivityController::class, 'filter'])->name('activity.filter');
+            Route::put('/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
+
+            // Admin Notifications
+            Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/filter', 'filter')->name('filter');
+                Route::post('/store', 'store')->name('store');
+                Route::put('/{id}/markAsRead', 'markAsRead');
+                Route::delete('/{id}', 'destroy')->name('destroy');
+            });
+
+            // Settings & Password
+            Route::controller(UserController::class)->group(function () {
+                Route::get('/settings', 'adminSettings')->name('admin.settings');
+                Route::put('/admin/settings/{user}', 'updateAdminSettings')->name('admin.settings.update');
+                Route::put('/user/update/{user}', 'updateProfile')->name('settings.update');
+                Route::put('/user/passwordchangeing/{id}', 'updatePasswordAdmin')->name('user.password.change.admin');
+            });
+
+            // KYC Requests
+            Route::controller(VerificationController::class)->prefix('kyc')->group(function () {
+                Route::get('/requests', 'requests')->name('requests.page');
+                Route::post('/approve/{user}', 'approve')->name('kyc.approve');
+                Route::post('/reject/{user}', 'reject')->name('kyc.reject');
+            });
+
+            // Superadmin Only
+            Route::middleware('superadmin')->group(function () {
+                Route::get('/admins', [AdminController::class, 'index'])->name('admins.index');
+                Route::put('/admins/{user_id}/change-role', [AdminController::class, 'changeRole'])->name('admins.changeRole');
+            });
+        });
+    });
 });
+
+/*
+|--------------------------------------------------------------------------
+| System Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::fallback(function () {
     return view('pages.404');
