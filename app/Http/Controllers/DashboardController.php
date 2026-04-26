@@ -41,7 +41,7 @@ class DashboardController extends Controller
             ->join('bookings', 'spaces.id', '=', 'bookings.space_id')
             ->groupBy('bookings.space_id', 'spaces.id', 'spaces.title')
             ->get();
-        
+
         return view('dashboard', [
             'totalRevenue' => $totalRevenue,
             'totalUsers' => $totalUsers,
@@ -100,6 +100,6 @@ class DashboardController extends Controller
 
         return redirect()->action(
             [DashboardController::class, 'index']
-        )->with('warning', 'Search for ' . $query .' not found');
+        )->with('warning', 'Search for ' . $query . ' not found');
     }
 }

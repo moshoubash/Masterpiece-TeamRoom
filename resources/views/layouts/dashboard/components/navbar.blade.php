@@ -16,9 +16,9 @@
                 <li class="pc-h-item d-none d-md-inline-flex">
                     <form action="{{ route('search.page') }}" method="GET" class="header-search">
                         @csrf
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-search icon-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-search icon-search">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
@@ -55,9 +55,10 @@
                                         <div class="simplebar-content-wrapper" tabindex="0" role="region"
                                             aria-label="scrollable content" style="height: auto; overflow: hidden;">
                                             <div class="simplebar-content" style="padding: 16px 0px;">
-                                                <div id="dashboard-notification-list" class="list-group list-group-flush w-100">
-                                                    @if (Auth::user()->notifications->where('is_read', false)->count() > 0)
-                                                        @foreach (Auth::user()->notifications as $notification)
+                                                <div id="dashboard-notification-list"
+                                                    class="list-group list-group-flush w-100">
+                                                    @if (Auth::user()->notifications->count() > 0)
+                                                        @foreach (Auth::user()->notifications->sortByDesc('created_at')->take(5) as $notification)
                                                             <a class="list-group-item list-group-item-action">
                                                                 <div class="d-flex">
                                                                     <div class="flex-shrink-0">
@@ -68,7 +69,8 @@
                                                                         <span
                                                                             class="float-end text-muted">{{ $notification->notification_type }}</span>
                                                                         <p class="text-body mb-1">
-                                                                            {{ $notification->message }}</p>
+                                                                            {{ $notification->message }}
+                                                                        </p>
                                                                         <span
                                                                             class="text-muted">{{ $notification->created_at }}</span>
                                                                     </div>
@@ -76,11 +78,12 @@
                                                             </a>
                                                         @endforeach
                                                     @else
-                                                        <div id="no-dashboard-notifications" class="list-group-item list-group-item-action text-center">
+                                                        <div id="no-dashboard-notifications"
+                                                            class="list-group-item list-group-item-action text-center">
                                                             <div class="d-flex justify-content-center">
                                                                 <p class="mb-0">No notifications found</p>
                                                             </div>
-                                                        </div>    
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </div>
@@ -111,8 +114,7 @@
                                 @else 
                                     {{ asset('images/profile-pictures/default-avatar.svg') }} 
                                 @endif
-                        "
-                            alt="user-image" class="user-avtar">
+                        " alt="user-image" class="user-avtar">
                         <span>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
@@ -125,8 +127,7 @@
                                         @else 
                                             {{ asset('images/profile-pictures/default-avatar.svg') }} 
                                         @endif 
-                                    "
-                                        alt="user-image" class="user-avtar wid-35 hgt-35">
+                                    " alt="user-image" class="user-avtar wid-35 hgt-35">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}
