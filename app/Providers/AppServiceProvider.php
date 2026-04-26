@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Models\Notification;
+use App\Models\Space;
+use App\Models\Booking;
+use App\Observers\NotificationObserver;
+use App\Observers\SpaceObserver;
+use App\Observers\BookingObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +28,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        // Register observer
-        Notification::observe(\App\Observers\NotificationObserver::class);
+        // Register observers
+        Notification::observe(NotificationObserver::class);
+        Space::observe(SpaceObserver::class);
+        Booking::observe(BookingObserver::class);
     }
 }
