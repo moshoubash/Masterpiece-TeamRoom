@@ -100,7 +100,7 @@ class BookingController extends Controller
 
     public function filter($status)
     {
-        $bookings = Booking::where('status', $status)->paginate(10);
+        $bookings = Booking::where('status', $status)->latest()->paginate(10);
 
         return view('dashboard.booking.index', compact('bookings'));
     }
@@ -109,9 +109,9 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $bookingService->updateBookingStatus(
-            $booking, 
-            'confirmed', 
-            'Your booking has been confirmed', 
+            $booking,
+            'confirmed',
+            'Your booking has been confirmed',
             'Your booking has been confirmed'
         );
 
@@ -122,9 +122,9 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $bookingService->updateBookingStatus(
-            $booking, 
-            'cancelled', 
-            'Your booking has been rejected', 
+            $booking,
+            'cancelled',
+            'Your booking has been rejected',
             'Your booking has been rejected'
         );
 

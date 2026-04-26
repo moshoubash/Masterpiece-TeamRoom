@@ -42,7 +42,7 @@ class ActivityController extends Controller
 
     public function filter($type)
     {
-        $activities = Activity::where('type', $type)->paginate(10);
+        $activities = Activity::where('type', $type)->latest()->paginate(10);
         $activitiesTypes = Activity::distinct()->pluck('type')->toArray();
 
         return view('dashboard.activities.index', compact('activities', 'activitiesTypes'));
