@@ -28,6 +28,12 @@
     <!-- [Notifier] -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/notifier.css') }}">
 
+    <style>
+        table {
+            margin-bottom: 0 !important;
+        }
+    </style>
+
     @yield('styles')
 </head>
 
@@ -45,15 +51,15 @@
         <!-- [ Main Content ] start -->
         <div class="pc-container">
             <div class="pc-content">
-              <!-- [ breadcrumb ] start -->
-              
-              <!-- [ breadcrumb ] end -->
-              <!-- [ Main Content ] start -->
-              @yield('content')
+                <!-- [ breadcrumb ] start -->
+
+                <!-- [ breadcrumb ] end -->
+                <!-- [ Main Content ] start -->
+                @yield('content')
             </div>
-          </div>
+        </div>
         <!-- [ Main Content ] end -->
-        
+
         <!-- [ Footer ] start -->
         @include('layouts.dashboard.components.footer')
         <!-- [ Footer ] start -->
@@ -74,4 +80,5 @@
     <script src="{{ asset('assets/dashboard/js/plugins/feather.min.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/notifier.js') }}"></script>
 </body>
+
 </html>

@@ -48,9 +48,13 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="filterDropdown">
                                         <li><a class="dropdown-item" href="/dashboard/activities">All Types</a></li>
-                                        <li><a class="dropdown-item" href="/dashboard/activities/user">User</a></li>
-                                        <li><a class="dropdown-item" href="/dashboard/activities/system">System</a></li>
-                                        <li><a class="dropdown-item" href="/dashboard/activities/admin">Admin</a></li>
+                                        @foreach ($activitiesTypes as $type)
+                                            <li>
+                                                <a class="dropdown-item" href="/dashboard/activities/{{ $type }}">
+                                                    {{ ucfirst($type) }}
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
