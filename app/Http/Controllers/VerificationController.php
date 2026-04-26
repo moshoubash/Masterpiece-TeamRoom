@@ -6,6 +6,7 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class VerificationController extends Controller
 {
@@ -14,11 +15,11 @@ class VerificationController extends Controller
         $hosts = User::whereHas('roles', function ($query) {
             $query->where('name', 'host');
         })
-        ->whereDoesntHave('roles', function ($query) {
-            $query->whereIn('name', ['admin', 'superadmin']);
-        })
-        ->where('id_document_path', '!=', null)
-        ->where('kyc_status', 'pending')->get();
+            ->whereDoesntHave('roles', function ($query) {
+                $query->whereIn('name', ['admin', 'superadmin']);
+            })
+            ->where('id_document_path', '!=', null)
+            ->where('kyc_status', 'pending')->get();
 
         return view('dashboard.kyc.requests', compact('hosts'));
     }
@@ -41,20 +42,29 @@ class VerificationController extends Controller
     public function reject(User $user)
     {
         $user->kyc_status = 'rejected';
+
+        $idDocumentPath = $user->id_document_path;
+
+        if ($idDocumentPath) {
+            Storage::disk('public')->delete($idDocumentPath);
+            $user->id_document_path = null;
+        }
+
         $user->save();
 
         Notification::create([
             'user_id' => $user->id,
             'title' => 'KYC Rejected',
             'notification_type' => 'kyc',
-           'message' => 'Your KYC has been rejected.',
+            'message' => 'Your KYC has been rejected.',
         ]);
 
         return back()->with('success', 'User KYC Rejected.');
     }
 
-    public function verification(){
-        if(Auth::user()->kyc_status == 'approved'){
+    public function verification()
+    {
+        if (Auth::user()->kyc_status == 'approved') {
             return back()->with('message', 'You already have approved KYC.');
         }
 
@@ -73,7 +83,7 @@ class VerificationController extends Controller
 
         $user->id_document_path = $path;
         $user->kyc_status = 'pending';
-        
+
         $user->save();
 
         $admins = User::whereHas('roles', function ($query) {

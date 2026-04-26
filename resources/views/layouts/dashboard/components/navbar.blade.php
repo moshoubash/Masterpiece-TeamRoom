@@ -34,10 +34,10 @@
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ti ti-bell"></i>
-                        @if (Auth::user()->notifications->where('is_read', false)->count() > 0)
-                            <span
-                                class="badge bg-success pc-h-badge">{{ Auth::user()->notifications->where('is_read', false)->count() }}</span>
-                        @endif
+                        <span id="dashboard-notification-badge"
+                            class="badge bg-success pc-h-badge {{ Auth::user()->notifications->where('is_read', false)->count() > 0 ? '' : 'd-none' }}">
+                            {{ Auth::user()->notifications->where('is_read', false)->count() }}
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown" style="">
                         <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -55,7 +55,7 @@
                                         <div class="simplebar-content-wrapper" tabindex="0" role="region"
                                             aria-label="scrollable content" style="height: auto; overflow: hidden;">
                                             <div class="simplebar-content" style="padding: 16px 0px;">
-                                                <div class="list-group list-group-flush w-100">
+                                                <div id="dashboard-notification-list" class="list-group list-group-flush w-100">
                                                     @if (Auth::user()->notifications->where('is_read', false)->count() > 0)
                                                         @foreach (Auth::user()->notifications as $notification)
                                                             <a class="list-group-item list-group-item-action">
@@ -76,11 +76,11 @@
                                                             </a>
                                                         @endforeach
                                                     @else
-                                                        <a class="list-group-item list-group-item-action">
-                                                            <div class="d-flex">
-                                                                No notifications found</p>
+                                                        <div id="no-dashboard-notifications" class="list-group-item list-group-item-action text-center">
+                                                            <div class="d-flex justify-content-center">
+                                                                <p class="mb-0">No notifications found</p>
                                                             </div>
-                                                        </a>    
+                                                        </div>    
                                                     @endif
                                                 </div>
                                             </div>

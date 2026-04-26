@@ -79,6 +79,65 @@
     <script src="{{ asset('assets/dashboard/js/pcoded.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/plugins/feather.min.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/notifier.js') }}"></script>
+
+    @vite(['resources/js/app.js'])
+
+    @auth
+        <script type="module">
+            window.addEventListener('load', () => {
+                if (window.Echo) {
+                    Echo.private(`App.Models.User.` + @json(auth()->id()))
+                        .listen('NewNotification', (e) => {
+                            const badge = document.getElementById('dashboard-notification-badge');
+                            const notificationList = document.getElementById('dashboard-notification-list');
+                            const noNotifications = document.getElementById('no-dashboard-notifications');
+
+                            // Update Badge
+                            if (badge) {
+                                let currentCount = parseInt(badge.innerText.trim()) || 0;
+                                badge.innerText = currentCount + 1;
+                                badge.classList.remove('d-none');
+                            }
+
+                            // Remove "No notifications" message
+                            if (noNotifications) {
+                                noNotifications.remove();
+                            }
+
+                            // Add New Notification to List
+                            if (notificationList) {
+                                const newNotificationHtml = `
+                                    <a class="list-group-item list-group-item-action">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <div class="user-avtar bg-light-info"><i class="ti ti-bell"></i></div>
+                                            </div>
+                                            <div class="flex-grow-1 ms-1">
+                                                <span class="float-end text-muted">${e.notification.notification_type || 'Notification'}</span>
+                                                <p class="text-body mb-1">${e.notification.message}</p>
+                                                <span class="text-muted">Just now</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                `;
+                                notificationList.insertAdjacentHTML('afterbegin', newNotificationHtml);
+                            }
+
+                            // Optional: Browser Notification or Toast
+                            if (typeof notifier !== 'undefined') {
+                                notifier.show(
+                                    e.notification.title || 'New Notification',
+                                    e.notification.message,
+                                    'info',
+                                    '{{ asset("assets/dashboard/images/favicon.svg") }}',
+                                    4000
+                                );
+                            }
+                        });
+                }
+            });
+        </script>
+    @endauth
 </body>
 
 </html>
