@@ -14,7 +14,10 @@ class ActivityController extends Controller
     public function index()
     {
         $activities = Activity::latest()->paginate(10);
-        $activitiesTypes = Activity::distinct()->pluck('type')->toArray();
+
+        $activitiesTypes = cache()->remember('activity_types', now()->addDay(), function () {
+            return Activity::distinct()->pluck('type')->toArray();
+        });
 
         return view('dashboard.activities.index', compact('activities', 'activitiesTypes'));
     }
@@ -25,6 +28,7 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         Activity::create($request->all());
+        cache()->forget('activity_types');
 
         return back();
     }
@@ -34,16 +38,22 @@ class ActivityController extends Controller
      */
     public function destroy(string $id)
     {
-        $activity = Activity::find($id);
+        $activity = Activity::findOrFail($id);
         $activity->delete();
+        cache()->forget('activity_types');
 
         return back()->with('success', 'Activity deleted successfully.');
     }
 
     public function filter($type)
     {
-        $activities = Activity::where('type', $type)->latest()->paginate(10);
-        $activitiesTypes = Activity::distinct()->pluck('type')->toArray();
+        $activities = Activity::where('type', $type)
+            ->latest()
+            ->paginate(10);
+
+        $activitiesTypes = cache()->remember('activity_types', now()->addDay(), function () {
+            return Activity::distinct()->pluck('type')->toArray();
+        });
 
         return view('dashboard.activities.index', compact('activities', 'activitiesTypes'));
     }
