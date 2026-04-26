@@ -77,13 +77,6 @@ class PaymentService
             'message' => 'New booking from ' . Auth::user()->first_name . ' ' . Auth::user()->last_name
         ]);
 
-        (new CreateNewActivity(
-            Auth::id(),
-            'booking',
-            'Booking Created',
-            "Booking for '{$booking->space->title}' was created from {$booking->start_date} to {$booking->end_date}"
-        ))->execute();
-
         return [
             'success' => true,
             'booking' => $booking,

@@ -33,14 +33,9 @@ class BookingController extends Controller
 
     public function edit(int $id)
     {
-        $booking = Booking::find($id);
-        $users = \App\Models\User::all();
-        $renters = [];
-        foreach ($users as $user) {
-            if ($user->roles->first()->name == 'renter') {
-                $renters[] = $user;
-            }
-        }
+        $booking = Booking::findOrFail($id);
+        $renters = \App\Models\User::role('renter')->get();
+
         return view('dashboard.booking.edit', compact('booking', 'renters'));
     }
 
@@ -94,11 +89,10 @@ class BookingController extends Controller
         }
 
         if ($booking->renter_id == Auth::user()->id) {
-            $currentTime = \Carbon\Carbon::parse(date('Y-m-d H:i:s', strtotime('+3 hours')));
-            $hoursSinceBookingCreated = \Carbon\Carbon::parse($booking->created_at)->diffInHours($currentTime, true);
-            $canRefund = $hoursSinceBookingCreated <= 24 && \Carbon\Carbon::parse($booking->start_datetime)->isFuture();
-
-            return view('pages.users.bookings.details', compact('booking', 'canRefund'));
+            return view('pages.users.bookings.details', [
+                'booking' => $booking,
+                'canRefund' => $booking->can_refund
+            ]);
         }
 
         return view('pages.404');

@@ -36,4 +36,15 @@ class Booking extends Model
     {
         return $this->hasMany(Transaction::class, 'booking_id', 'id');
     }
+
+    /**
+     * Check if the booking can be refunded.
+     */
+    public function getCanRefundAttribute(): bool
+    {
+        $currentTime = \Carbon\Carbon::parse(date('Y-m-d H:i:s', strtotime('+3 hours')));
+        $hoursSinceBookingCreated = \Carbon\Carbon::parse($this->created_at)->diffInHours($currentTime, true);
+        
+        return $hoursSinceBookingCreated <= 24 && \Carbon\Carbon::parse($this->start_datetime)->isFuture();
+    }
 }

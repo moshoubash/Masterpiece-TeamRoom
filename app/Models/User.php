@@ -99,4 +99,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
+
+    /**
+     * Scope a query to users with a specific role.
+     */
+    public function scopeRole($query, string $role)
+    {
+        return $query->whereHas('roles', function ($q) use ($role) {
+            $q->where('name', $role);
+        });
+    }
 }
