@@ -148,12 +148,12 @@
                                 <form action="/dashboard/notifications/{{$item->id}}/markAsRead" method="post">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="Mark as Read">
+                                    <button type="submit" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Mark as Read">
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </form>
                                 
-                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item->id }}" title="View Details">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#viewModal{{ $item->id }}" title="View Details">
                                     <i class="fa-solid fa-info-circle"></i>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}" title="Delete">

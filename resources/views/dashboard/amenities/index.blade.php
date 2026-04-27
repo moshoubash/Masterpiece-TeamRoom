@@ -29,7 +29,8 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title text-white" id="addAmenityModalLabel">Add New Amenity</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="add-amenity-form" action="{{ route('amenities.store') }}" method="post">
@@ -97,44 +98,59 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-1">
-                                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $amenity->id }}" title="Edit Amenity">
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $amenity->id }}" title="Edit Amenity">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $amenity->id }}" title="Delete Amenity">
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $amenity->id }}" title="Delete Amenity">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
 
                                             <!-- Edit Modal -->
-                                            <div class="modal fade" id="editModal{{ $amenity->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="editModal{{ $amenity->id }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary text-white">
                                                             <h5 class="modal-title text-white">Edit Amenity</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body text-start">
-                                                            <form id="edit-form-{{ $amenity->id }}" action="{{ route('amenities.update', $amenity->id) }}" method="post">
+                                                            <form id="edit-form-{{ $amenity->id }}"
+                                                                action="{{ route('amenities.update', $amenity->id) }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <div class="mb-3">
-                                                                    <label for="edit-name-{{ $amenity->id }}" class="form-label">Amenity Name</label>
-                                                                    <input type="text" name="name" class="form-control" id="edit-name-{{ $amenity->id }}" value="{{ $amenity->name }}" required>
+                                                                    <label for="edit-name-{{ $amenity->id }}"
+                                                                        class="form-label">Amenity Name</label>
+                                                                    <input type="text" name="name" class="form-control"
+                                                                        id="edit-name-{{ $amenity->id }}"
+                                                                        value="{{ $amenity->name }}" required>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="edit-icon-{{ $amenity->id }}" class="form-label">Icon (FontAwesome Class)</label>
+                                                                    <label for="edit-icon-{{ $amenity->id }}"
+                                                                        class="form-label">Icon (FontAwesome Class)</label>
                                                                     <div class="input-group">
-                                                                        <span class="input-group-text"><i class="{{ $amenity->icon ?: 'fa-solid fa-icons' }}"></i></span>
-                                                                        <input type="text" name="icon" class="form-control" id="edit-icon-{{ $amenity->id }}" value="{{ $amenity->icon }}">
+                                                                        <span class="input-group-text"><i
+                                                                                class="{{ $amenity->icon ?: 'fa-solid fa-icons' }}"></i></span>
+                                                                        <input type="text" name="icon" class="form-control"
+                                                                            id="edit-icon-{{ $amenity->id }}"
+                                                                            value="{{ $amenity->icon }}">
                                                                     </div>
                                                                 </div>
                                                             </form>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <button type="submit" form="edit-form-{{ $amenity->id }}" class="btn btn-primary">
+                                                            <button type="submit" form="edit-form-{{ $amenity->id }}"
+                                                                class="btn btn-primary">
                                                                 <i class="fa-solid fa-check me-1"></i> Update Amenity
                                                             </button>
                                                         </div>
@@ -143,23 +159,30 @@
                                             </div>
 
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="deleteModal{{ $amenity->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal fade" id="deleteModal{{ $amenity->id }}" tabindex="-1"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger text-white">
                                                             <h5 class="modal-title text-white">Delete Amenity</h5>
-                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body text-center">
-                                                            <i class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
+                                                            <i
+                                                                class="fa-solid fa-triangle-exclamation text-danger fa-3x mb-3"></i>
                                                             <h5>Are you sure?</h5>
-                                                            <p class="text-muted">You are about to delete <strong>{{ $amenity->name }}</strong>. This action cannot be undone.</p>
+                                                            <p class="text-muted">You are about to delete
+                                                                <strong>{{ $amenity->name }}</strong>. This action cannot be
+                                                                undone.</p>
                                                         </div>
                                                         <div class="modal-footer justify-content-center">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
                                                                 <i class="fa-solid fa-times me-1"></i> Cancel
                                                             </button>
-                                                            <form action="{{ route('amenities.destroy', $amenity->id) }}" method="post">
+                                                            <form action="{{ route('amenities.destroy', $amenity->id) }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">
