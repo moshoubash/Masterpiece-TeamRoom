@@ -18,7 +18,8 @@ use App\Http\Controllers\{
     PaymentController,
     VerificationController,
     WishlistController,
-    CompanyController
+    CompanyController,
+    AmenityController
 };
 
 /*
@@ -147,6 +148,7 @@ Route::middleware('auth')->group(function () {
                 'reviews' => ReviewController::class,
                 'transactions' => TransactionController::class,
                 'companies' => CompanyController::class,
+                'amenities' => AmenityController::class,
             ]);
 
             Route::get('activities', [ActivityController::class, 'index'])->name('activity.all');

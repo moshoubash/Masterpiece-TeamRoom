@@ -49,6 +49,12 @@
                         <span class="pc-mtext">Spaces</span>
                     </a>
                 </li>
+                <li class="pc-item">
+                    <a href="/dashboard/amenities" class="pc-link {{ request()->is('dashboard/amenities*') ? 'active' : '' }}">
+                        <span class="pc-micon"><i class="ti ti-list-check"></i></span>
+                        <span class="pc-mtext">Amenities</span>
+                    </a>
+                </li>
                 
                 <!-- Financial Section -->
                 <li class="pc-item pc-caption">
