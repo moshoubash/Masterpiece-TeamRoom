@@ -11,6 +11,7 @@
         "devrabiul/laravel-toaster-magic": "^2.0",
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.0",
+        "laravel/telescope": "^5.20",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "*",
