@@ -63,6 +63,16 @@ class SpaceController extends Controller
             return view('pages.404');
         }
 
+        if (Auth::user()->cannot('delete', $space)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Space Deletion Attempt',
+                "User tried to delete space with slug: {$slug}"
+            ))->execute();
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $space->delete();
 
         return back();
@@ -159,11 +169,22 @@ class SpaceController extends Controller
     public function editSpace($slug)
     {
         $space = Space::where('slug', $slug)->first();
-        $amenities = Amenity::all();
 
         if ($space == null) {
             return view('pages.404');
         }
+
+        if (Auth::user()->cannot('update', $space)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Space Edit Attempt',
+                "User tried to edit space with slug: {$slug}"
+            ))->execute();
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        $amenities = Amenity::all();
 
         return view('pages.spaces.edit', compact('space', 'amenities'));
     }
@@ -175,6 +196,16 @@ class SpaceController extends Controller
 
             if ($space == null) {
                 return view('pages.404');
+            }
+
+            if ($request->user()->cannot('update', $space)) {
+                (new CreateNewActivity(
+                    Auth::id(),
+                    'Security',
+                    'Unauthorized Space Update Attempt',
+                    "User tried to update space with slug: {$slug}"
+                ))->execute();
+                return back()->with('error', 'Unauthorized action.');
             }
 
             $validated = $request->validated();

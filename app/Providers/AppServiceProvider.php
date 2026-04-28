@@ -10,6 +10,9 @@ use App\Models\Booking;
 use App\Observers\NotificationObserver;
 use App\Observers\SpaceObserver;
 use App\Observers\BookingObserver;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Failed;
+use App\Listeners\LogFailedLogin;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
         Notification::observe(NotificationObserver::class);
         Space::observe(SpaceObserver::class);
         Booking::observe(BookingObserver::class);
+
+        // Register event listeners for Security Logging
+        Event::listen(Failed::class, LogFailedLogin::class);
     }
 }

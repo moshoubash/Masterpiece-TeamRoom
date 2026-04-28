@@ -12,7 +12,7 @@ class CreateNewActivity
     private $description;
 
     public function __construct(
-        int $userId,
+        ?int $userId,
         string $type,
         string $name,
         string $description

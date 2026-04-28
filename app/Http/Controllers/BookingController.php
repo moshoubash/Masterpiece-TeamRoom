@@ -68,6 +68,12 @@ class BookingController extends Controller
 
     public function store(StoreBookingRequest $request, BookingService $bookingService)
     {
+        $space = \App\Models\Space::findOrFail($request->space_id);
+
+        if ($request->user()->cannot('create', [Booking::class, $space])) {
+            return back()->with('error', 'You cannot book your own space.');
+        }
+
         $bookingService->createBooking($request->validated());
 
         return redirect()->back();
@@ -77,7 +83,7 @@ class BookingController extends Controller
      * Display the specified resource.
      *
      * @param  string  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function info(string $id)
     {
@@ -107,7 +113,12 @@ class BookingController extends Controller
 
     public function approve($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::user()->cannot('manage', $booking)) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus(
             $booking,
             'confirmed',
@@ -120,7 +131,18 @@ class BookingController extends Controller
 
     public function reject($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::user()->cannot('manage', $booking)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Booking Reject Attempt',
+                "User tried to reject booking ID: {$id}"
+            ))->execute();
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus(
             $booking,
             'cancelled',
@@ -133,7 +155,18 @@ class BookingController extends Controller
 
     public function complete($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::user()->cannot('manage', $booking)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Booking Completion Attempt',
+                "User tried to complete booking ID: {$id}"
+            ))->execute();
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus($booking, 'completed', '', '');
         return back()->with('success', 'Booking completed successfully');
     }
