@@ -64,6 +64,12 @@ class SpaceController extends Controller
         }
 
         if (Auth::user()->cannot('delete', $space)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Space Deletion Attempt',
+                "User tried to delete space with slug: {$slug}"
+            ))->execute();
             return back()->with('error', 'Unauthorized action.');
         }
 
@@ -169,6 +175,12 @@ class SpaceController extends Controller
         }
 
         if (Auth::user()->cannot('update', $space)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Space Edit Attempt',
+                "User tried to edit space with slug: {$slug}"
+            ))->execute();
             return back()->with('error', 'Unauthorized action.');
         }
 
@@ -187,6 +199,12 @@ class SpaceController extends Controller
             }
 
             if ($request->user()->cannot('update', $space)) {
+                (new CreateNewActivity(
+                    Auth::id(),
+                    'Security',
+                    'Unauthorized Space Update Attempt',
+                    "User tried to update space with slug: {$slug}"
+                ))->execute();
                 return back()->with('error', 'Unauthorized action.');
             }
 

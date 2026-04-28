@@ -19,6 +19,7 @@ use App\Http\Requests\Profile\UpdateProfileRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\UserService;
+use App\Services\CreateNewActivity;
 use App\Http\Requests\User\UpdateAdminSettingsRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
 class UserController extends Controller
@@ -204,6 +205,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($request->user()->cannot('update', $user)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Profile Update Attempt',
+                "User tried to update profile for user ID: {$id}"
+            ))->execute();
             return back()->withErrors(['error' => 'Unauthorized action.']);
         }
 
@@ -227,11 +234,24 @@ class UserController extends Controller
         $user = User::where('id', $id)->firstOrFail();
 
         if ($request->user()->cannot('update', $user)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Password Change Attempt',
+                "User tried to change password for user ID: {$id}"
+            ))->execute();
             return back()->withErrors(['error' => 'Unauthorized action.']);
         }
 
         $user->password = Hash::make($request->password);
         $user->save();
+
+        (new CreateNewActivity(
+            $user->id,
+            'Security',
+            'Password Changed',
+            "User password was changed successfully"
+        ))->execute();
 
         Auth::logout();
 

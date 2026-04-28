@@ -134,6 +134,12 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
 
         if (Auth::user()->cannot('manage', $booking)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Booking Reject Attempt',
+                "User tried to reject booking ID: {$id}"
+            ))->execute();
             return back()->with('error', 'Unauthorized action.');
         }
 
@@ -152,6 +158,12 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
 
         if (Auth::user()->cannot('manage', $booking)) {
+            (new CreateNewActivity(
+                Auth::id(),
+                'Security',
+                'Unauthorized Booking Completion Attempt',
+                "User tried to complete booking ID: {$id}"
+            ))->execute();
             return back()->with('error', 'Unauthorized action.');
         }
 
