@@ -77,7 +77,7 @@ class BookingController extends Controller
      * Display the specified resource.
      *
      * @param  string  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function info(string $id)
     {
@@ -107,7 +107,12 @@ class BookingController extends Controller
 
     public function approve($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus(
             $booking,
             'confirmed',
@@ -120,7 +125,12 @@ class BookingController extends Controller
 
     public function reject($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus(
             $booking,
             'cancelled',
@@ -133,7 +143,12 @@ class BookingController extends Controller
 
     public function complete($id, BookingService $bookingService)
     {
-        $booking = Booking::find($id);
+        $booking = Booking::findOrFail($id);
+
+        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $bookingService->updateBookingStatus($booking, 'completed', '', '');
         return back()->with('success', 'Booking completed successfully');
     }

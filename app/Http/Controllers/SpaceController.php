@@ -63,6 +63,10 @@ class SpaceController extends Controller
             return view('pages.404');
         }
 
+        if (Auth::id() != $space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $space->delete();
 
         return back();
@@ -159,11 +163,16 @@ class SpaceController extends Controller
     public function editSpace($slug)
     {
         $space = Space::where('slug', $slug)->first();
-        $amenities = Amenity::all();
 
         if ($space == null) {
             return view('pages.404');
         }
+
+        if (Auth::id() != $space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        $amenities = Amenity::all();
 
         return view('pages.spaces.edit', compact('space', 'amenities'));
     }
@@ -175,6 +184,10 @@ class SpaceController extends Controller
 
             if ($space == null) {
                 return view('pages.404');
+            }
+
+            if (Auth::id() != $space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+                return back()->with('error', 'Unauthorized action.');
             }
 
             $validated = $request->validated();
