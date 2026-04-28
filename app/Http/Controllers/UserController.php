@@ -203,7 +203,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if (Auth::id() != $id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+        if ($request->user()->cannot('update', $user)) {
             return back()->withErrors(['error' => 'Unauthorized action.']);
         }
 
@@ -224,11 +224,11 @@ class UserController extends Controller
 
     public function updatePassword(UpdatePasswordRequest $request, string $id)
     {
-        if (Auth::id() != $id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+        $user = User::where('id', $id)->firstOrFail();
+
+        if ($request->user()->cannot('update', $user)) {
             return back()->withErrors(['error' => 'Unauthorized action.']);
         }
-
-        $user = User::where('id', $id)->first();
 
         $user->password = Hash::make($request->password);
         $user->save();

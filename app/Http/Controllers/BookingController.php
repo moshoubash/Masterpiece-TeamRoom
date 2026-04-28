@@ -68,6 +68,12 @@ class BookingController extends Controller
 
     public function store(StoreBookingRequest $request, BookingService $bookingService)
     {
+        $space = \App\Models\Space::findOrFail($request->space_id);
+
+        if ($request->user()->cannot('create', [Booking::class, $space])) {
+            return back()->with('error', 'You cannot book your own space.');
+        }
+
         $bookingService->createBooking($request->validated());
 
         return redirect()->back();
@@ -109,7 +115,7 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+        if (Auth::user()->cannot('manage', $booking)) {
             return back()->with('error', 'Unauthorized action.');
         }
 
@@ -127,7 +133,7 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+        if (Auth::user()->cannot('manage', $booking)) {
             return back()->with('error', 'Unauthorized action.');
         }
 
@@ -145,7 +151,7 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        if (Auth::id() != $booking->space->host_id && !Auth::user()->hasRole('admin') && !Auth::user()->hasRole('superadmin')) {
+        if (Auth::user()->cannot('manage', $booking)) {
             return back()->with('error', 'Unauthorized action.');
         }
 
