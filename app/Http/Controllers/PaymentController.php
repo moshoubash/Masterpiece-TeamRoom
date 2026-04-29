@@ -84,7 +84,8 @@ class PaymentController extends Controller
 
             return redirect()->route('bookings.confirmation', $result['booking']->id);
         } catch (\Stripe\Exception\CardException $e) {
-            return back()->withErrors(['card' => $e->getMessage()]);
+            \Illuminate\Support\Facades\Log::error('Payment card error: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->withErrors(['card' => 'There was an issue with your card. Please check your details and try again.']);
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An unexpected error occurred. Please try again.']);
         }
@@ -103,7 +104,8 @@ class PaymentController extends Controller
 
             return back()->with('success', 'Refund successful.');
         } catch (\Exception $e) {
-            return back()->withErrors(['refund' => 'Refund failed: ' . $e->getMessage()]);
+            \Illuminate\Support\Facades\Log::error('Refund error: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->withErrors(['refund' => 'Refund failed due to an unexpected error.']);
         }
     }
 }

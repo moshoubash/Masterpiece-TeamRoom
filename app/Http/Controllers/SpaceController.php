@@ -161,7 +161,8 @@ class SpaceController extends Controller
 
             return redirect()->route('user.profile', ['user' => Auth::user()->slug]);
         } catch (\Exception $e) {
-            ToastMagic::error('Space created failed: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Space creation error: ' . $e->getMessage(), ['exception' => $e]);
+            ToastMagic::error('Space created failed due to an unexpected error.');
             return back();
         }
     }
@@ -244,7 +245,8 @@ class SpaceController extends Controller
 
             return redirect()->route('rooms.details', ['room' => $space->slug]);
         } catch (\Exception $e) {
-            ToastMagic::error('Space updated failed: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Space update error: ' . $e->getMessage(), ['exception' => $e]);
+            ToastMagic::error('Space updated failed due to an unexpected error.');
             return back();
         }
     }
