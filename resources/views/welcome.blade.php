@@ -1,16 +1,469 @@
 @extends('layouts.home.layout')
 @section('styles')
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap');
+
+        :root {
+            --blue-50: #EFF6FF;
+            --blue-100: #DBEAFE;
+            --blue-200: #BFDBFE;
+            --blue-500: #3B82F6;
+            --blue-600: #2563EB;
+            --blue-700: #1D4ED8;
+            --blue-800: #1E40AF;
+            --blue-900: #1E3A8A;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-400: #9CA3AF;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Sora', sans-serif;
+        }
+
+        /*  HERO  */
         #hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(28, 90, 249, 0.9)), url("{{ asset('https://www.renderhub.com/archcorners/modern-meeting-room/modern-meeting-room-01.jpg') }}");
+            position: relative;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 80px 1rem 60px;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("{{ asset('https://www.renderhub.com/archcorners/modern-meeting-room/modern-meeting-room-01.jpg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 450px;
+            z-index: 0;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 66, 0.88) 0%, rgba(29, 78, 216, 0.82) 100%);
+            z-index: 1;
+        }
+
+        #hero .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #BFDBFE;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: #60A5FA;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
+        }
+
+        #hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        #hero h1 .accent {
+            color: #60A5FA;
+            position: relative;
+        }
+
+        #hero h1 .accent::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #60A5FA, #93C5FD);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        #hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(219, 234, 254, 0.9);
+            max-width: 560px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+
+        /*  SEARCH FORM  */
+        .search-form {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        @media (min-width: 768px) {
+            .search-form {
+                flex-direction: row;
+                align-items: stretch;
+                gap: 0;
+            }
+        }
+
+        .search-field {
+            flex: 1;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            border-radius: 10px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .search-field:hover {
+            background: var(--blue-50);
+        }
+
+        @media (min-width: 768px) {
+            .search-field {
+                border-right: 1px solid var(--gray-200);
+                border-radius: 0;
+            }
+
+            .search-field:first-child {
+                border-radius: 10px 0 0 10px;
+            }
+
+            .search-field:last-of-type {
+                border-right: none;
+            }
+        }
+
+        .search-field label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--blue-600);
+        }
+
+        .search-field select,
+        .search-field input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--gray-800);
+            cursor: pointer;
+            width: 100%;
+            padding: 0;
+        }
+
+        .search-btn {
+            background: var(--blue-600);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 24px;
+            font-family: 'Sora', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background: var(--blue-700);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        /*  STATS BAR  */
+        .stats-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px 40px;
+            margin-top: 36px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(219, 234, 254, 0.8);
+            font-size: 14px;
+        }
+
+        .stat-item svg {
+            color: #60A5FA;
+        }
+
+        .stat-num {
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /*  HOW IT WORKS  */
+        #how-it-works {
+            padding: 90px 1rem;
+            background: var(--gray-50);
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            background: var(--blue-50);
+            color: var(--blue-700);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 14px;
+            border: 1px solid var(--blue-100);
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            max-width: 1000px;
+            margin: 60px auto 0;
+        }
+
+        @media (min-width: 768px) {
+            .steps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0;
+            }
+        }
+
+        .step-card {
+            position: relative;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        @media (min-width: 768px) {
+            .step-card:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 36px;
+                right: -10%;
+                width: 20%;
+                height: 2px;
+                background: linear-gradient(90deg, var(--blue-200), var(--blue-100));
+            }
+        }
+
+        .step-icon-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-800));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .step-card:hover .step-icon-wrap {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 32px rgba(37, 99, 235, 0.4);
+        }
+
+        .step-number {
+            font-family: 'Sora', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .step-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.65;
+        }
+
+        .step-cta {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 8px 20px;
+            background: var(--blue-600);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .step-cta:hover {
+            background: var(--blue-700);
+            transform: translateY(-1px);
+        }
+
+        /*  ROOMS CAROUSEL  */
+        #features {
+            padding: 80px 1rem;
+            background: #fff;
+        }
+
+        .rooms-header {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .rooms-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+                gap: 0;
+            }
+        }
+
+        .carousel-controls {
+            display: none;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-controls {
+                display: flex;
+            }
+        }
+
+        .ctrl-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gray-200);
+            background: #fff;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            border-color: var(--blue-500);
+            color: var(--blue-600);
+            background: var(--blue-50);
+        }
+
+        /* Carousel */
+        .carousel-outer {
+            overflow: hidden;
+            border-radius: 12px;
         }
 
         #spaces-carousel {
-            /* Remove scrollbars */
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -20,172 +473,605 @@
         }
 
         .carousel-card {
-            min-width: 100%;
-            max-width: 100%;
+            flex-shrink: 0;
+            width: 100%;
+            padding: 0 8px;
         }
 
         @media (min-width: 768px) {
             .carousel-card {
-                min-width: 50%;
-                max-width: 50%;
+                width: 50%;
             }
         }
 
         @media (min-width: 1024px) {
             .carousel-card {
-                min-width: 33.3333%;
-                max-width: 33.3333%;
+                width: 33.3333%;
             }
+        }
+
+        /* Room Card */
+        .room-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--gray-100);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .room-card:hover {
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.14);
+            transform: translateY(-4px);
+        }
+
+        .room-img-wrap {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .room-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .room-card:hover .room-img-wrap img {
+            transform: scale(1.06);
+        }
+
+        .room-badge-new {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--blue-600);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: 100px;
+            z-index: 2;
+        }
+
+        .room-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+
+        .room-card:hover .room-overlay {
+            opacity: 1;
+        }
+
+        .room-overlay a {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--blue-600);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .room-overlay a:hover {
+            background: #fff;
+        }
+
+        .room-info {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .room-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .room-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.35;
+            transition: color 0.2s;
+        }
+
+        .room-card:hover .room-title {
+            color: var(--blue-600);
+        }
+
+        .room-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #FEF9C3;
+            padding: 4px 9px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .room-rating svg {
+            color: #EAB308;
+        }
+
+        .room-rating span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #713F12;
+        }
+
+        .room-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-600);
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .room-meta svg {
+            color: var(--gray-400);
+            flex-shrink: 0;
+        }
+
+        .room-meta .dot {
+            color: var(--gray-300);
+        }
+
+        .amenity-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .amenity-tag {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-weight: 500;
+        }
+
+        .room-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 14px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .room-price {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--gray-900);
+        }
+
+        .room-price span {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--gray-500);
+        }
+
+        .room-avail-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue-600);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1.5px solid var(--blue-200);
+            transition: all 0.2s;
+        }
+
+        .room-avail-link:hover {
+            background: var(--blue-50);
+            border-color: var(--blue-400);
+        }
+
+        /* Mobile carousel dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.2s;
+        }
+
+        .carousel-dot.active {
+            background: var(--blue-600);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Mobile carousel nav */
+        .mobile-carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-carousel-nav {
+                display: none;
+            }
+        }
+
+        /*  TESTIMONIALS  */
+        #testimonials {
+            padding: 90px 1rem;
+            background: var(--gray-50);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+
+        @media (min-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .testimonial-card {
+            background: #fff;
+            border: 1px solid var(--gray-100);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .quote-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--blue-50);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .testimonial-text {
+            font-size: 0.97rem;
+            color: var(--gray-700);
+            line-height: 1.75;
+            margin-bottom: 22px;
+        }
+
+        .testimonial-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--blue-100);
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--gray-900);
+        }
+
+        .testimonial-role {
+            font-size: 13px;
+            color: var(--blue-600);
+            font-weight: 500;
+        }
+
+        .star-row {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star-row svg {
+            color: #EAB308;
+        }
+
+        /*  CTA  */
+        #cta-section {
+            padding: 90px 1rem;
+            background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 60%, #0F172A 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cta-section::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        #cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(29, 78, 216, 0.2);
+        }
+
+        #cta-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        #cta-section h2 {
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        #cta-section p {
+            font-size: 1.1rem;
+            color: rgba(191, 219, 254, 0.85);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .cta-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
+
+        @media (min-width: 480px) {
+            .cta-btns {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .cta-btn-primary {
+            background: #fff;
+            color: var(--blue-700);
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .cta-btn-primary:hover {
+            background: var(--blue-50);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.2s;
+        }
+
+        .cta-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /*  FLASH MESSAGE  */
+        .flash-message {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            max-width: calc(100vw - 32px);
+            text-align: center;
+        }
+
+        /*  CONTAINER  */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /*  VIEW ALL  */
+        .view-all-wrap {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 32px;
+            background: var(--blue-600);
+            color: #fff;
+            border-radius: 12px;
+            font-family: 'Sora', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .view-all-btn:hover {
+            background: var(--blue-700);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
         }
     </style>
 @endsection
+
 @section('content')
     @if (session('message'))
-        <div class="z-999999 fixed top-25 left-1/2 transform -translate-x-1/2 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
-            role="alert">
-            {{ session('message') }}
-        </div>
+        <div class="flash-message" role="alert">{{ session('message') }}</div>
     @endif
 
-    <!-- Hero Section -->
-    <div id="hero"
-        class="relative z-10 flex flex-col items-center justify-center text-center p-4 md:p-8 bg-gradient-to-r from-indigo-900 to-blue-800">
-        <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
-        <div class="relative z-10 max-w-5xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-                Find the Perfect <span class="italic text-blue-400 relative inline-block">
-                    <span class="relative z-10">Meeting Room</span>
-                    <span class="absolute -bottom-1 left-0 w-full h-3 bg-blue-600 opacity-30 rounded"></span>
-                </span>
+    {{-- HERO --}}
+    <div id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Professional Spaces Available Now</div>
+
+            <h1>
+                Find the Perfect<br>
+                <span class="accent">Meeting Room</span>
             </h1>
-            <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Book professional meeting rooms from local businesses and individuals at competitive rates
-            </p>
 
-            <form
-                class="flex flex-col md:flex-row bg-white/95 max-w-4xl mx-auto rounded-xl shadow-2xl overflow-hidden border-2 border-blue-100/20 p-3 gap-3 md:gap-0 md:p-2 backdrop-blur-sm transition-all hover:shadow-blue-500/20"
-                action="{{ route('explore') }}" method="get">
+            <p>Book professional meeting rooms from local businesses and individuals at competitive rates.</p>
 
-                <!-- Location Select -->
-                <div
-                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label for="location"
-                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Location</label>
-                    <select id="location" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
-                        name="location">
+            {{-- Search Form --}}
+            <form class="search-form" action="{{ route('explore') }}" method="get">
+
+                <div class="search-field">
+                    <label for="location">Location</label>
+                    <select id="location" name="location">
                         <option value="amman" {{ request('location') == 'amman' ? 'selected' : '' }}>Amman</option>
                         <option value="irbid" {{ request('location') == 'irbid' ? 'selected' : '' }}>Irbid</option>
                     </select>
                 </div>
 
-                <!-- Date Input -->
-                <div
-                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label for="date"
-                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Date</label>
-                    <input type="date" class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium"
-                        id="date" name="date" value="{{ request('date', now()->format('Y-m-d')) }}">
+                <div class="search-field">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" value="{{ request('date', now()->format('Y-m-d')) }}">
                 </div>
 
-                <!-- Check-in Time -->
-                <div
-                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label for="start_time"
-                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Check-in</label>
-                    <input id="start_time" type="time"
-                        class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium" name="start_time"
-                        value="{{ request('start_time', '09:00') }}">
+                <div class="search-field">
+                    <label for="start_time">Check-in</label>
+                    <input id="start_time" type="time" name="start_time" value="{{ request('start_time', '09:00') }}">
                 </div>
 
-                <!-- Capacity -->
-                <div
-                    class="flex flex-col px-4 py-2 md:border-r border-gray-200 flex-1 min-w-[150px] group transition duration-300">
-                    <label for="capacity"
-                        class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">Capacity</label>
-                    <select id="capacity" name="capacity"
-                        class="outline-none text-gray-800 bg-transparent cursor-pointer font-medium">
-                        <option value="">Any capacity</option>
+                <div class="search-field">
+                    <label for="capacity">Capacity</label>
+                    <select id="capacity" name="capacity">
+                        <option value="">Any size</option>
                         @foreach ([4, 8, 12, 20, 50] as $size)
-                            <option value="{{ $size }}" {{ request('capacity') == $size ? 'selected' : '' }}>
-                                {{ $size }}+ people</option>
+                            <option value="{{ $size }}" {{ request('capacity') == $size ? 'selected' : '' }}>{{ $size }}+ people
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
-                <!-- Search Button -->
-                <button type="submit"
-                    class="cursor-pointer bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-all text-white px-6 py-3 md:py-0 flex items-center justify-center rounded-lg md:rounded-full ml-0 md:ml-2 font-medium shadow-lg hover:shadow-xl hover:shadow-blue-600/20 ">
-                    <span class="mr-2 md:hidden lg:inline">Search</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                <button type="submit" class="search-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
+                    <span>Search</span>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-20 bg-gradient-to-b from-white to-blue-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <span class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Simple
-                    Process</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How it <span
-                        class="text-blue-600">works</span></h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get started in minutes with our simple setup process.</p>
+    {{-- HOW IT WORKS --}}
+    <section id="how-it-works">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-eyebrow">Simple Process</span>
+                <h2 class="section-title">How it <span style="color: var(--blue-600);">works</span></h2>
+                <p class="section-subtitle">Get started in minutes — no complicated setup required.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                @php
-                    $steps = [
-                        [
-                            'number' => 1,
-                            'title' => 'Create your account',
-                            'description' => 'Sign up and configure your workspace details and meeting rooms.',
-                            'icon' => 'user-plus',
-                        ],
-                        [
-                            'number' => 2,
-                            'title' => 'Choose your meeting room',
-                            'description' => 'Search and select the meeting rooms that suit your needs.',
-                            'icon' => 'users',
-                        ],
-                        [
-                            'number' => 3,
-                            'title' => 'Start booking',
-                            'description' => 'Select a date and time, and book your meeting room.',
-                            'icon' => 'calendar',
-                        ],
-                    ];
-                @endphp
+            @php
+                $steps = [
+                    ['number' => 1, 'title' => 'Create your account', 'description' => 'Sign up in seconds and configure your workspace details to get personalized results.'],
+                    ['number' => 2, 'title' => 'Choose your room', 'description' => 'Browse and filter rooms by location, capacity, amenities, and availability.'],
+                    ['number' => 3, 'title' => 'Start booking', 'description' => 'Pick a date and time, confirm in one click, and get instant access details.'],
+                ];
+            @endphp
 
+            <div class="steps-grid">
                 @foreach ($steps as $step)
-                    <div class="text-center group">
-                        <div class="relative">
-                            <!-- Step Number -->
-                            <div
-                                class="w-20 h-20 bg-blue-600 group-hover:bg-blue-700 transition-all duration-300 rounded-2xl rotate-45 flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl group-hover:shadow-blue-300">
-                                <span class="text-white font-bold text-2xl -rotate-45">{{ $step['number'] }}</span>
-                            </div>
-
-                            <!-- Connector Line (except for last item) -->
-                            @if (!$loop->last)
-                                <div class="hidden md:block absolute top-10 left-[55%] w-full h-1 bg-blue-200"></div>
-                            @endif
+                    <div class="step-card">
+                        <div class="step-icon-wrap">
+                            <span class="step-number">{{ $step['number'] }}</span>
                         </div>
-
-                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                            {{ $step['title'] }}</h3>
-                        <p class="text-gray-600 px-6">{{ $step['description'] }}</p>
-
-                        <!-- Animated Button -->
+                        <h3>{{ $step['title'] }}</h3>
+                        <p>{{ $step['description'] }}</p>
                         @if ($step['number'] === 1)
-                            <a href="{{ route('register') }}"
-                                class="inline-block mt-4 px-6 py-2 bg-blue-100 text-blue-700 rounded-lg font-medium hover:bg-blue-200 transition-colors">
-                                Get Started
-                            </a>
+                            <a href="{{ route('register') }}" class="step-cta">Get Started &rarr;</a>
                         @endif
                     </div>
                 @endforeach
@@ -193,237 +1079,176 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-6 bg-white">
-        <div class="container mx-auto px-4 py-8">
-            <!-- Header Section -->
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
-                <div class="mb-6 md:mb-0">
-                    <span
-                        class="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm mb-3">Curated
-                        Spaces</span>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Latest Meeting Spaces</h2>
-                    <p class="text-gray-600 max-w-2xl">Discover our hosts latest meeting rooms</p>
+    {{-- LATEST ROOMS --}}
+    <section id="features">
+        <div class="container">
+            <div class="rooms-header">
+                <div>
+                    <span class="section-eyebrow">Curated Spaces</span>
+                    <h2 class="section-title" style="margin-bottom: 6px;">Latest Meeting Spaces</h2>
+                    <p style="color: var(--gray-600); font-size: 1rem;">Discover rooms from our newest hosts</p>
                 </div>
-                <div class="hidden md:flex space-x-3">
-                    @php
-                        $buttonClasses =
-                            'flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
-                    @endphp
-                    <button id="prev-spaces" class="{{ $buttonClasses }}" aria-label="Previous spaces">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                <div class="carousel-controls">
+                    <button id="prev-spaces" class="ctrl-btn" aria-label="Previous">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
-                    <button id="next-spaces" class="{{ $buttonClasses }}" aria-label="Next spaces">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    <button id="next-spaces" class="ctrl-btn" aria-label="Next">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Meeting Spaces Cards Carousel -->
-            <div class="relative overflow-hidden">
-                <div id="spaces-carousel" class="py-4 flex transition-transform duration-500 ease-in-out"
-                    style="will-change: transform;">
+            <div class="carousel-outer">
+                <div id="spaces-carousel">
                     @foreach ($meetingRooms as $index => $room)
-                        <div class="carousel-card w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
-                            <div
-                                class="group rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:shadow-blue-100 relative flex flex-col h-full">
-                                @if ($room->created_at->diffInDays() <= 7)
-                                    <span
-                                        class="absolute top-5 right-5 bg-blue-600 text-white px-2 py-1 text-xs font-medium rounded-xl z-10">New</span>
-                                @endif
-                                <div class="relative overflow-hidden h-56 flex-shrink-0">
+                        <div class="carousel-card">
+                            <div class="room-card">
+                                <div class="room-img-wrap">
+                                    @if ($room->created_at->diffInDays() <= 7)
+                                        <span class="room-badge-new">New</span>
+                                    @endif
                                     @if (!$room->images->isEmpty())
                                         <img src="{{ asset('storage/' . $room->images->first()->image_url) }}"
-                                            alt="{{ $room->title }}" loading="lazy"
-                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                            alt="{{ $room->title }}" loading="lazy">
                                     @else
                                         <img src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
-                                            alt="{{ $room->title }}" loading="lazy"
-                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                            alt="{{ $room->title }}" loading="lazy">
                                     @endif
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                    <div
-                                        class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                        <a href="{{ route('rooms.details', $room->slug) }}"
-                                            class="bg-white/90 hover:bg-white text-blue-600 px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg">
-                                            View Details
-                                        </a>
+                                    <div class="room-overlay">
+                                        <a href="{{ route('rooms.details', $room->slug) }}">View Details</a>
                                     </div>
                                 </div>
-                                <!-- Room Info -->
-                                <div class="p-5 flex flex-col flex-1">
-                                    <div class="flex justify-between items-start">
-                                        <h3
-                                            class="font-bold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
-                                            {{ $room->title }}</h3>
-                                        <div class="flex items-center bg-blue-50 rounded-lg px-2 py-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
-                                                viewBox="0 0 20 20" fill="currentColor">
+                                <div class="room-info">
+                                    <div class="room-title-row">
+                                        <div class="room-title">{{ $room->title }}</div>
+                                        <div class="room-rating">
+                                            <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor">
                                                 <path
                                                     d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                             </svg>
-                                            <span class="ml-1 font-medium">{{ '0.0' }}</span>
+                                            <span>0.0</span>
                                         </div>
                                     </div>
-                                    <div class="flex items-center mt-3 text-sm text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
-                                            viewBox="0 0 20 20" fill="currentColor">
+                                    <div class="room-meta">
+                                        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
                                                 d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                                 clip-rule="evenodd" />
                                         </svg>
-                                        <span class="ml-1">{{ $room->city }}</span>
-                                        <span class="mx-2">•</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        {{ $room->city }}
+                                        <span class="dot">•</span>
+                                        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                                                 clip-rule="evenodd" />
                                         </svg>
-                                        <span class="ml-1">Up to {{ $room->capacity }} people</span>
+                                        Up to {{ $room->capacity }} people
                                     </div>
-                                    <!-- Amenities -->
-                                    <div class="mt-3 flex flex-wrap gap-1">
-                                        @foreach ($room->amenities as $amenity)
-                                            <span
-                                                class="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs text-gray-700">
-                                                {{ $amenity->name }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                    <!-- Price with Book Button -->
-                                    <div class="mt-4 flex justify-between items-center mt-auto">
-                                        <div>
-                                            <span class="font-bold text-xl text-gray-900">${{ $room->hourly_rate }}</span>
-                                            <span class="text-gray-600 text-sm">/hr</span>
+                                    @if (!$room->amenities->isEmpty())
+                                        <div class="amenity-tags">
+                                            @foreach ($room->amenities->take(4) as $amenity)
+                                                <span class="amenity-tag">{{ $amenity->name }}</span>
+                                            @endforeach
+                                            @if ($room->amenities->count() > 4)
+                                                <span class="amenity-tag">+{{ $room->amenities->count() - 4 }} more</span>
+                                            @endif
                                         </div>
-                                        <a href="/rooms/details/{{ $room->slug }}#availability"
-                                            class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
-                                            Check Availability
-                                        </a>
+                                    @endif
+                                    <div class="room-footer">
+                                        <div class="room-price">${{ $room->hourly_rate }}<span>/hr</span></div>
+                                        <a href="/rooms/details/{{ $room->slug }}#availability" class="room-avail-link">Check
+                                            Availability</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                <!-- Carousel navigation for mobile -->
-                <div class="flex justify-center mt-4 md:hidden">
-                    <button id="prev-spaces-mobile"
-                        class="mx-2 w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-blue-500 hover:text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button id="next-spaces-mobile"
-                        class="mx-2 w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-blue-500 hover:text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
             </div>
 
-            <!-- View All Button -->
-            <div class="text-center mt-6">
-                <a href="{{ route('explore') }}"
-                    class="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+            {{-- Mobile dots --}}
+            <div class="carousel-dots" id="carousel-dots">
+                @foreach ($meetingRooms as $index => $room)
+                    <button class="carousel-dot {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}"></button>
+                @endforeach
+            </div>
+
+            {{-- Mobile nav --}}
+            <div class="mobile-carousel-nav">
+                <button id="prev-spaces-mobile" class="ctrl-btn" aria-label="Previous">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="next-spaces-mobile" class="ctrl-btn" aria-label="Next">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="view-all-wrap">
+                <a href="{{ route('explore') }}" class="view-all-btn">
                     View All Meeting Spaces
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div class="container mx-auto px-4 md:px-8">
-            <!-- Section Header -->
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">What Our Users Say</h2>
-                <div class="w-24 h-1 bg-blue-500 mx-auto my-4 rounded-full"></div>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Don't just take our word for it - see what our community
-                    has to say about their experience</p>
+    {{-- TESTIMONIALS --}}
+    <section id="testimonials">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-eyebrow">Trusted by Many</span>
+                <h2 class="section-title">What our users say</h2>
+                <div
+                    style="width: 48px; height: 4px; background: var(--blue-600); border-radius: 4px; margin: 14px auto 16px;">
+                </div>
+                <p class="section-subtitle">See what our growing community says about their experience with SpaceMeet.</p>
             </div>
 
-            <!-- Testimonials Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                @php
-                    $testimonials = [
-                        [
-                            'name' => 'Hanif Kazemi',
-                            'position' => 'Office Manager',
-                            'image' => 'images/profile-pictures/1.jpg',
-                            'quote' =>
-                                "We've been renting out our extra conference room through SpaceMeet, and it's generated over $2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!",
-                            'rating' => 5,
-                        ],
-                        [
-                            'name' => 'Abdullahi Hatem',
-                            'position' => 'Marketing Director',
-                            'image' => 'images/profile-pictures/2.jpg',
-                            'quote' =>
-                                'TeamRoom saved us when we needed a last-minute meeting space for an important client presentation, as we got the perfect space with the perfect host.',
-                            'rating' => 5,
-                        ],
-                        [
-                            'name' => 'Mashal Hosein',
-                            'position' => 'Freelance Consultant',
-                            'image' => 'images/profile-pictures/3.jpg',
-                            'quote' =>
-                                'I needed a quiet, well-equipped meeting room for a client presentation, and I found the perfect one in just a few clicks.',
-                            'rating' => 5,
-                        ],
-                        [
-                            'name' => 'Rahim Emami',
-                            'position' => 'Startup Founder',
-                            'image' => 'images/profile-pictures/4.jpg',
-                            'quote' =>
-                                "As a small business, we can't afford permanent office space yet. TeamRoom allows us to book professional meeting rooms only when we need them, saving us thousands in overhead costs.",
-                            'rating' => 5,
-                        ],
-                    ];
-                @endphp
+            @php
+                $testimonials = [
+                    ['name' => 'Hanif Kazemi', 'position' => 'Office Manager', 'image' => 'images/profile-pictures/1.jpg', 'quote' => "We've been renting out our extra conference room through SpaceMeet, and it's generated over \$2,000 in additional revenue each month. The process is hassle-free and the support team is fantastic!", 'rating' => 5],
+                    ['name' => 'Abdullahi Hatem', 'position' => 'Marketing Director', 'image' => 'images/profile-pictures/2.jpg', 'quote' => 'SpaceMeet saved us when we needed a last-minute meeting space for an important client presentation — we got the perfect space with the perfect host.', 'rating' => 5],
+                    ['name' => 'Mashal Hosein', 'position' => 'Freelance Consultant', 'image' => 'images/profile-pictures/3.jpg', 'quote' => 'I needed a quiet, well-equipped meeting room for a client presentation, and I found the perfect one in just a few clicks.', 'rating' => 5],
+                    ['name' => 'Rahim Emami', 'position' => 'Startup Founder', 'image' => 'images/profile-pictures/4.jpg', 'quote' => "As a small business, we can't afford permanent office space yet. SpaceMeet lets us book professional meeting rooms only when we need them — saving us thousands in overhead.", 'rating' => 5],
+                ];
+            @endphp
 
-                @foreach ($testimonials as $testimonial)
-                    <div
-                        class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 transition-shadow duration-300 hover:shadow-xl">
-                        <div class="flex items-start mb-6">
-                            <div class="relative">
-                                <img src="{{ asset($testimonial['image']) }}" alt="{{ $testimonial['name'] }}"
-                                    class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-400">
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-xl text-gray-900">{{ $testimonial['name'] }}</h3>
-                                <p class="text-blue-600 font-medium">{{ $testimonial['position'] }}</p>
-                            </div>
+            <div class="testimonials-grid">
+                @foreach ($testimonials as $t)
+                    <div class="testimonial-card">
+                        <div class="quote-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--blue-600)">
+                                <path
+                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                            </svg>
                         </div>
-
-                        <div class="mb-6">
-                            <p class="text-gray-700 text-lg leading-relaxed">{{ $testimonial['quote'] }}</p>
-                        </div>
-
-                        <div class="flex items-center">
-                            <div class="flex mr-4">
+                        <p class="testimonial-text">"{{ $t['quote'] }}"</p>
+                        <div class="testimonial-footer">
+                            <div class="testimonial-author">
+                                <img src="{{ asset($t['image']) }}" alt="{{ $t['name'] }}" class="testimonial-avatar">
+                                <div>
+                                    <div class="testimonial-name">{{ $t['name'] }}</div>
+                                    <div class="testimonial-role">{{ $t['position'] }}</div>
+                                </div>
+                            </div>
+                            <div class="star-row">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 {{ $i <= $testimonial['rating'] ? 'text-yellow-500' : 'text-gray-300' }}"
-                                        viewBox="0 0 20 20" fill="currentColor">
+                                    <svg width="15" height="15" viewBox="0 0 20 20"
+                                        fill="{{ $i <= $t['rating'] ? 'currentColor' : '#E5E7EB' }}">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                     </svg>
                                 @endfor
                             </div>
-                            <p class="text-gray-500 text-sm">Verified Customer</p>
                         </div>
                     </div>
                 @endforeach
@@ -431,87 +1256,97 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-blue-500 to-blue-700 text-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-6">Ready to optimize your workspace?</h2>
-            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Discover the perfect meeting room for your next event</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <a href="/explore"
-                    class="bg-white text-blue-600 px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg">
-                    Find a Space
-                </a>
-                <a href="{{ route('room.create') }}"
-                    class="border-2 border-white text-white px-8 py-4 rounded-full font-medium hover:bg-white hover:text-blue-600 transition-all shadow-lg">
-                    List your space
-                </a>
+    {{-- CTA --}}
+    <section id="cta-section">
+        <div class="container" style="text-align: center;">
+            <h2>Ready to find your space?</h2>
+            <p>Discover the perfect meeting room for your next event, presentation, or team gathering.</p>
+            <div class="cta-btns">
+                <a href="/explore" class="cta-btn-primary">Find a Space</a>
+                <a href="{{ route('room.create') }}" class="cta-btn-secondary">List Your Space</a>
             </div>
         </div>
     </section>
 @endsection
+
 @section('scripts')
     <script>
+        // Date default
         const dateInput = document.querySelector('input[type="date"]');
-
-        if (!dateInput.value) {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            dateInput.value = `${year}-${month}-${day}`;
+        if (dateInput && !dateInput.value) {
+            const d = new Date();
+            dateInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Flash auto-dismiss
+        const flash = document.querySelector('.flash-message');
+        if (flash) setTimeout(() => flash.remove(), 4000);
+
+        // Carousel
+        document.addEventListener('DOMContentLoaded', function () {
             const carousel = document.getElementById('spaces-carousel');
-            const cards = carousel.querySelectorAll('.carousel-card');
-            const prevBtn = document.getElementById('prev-spaces');
-            const nextBtn = document.getElementById('next-spaces');
-            const prevBtnMobile = document.getElementById('prev-spaces-mobile');
-            const nextBtnMobile = document.getElementById('next-spaces-mobile');
+            const cards = Array.from(carousel.querySelectorAll('.carousel-card'));
+            const dotsWrap = document.getElementById('carousel-dots');
+            const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.carousel-dot')) : [];
 
-            function getVisibleCards() {
+            let currentIndex = 0;
+            const total = cards.length;
+
+            function visibleCount() {
                 if (window.innerWidth >= 1024) return 3;
                 if (window.innerWidth >= 768) return 2;
                 return 1;
             }
 
-            let currentIndex = 0;
-            const totalCards = cards.length;
+            function maxIndex() {
+                return Math.max(0, total - visibleCount());
+            }
 
             function updateCarousel() {
-                const visible = getVisibleCards();
-                if (currentIndex < 0) currentIndex = 0;
-                if (currentIndex > totalCards - visible) currentIndex = totalCards - visible;
-                const cardWidth = cards[0].offsetWidth;
+                const vis = visibleCount();
+                currentIndex = Math.max(0, Math.min(currentIndex, maxIndex()));
+                const cardWidth = cards[0] ? cards[0].offsetWidth : 0;
                 carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+                // Update dots (mobile only shows 1 card)
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
             }
 
             function goNext() {
-                const visible = getVisibleCards();
-                if (currentIndex < totalCards - visible) {
-                    currentIndex++;
-                    updateCarousel();
-                }
+                if (currentIndex < maxIndex()) { currentIndex++; updateCarousel(); }
             }
 
             function goPrev() {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateCarousel();
-                }
+                if (currentIndex > 0) { currentIndex--; updateCarousel(); }
             }
 
-            if (prevBtn) prevBtn.addEventListener('click', goPrev);
-            if (nextBtn) nextBtn.addEventListener('click', goNext);
-            if (prevBtnMobile) prevBtnMobile.addEventListener('click', goPrev);
-            if (nextBtnMobile) nextBtnMobile.addEventListener('click', goNext);
-
-            window.addEventListener('resize', function() {
-                updateCarousel();
+            ['prev-spaces', 'prev-spaces-mobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('click', goPrev);
             });
 
+            ['next-spaces', 'next-spaces-mobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('click', goNext);
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    currentIndex = parseInt(dot.dataset.index);
+                    updateCarousel();
+                });
+            });
+
+            // Touch swipe support
+            let touchStartX = 0;
+            carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            carousel.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) diff > 0 ? goNext() : goPrev();
+            }, { passive: true });
+
+            window.addEventListener('resize', updateCarousel);
             updateCarousel();
         });
     </script>
